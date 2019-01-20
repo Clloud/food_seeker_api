@@ -16,8 +16,6 @@ from . import api
 def get_user():
     uid = g.user.uid
     user = User.query.filter_by(id=uid).first_or_404()
-    user = user.hide('auth')
-    user = user.append('id')
     return jsonify(user)
 
 

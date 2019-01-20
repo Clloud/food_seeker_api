@@ -12,8 +12,6 @@ from . import api
 
 @api.route('/client/register', methods=['POST'])
 def create_client():
-    # request
-    # account secret type
     form = ClientForm().validate_for_api()
     promise = {
         ClientTypeEnum.USER_EMAIL: __register_user_by_email
