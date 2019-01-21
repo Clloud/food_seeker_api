@@ -16,6 +16,7 @@ requests = "==2.18.4"
 werkzeug = "*"
 wtforms = "*"
 jinja2 = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3.6"
