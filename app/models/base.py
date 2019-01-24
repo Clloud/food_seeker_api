@@ -85,6 +85,12 @@ class Base(db.Model):
             self.fields.append(key)
         return self
 
+    """def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict"""
+
 
 # class MixinJSONSerializer:
 #     @orm.reconstructor
