@@ -2,7 +2,6 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from app.libs.enums import ClientTypeEnum
 from app.models.canteen import Canteen
 from app.validators.canteen import CanteenForm
 from app.libs.error_code import Success

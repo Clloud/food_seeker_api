@@ -62,6 +62,7 @@ class Base(db.Model):
             return None
 
     def set_attrs(self, attrs_dict):
+        '''set a group of attributes'''
         for key, value in attrs_dict.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
@@ -84,12 +85,6 @@ class Base(db.Model):
         for key in keys:
             self.fields.append(key)
         return self
-
-    """def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict"""
 
 
 # class MixinJSONSerializer:

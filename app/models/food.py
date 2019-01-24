@@ -3,20 +3,19 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 
-from sqlalchemy import Column, Integer, String, Float,SmallInteger, orm
-from app.models.base import Base, db
-from app.libs.error_code import NotFound
+from sqlalchemy import Column, Integer, String, Float, orm
+from app.models.base import Base
 
 
 class Cuisine(Base):
-    __tablename__='cuisine'
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
-    introduction = Column(String(500), default="暂无")
+    introduction = Column(String(200), default="")
     price = Column(Float(5), nullable=False)
     grade = Column(Float(5), default=0)
-    window_id = Column(Integer, nullable=False)
+    restaurant_id = Column(Integer, nullable=False)
     comment_amount = Column(Integer, nullable=False, default=0)
 
-    def __repr__(self):
-        return '<Food %r>' % self.id
+    @orm.reconstructor
+    def __init__(self):
+        self.fields = ['id', 'name', 'introduction', 'price', 'grade', 'restaurant_id', 'comment_amount']
