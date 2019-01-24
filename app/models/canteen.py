@@ -20,7 +20,7 @@ class Canteen(Base):
         return '<Canteen %r>' % self.id
 
     @orm.reconstructor
-    def __init__(self):#
+    def __init__(self):
         self.fields = ['name', 'location']
 
     @staticmethod
@@ -36,4 +36,4 @@ class Canteen(Base):
         canteen = Canteen.query.filter_by(email=name).first()
         if not canteen:
             raise NotFound(message='Canteen already have')
-        return {'name': canteen.name, 'location': canteen.auth}
+        return {'name': canteen.name, 'location': canteen.location}
