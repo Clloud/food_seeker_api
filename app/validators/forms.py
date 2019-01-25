@@ -43,3 +43,8 @@ class UserEmailForm(ClientForm):
 
 class TokenForm(Form):
     token = StringField(validators=[DataRequired()])
+
+
+class UserUpdateForm(Form):
+    nikename = StringField(validators=[DataRequired(), length(min=1, max=24)])
+    #avator

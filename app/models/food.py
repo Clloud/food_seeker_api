@@ -3,7 +3,7 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 
-from sqlalchemy import Column, Integer, String, Float, orm
+from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
 from app.models.base import Base
 
 
@@ -13,7 +13,7 @@ class Cuisine(Base):
     introduction = Column(String(200), default="")
     price = Column(Float(5), nullable=False)
     grade = Column(Float(5), default=0)
-    restaurant_id = Column(Integer, nullable=False)
+    restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     comment_amount = Column(Integer, nullable=False, default=0)
 
     @orm.reconstructor

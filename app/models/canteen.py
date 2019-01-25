@@ -19,10 +19,10 @@ class Canteen(Base):
         self.fields = ['id', 'name', 'introduction', 'grade', 'location', 'comment_amount']
 
     @staticmethod
-    # TODO 请使用set_attrs()批量设置属性
     def create_canteen(name, location):
         with db.auto_commit():
             canteen = Canteen()
             canteen.name = name
             canteen.location = location
             db.session.add(canteen)
+
