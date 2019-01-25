@@ -24,8 +24,16 @@ def register_blueprint(app):
 
 def register_plugin(app):
     from app.models.base import db
+    from flask_migrate import Migrate
+
+    # register sqlalchemy
     db.init_app(app)
+
+    # create all tables defined by models
     with app.app_context():
         db.create_all()
+
+    # use flask-migrate to keep track of database changes
+    migrate = Migrate(app, db)
 
 

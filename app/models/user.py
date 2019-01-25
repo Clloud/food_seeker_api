@@ -15,6 +15,7 @@ class User(Base):
     nickname = Column(String(24))
     auth = Column(SmallInteger, default=1)
     _password = Column('password', String(128))
+    mobile = Column(String(15), unique=True)
 
     @orm.reconstructor
     def __init__(self):
