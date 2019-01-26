@@ -46,11 +46,11 @@ Authentication: Basic base64Encoded(username:password)
 
 ### HTTP动词
 请为每个请求选取恰当的HTTP动词。
-|动词|描述|
+|动词      |描述                 |
 |:-------:|:--------------------|
 |`GET`    |用于获取资源          |
 |`POST`   |用于创建资源          |
-|`PUT`    |用于更新或替换资源    |
+|`PUT`    |用于更新或替换资源     |
 |`PATCH`  |用于更新资源的部分信息 |
 |`DELETE` |用于删除资源          |
 
