@@ -21,7 +21,7 @@ class Scope:
 
 
 class User(Scope):
-    permitted = ['get_user', 'delete_user']
+    permitted = ['get_authenticated_user', 'delete_user', 'update_user']
 
 
 class Administrator(Scope):

@@ -11,14 +11,16 @@ from app.libs.error_code import NotFound, AuthFailed
 
 class User(Base):
     id = Column(Integer, primary_key=True)
-    email = Column(String(24), unique=True, nullable=False)
+    email = Column(String(32), unique=True)
     nickname = Column(String(24))
     auth = Column(SmallInteger, default=1)
     _password = Column('password', String(128))
+    mobile = Column(String(15), unique=True)
+    avatar = Column(String(100))
 
     @orm.reconstructor
     def __init__(self):
-        self.fields = ['email', 'nickname', 'auth']
+        self.fields = ['id', 'email', 'nickname', 'auth', 'mobile','avatar']
 
     @property
     def password(self):

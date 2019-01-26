@@ -9,7 +9,7 @@ from app.libs.error import APIException
 from app.libs.error_code import ServerError
 
 
-app = create_app()
+app = create_app('development')
 
 
 @app.errorhandler(Exception)
@@ -28,4 +28,4 @@ def framework_error(e):
             raise e
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=app.config['DEBUG'])
