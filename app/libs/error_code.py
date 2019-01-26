@@ -12,6 +12,12 @@ class Success(APIException):
     error_code = 0
 
 
+class UpdateSuccess(APIException):
+    code = 202
+    message = 'Updated'
+    error_code = 0
+
+
 class DeleteSuccess(APIException):
     code = 202
     message = 'Deleted'
