@@ -25,15 +25,13 @@ class ClientForm(Form):
 
 
 class UserEmailForm(ClientForm):
-    account = StringField(validators=[
-        Email(message='Invalid email address')
-    ])
+    account = StringField(validators=[Email(message='Invalid email address')])
     secret = StringField(validators=[
         DataRequired(),
         Regexp(r'^[A-Za-z0-9_*&$#@]{6,22}$')
     ])
     nickname = StringField(validators=[
-        DataRequired(), length(min=2, max=22)
+        DataRequired(), length(min=2, max=24)
     ])
 
     def validate_account(self, field):
@@ -46,5 +44,7 @@ class TokenForm(Form):
 
 
 class UserUpdateForm(Form):
-    nikename = StringField(validators=[DataRequired(), length(min=1, max=24)])
-    #avator
+    # TODO 添加新的校验字段
+    nickname = StringField(validators=[length(min=2, max=24)])
+    email = StringField(validators=[Email(message='Invalid email address')])
+    mobile = StringField(validators=[Regexp(r'^[0-9]{11}$')])

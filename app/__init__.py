@@ -4,12 +4,11 @@
 @time: 2019/1/14 21:02
 '''
 from app.app import Flask
+from app.config.setting import config
 
-
-def create_app():
+def create_app(config_name='development'):
     app = Flask(__name__)
-    app.config.from_object('app.config.setting')
-    app.config.from_object('app.config.secure')
+    app.config.from_object(config[config_name])
 
     register_blueprint(app)
     register_plugin(app)

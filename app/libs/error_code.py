@@ -12,9 +12,9 @@ class Success(APIException):
     error_code = 0
 
 
-class PostSuccess(APIException):
+class UpdateSuccess(APIException):
     code = 202
-    message = 'Post'
+    message = 'Updated'
     error_code = 0
 
 

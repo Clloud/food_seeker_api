@@ -5,4 +5,4 @@ __pycache__/
 
 # Project configuration information
 .idea/
-app/config/secure.py
+app/config/setting.py
