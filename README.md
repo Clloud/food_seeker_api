@@ -46,6 +46,7 @@ Authentication: Basic base64Encoded(username:password)
 
 ### HTTP动词
 请为每个请求选取恰当的HTTP动词。
+
 |动词      |描述                 |
 |:-------:|:--------------------|
 |`GET`    |用于获取资源          |
