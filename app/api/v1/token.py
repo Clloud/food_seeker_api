@@ -4,7 +4,7 @@
 @time: 2019/1/16 16:09
 '''
 from flask import current_app, jsonify
-from app.validators.user import ClientForm, TokenForm
+from app.validators.forms import ClientForm, TokenForm
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
@@ -13,7 +13,7 @@ from app.libs.error_code import AuthFailed
 from . import api
 
 
-@api.route('/token/auth', methods=['POST'])
+@api.route('/token', methods=['POST'])
 def get_token():
     form = ClientForm().validate_for_api()
     promise = {

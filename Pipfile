@@ -17,7 +17,6 @@ werkzeug = "*"
 wtforms = "*"
 jinja2 = "*"
 sqlalchemy = "*"
-flask-migrate = "*"
 
 [requires]
 python_version = "3.6"

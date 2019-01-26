@@ -7,4 +7,3 @@
 1003 Token has expired
 1004 Not authorized to perform the operation
 1005 Authorization failed
-1007 HTTP Exception

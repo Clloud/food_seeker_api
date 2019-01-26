@@ -8,6 +8,6 @@ from flask import Blueprint
 api = Blueprint('api', __name__, url_prefix='/v1')
 
 from app.api.v1 import user
-from app.api.v1 import token
 from app.api.v1 import comment
-from app.api.v1 import canteen
+from app.api.v1 import client
+from app.api.v1 import token

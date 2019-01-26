@@ -62,8 +62,6 @@ class Base(db.Model):
             return None
 
     def set_attrs(self, attrs_dict):
-        # TODO 解决无法处理form对象的问题
-        '''set a group of attributes'''
         for key, value in attrs_dict.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
