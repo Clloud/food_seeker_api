@@ -6,6 +6,7 @@ from flask import jsonify
 from app.models.canteen import Canteen
 from app.validators.canteen import CanteenForm
 from app.libs.error_code import CreateSuccess
+from models.base import db
 from . import api
 
 
@@ -17,8 +18,8 @@ def get_canteen(canteen_id):
 
 @api.route('/campus/<int:campus_id>/canteens', methods=['GET'])
 def get_canteen_by_campus(campus_id):
-    # TODO bug
-    canteens = Canteen.query.filter_by(id=campus_id).all()
+    # TODO 分页
+    canteens = Canteen.query.filter_by(campus_id=campus_id).all()
     return jsonify(canteens)
 
 
@@ -26,9 +27,8 @@ def get_canteen_by_campus(campus_id):
 def create_canteen():
     # TODO 权限控制
     form = CanteenForm().validate_for_api()
-    Canteen.create_canteen(form.name.data,
-                           form.introduction.data,
-                           form.location.data,
-                           form.campus_id.data)
+    with db.auto_commit():
+        canteen = Canteen()
+        canteen.set_attrs(form)
+        db.session.add(canteen)
     return CreateSuccess()
-

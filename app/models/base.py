@@ -7,6 +7,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import inspect, Column, Integer, SmallInteger, orm
 from contextlib import contextmanager
+from wtforms import Form
 from app.libs.error_code import NotFound
 
 
@@ -61,12 +62,16 @@ class Base(db.Model):
         else:
             return None
 
-    def set_attrs(self, attrs_dict):
-        # TODO 解决无法处理form对象的问题
-        '''set a group of attributes'''
-        for key, value in attrs_dict.items():
-            if hasattr(self, key) and key != 'id':
-                setattr(self, key, value)
+    def set_attrs(self, attrs):
+        '''set attributes of the model with Form object or dict'''
+        if isinstance(attrs, dict):
+            for key, value in attrs.items():
+                if hasattr(self, key) and key != 'id':
+                    setattr(self, key, value)
+        elif isinstance(attrs, Form):
+            for key in attrs.__dict__:
+                if hasattr(self, key) and key != 'id':
+                    setattr(self, key, getattr(attrs, key).data)
 
     def delete(self):
         '''soft delete'''

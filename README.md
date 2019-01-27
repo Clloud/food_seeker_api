@@ -17,6 +17,7 @@
 - [2.食堂](#2食堂)
   - [2.1 列出单个校区的食堂*](#21列出单个校区的食堂)
   - [2.2 获取食堂信息*](#22获取食堂信息)
+  - [2.3 创建食堂*](#23创建食堂)
 - [3.食堂窗口](#3食堂窗口)
   - [3.1 列出单个食堂的窗口*](#31列出单个食堂的窗口)
   - [3.2 获取窗口信息*](#32获取窗口信息)
@@ -263,9 +264,26 @@ GET /campus/:campus_id/canteens
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "没有介绍",
+        "location": "东校区浴室旁边",
+        "name": "第五食堂"
+    },
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "没有介绍",
+        "location": "东校区浴室旁边",
+        "name": "第六食堂"
+    }
+]
 ```
 
 ### 2.2获取食堂信息
@@ -278,7 +296,51 @@ GET /canteen/:canteen_id
 Status: 200 OK
 
 {
+    "campus_id": 1,
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "没有介绍",
+    "location": "东校区浴室旁边",
+    "name": "第五食堂"
+}
+```
 
+### 2.3创建食堂
+
+**注意**：仅对通过身份认证的`管理员`有效
+
+```
+POST /canteen
+```
+
+#### 参数
+
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **必填。** 食堂名称    |
+|introduction |string | **选填。** 食堂介绍    |
+|location     |string | **必填。** 食堂位置    |
+|campus_id    |integer| **必填。** 食堂所在校区的id|
+
+#### 示例
+```json
+{
+	"name": "第四食堂",
+	"introduction": "没有介绍",
+	"location": "东区教超旁边",
+	"campus_id": 1
+}
+```
+
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/canteen"
 }
 ```
 
