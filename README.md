@@ -264,7 +264,7 @@ GET /campus/:campus_id/canteens
 Status: 200 OK
 
 {
-
+    
 }
 ```
 
@@ -278,10 +278,14 @@ GET /canteen/:canteen_id
 Status: 200 OK
 
 {
-
+"comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "暂无",
+    "location": "天赐庄校区",
+    "name": "东校区第四食堂"
 }
 ```
-
 
 ## 3. 食堂窗口
 ### 3.1列出单个食堂的窗口
@@ -294,7 +298,12 @@ GET /canteen/:canteen_id/restraunts
 Status: 200 OK
 
 {
-
+    "canteen_id": 1,
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "很好",
+    "name": "汤哥特色风味"
 }
 ```
 
@@ -307,8 +316,13 @@ GET /restraunt/:restraunt_id
 ```json
 Status: 200 OK
 
-{
-
+{   
+    "canteen_id": 1,
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "很好",
+    "name": "汤哥特色风味"
 }
 ```
 
