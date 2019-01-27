@@ -282,63 +282,6 @@ Status: 200 OK
 }
 ```
 
-## 2. 食堂
-### 2.1列出单个校区的食堂
-```
-GET /campus/:campus_id/canteens
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-### 2.2获取食堂信息
-```
-GET /canteen/:canteen_id
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-## 2. 食堂
-### 2.1列出单个校区的食堂
-```
-GET /campus/:campus_id/canteens
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-### 2.2获取食堂信息
-```
-GET /canteen/:canteen_id
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
 
 ## 3. 食堂窗口
 ### 3.1列出单个食堂的窗口

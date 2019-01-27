@@ -12,6 +12,12 @@ class Success(APIException):
     error_code = 0
 
 
+class CreateSuccess(APIException):
+    code = 201
+    message = 'Created'
+    error_code = 0
+
+
 class UpdateSuccess(APIException):
     code = 202
     message = 'Updated'

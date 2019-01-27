@@ -3,11 +3,11 @@
 @author: Cloud
 @time: 2019/1/14 21:42
 '''
-from flask import jsonify, g, current_app
+from flask import jsonify, g
 from app.models.user import User
 from app.libs.token_auth import auth
 from app.models.base import db
-from app.libs.error_code import DeleteSuccess, UpdateSuccess, Success, NotFound
+from app.libs.error_code import DeleteSuccess, UpdateSuccess, CreateSuccess
 from app.validators.user import UserUpdateForm, ClientForm, UserEmailForm
 from app.libs.enums import ClientTypeEnum
 from . import api
@@ -36,7 +36,7 @@ def create_user():
         ClientTypeEnum.USER_EMAIL: __register_user_by_email
     }
     promise[form.type.data]()
-    return Success()
+    return CreateSuccess()
 
 
 def __register_user_by_email():

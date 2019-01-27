@@ -8,6 +8,7 @@ from app.validators.base import BaseForm as Form
 
 
 class CanteenForm(Form):
-    name = StringField(validators=[DataRequired(), length(min=5, max=32)])
-    location = StringField(validators=[DataRequired(), length(min=5, max=32)])
+    name = StringField(validators=[DataRequired(), length(min=2, max=32)])
+    introduction = StringField()
+    location = StringField(validators=[DataRequired(), length(min=5, max=50)])
     campus_id = IntegerField(validators=[DataRequired()])
