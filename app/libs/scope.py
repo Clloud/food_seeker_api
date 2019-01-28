@@ -25,7 +25,7 @@ class User(Scope):
 
 
 class Administrator(Scope):
-    permitted = []
+    permitted = ['create_canteen']
 
     def __init__(self):
         self + User()

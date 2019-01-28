@@ -3,7 +3,7 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 from wtforms import StringField, IntegerField
-from wtforms.validators import DataRequired, length, Regexp
+from wtforms.validators import DataRequired, length
 from app.validators.base import BaseForm as Form
 
 

@@ -4,6 +4,8 @@
 @time: 2019/1/15 00:01
 '''
 from datetime import datetime
+
+from flask import request, current_app
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import inspect, Column, Integer, SmallInteger, orm
 from contextlib import contextmanager
@@ -39,6 +41,11 @@ class Query(BaseQuery):
         if not rv:
             raise NotFound()
         return rv
+
+    def custom_paginate(self):
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', current_app.config['PER_PAGE'], type=int)
+        return self.paginate(page, per_page, error_out=False).items
 
 
 db = SQLAlchemy(query_class=Query)
