@@ -328,7 +328,7 @@ POST /canteen
 ```
 #### 响应
 ```json
-Status: 200 OK
+Status: 201 OK
 
 {
     "error_code": 0,
@@ -400,14 +400,14 @@ POST /restaurant
 #### 示例
 ```json
 {
-	    "canteen_id": 1,
-        "introduction": "",
-        "name": "汤哥特色风味"
+    "canteen_id": 1,
+    "introduction": "",
+    "name": "汤哥特色风味"
 }
 ```
 #### 响应
 ```json
-Status: 200 OK
+Status: 201 OK
 
 {
     "error_code": 0,

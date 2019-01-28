@@ -2,7 +2,7 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
 from app.models.restaurant import Restaurant
 from app.validators.restaurant import RestaurantForm
 from app.libs.error_code import CreateSuccess
@@ -17,8 +17,8 @@ def get_restaurant(restaurant_id):
 
 @api.route('/canteen/<int:canteen_id>/restaurants', methods=['GET'])
 def get_restaurant_by_canteen(canteen_id):
-    page = 2
-    per_page = 3
+    page = int(request.args["page"])
+    per_page = int(request.args["per_page"])
     restaurant = Restaurant.query.filter_by(canteen_id=canteen_id).paginate(page, per_page).items
     return jsonify(restaurant)
 
