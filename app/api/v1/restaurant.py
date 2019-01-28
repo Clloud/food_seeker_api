@@ -15,18 +15,18 @@ def get_restaurant(restaurant_id):
     return jsonify(restaurant)
 
 
-@api.route('/canteen/<int:canteen_id>/restaurant', methods=['GET'])
+@api.route('/canteen/<int:canteen_id>/restaurants', methods=['GET'])
 def get_restaurant_by_canteen(canteen_id):
-    # TODO bug
-    restaurant = Restaurant.query.filter_by(id=canteen_id).all()
+    page = 4
+    per_page = 5
+    restaurant = Restaurant.query.filter_by(canteen_id=canteen_id).paginate(page, per_page)
     return jsonify(restaurant)
 
 
 @api.route('/restaurant', methods=['POST'])
 def create_restaurant():
-    # TODO 权限控制
     form = RestaurantForm().validate_for_api()
     Restaurant.create_Restaurant(form.name.data,
-                              form.introduction.data,
-                              form.canteen_id.data)
+                                 form.introduction.data,
+                                 form.canteen_id.data)
     return CreateSuccess()

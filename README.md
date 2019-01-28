@@ -263,9 +263,26 @@ GET /campus/:campus_id/canteens
 ```json
 Status: 200 OK
 
-{
-    
-}
+[
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "",
+        "location": "天赐庄校区",
+        "name": "东校区第四食堂"
+    },
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "",
+        "location": "天赐庄校区",
+        "name": "东校区第5食堂"
+    }
+]
 ```
 
 ### 2.2获取食堂信息
@@ -287,6 +304,39 @@ Status: 200 OK
 }
 ```
 
+### 2.3创建食堂
+```
+POST /canteen
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|campus_id   |integer | **必填。** 食堂所在校区编号  |
+|introduction     |string | **必填。** 食堂介绍|
+|location      |string | **必填。** 食堂所在位置  |
+|name      |string | **必填。** 食堂名称  |
+
+#### 示例
+```json
+{
+    "campus_id": 1,
+    "introduction": "",
+    "location": "天赐庄校区",
+    "name": "东校区第8食堂"
+}
+```
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/canteen"
+}
+```
+
 ## 3. 食堂窗口
 ### 3.1列出单个食堂的窗口
 ```
@@ -297,14 +347,24 @@ GET /canteen/:canteen_id/restraunts
 ```json
 Status: 200 OK
 
-{
-    "canteen_id": 1,
-    "comment_amount": 0,
-    "grade": 0,
-    "id": 1,
-    "introduction": "很好",
-    "name": "汤哥特色风味"
-}
+[
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "很好",
+        "name": "汤哥特色风味"
+    },
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "很好",
+        "name": "汤哥特色风味"
+    }
+]
 ```
 
 ### 3.2获取窗口信息
@@ -323,6 +383,36 @@ Status: 200 OK
     "id": 1,
     "introduction": "很好",
     "name": "汤哥特色风味"
+}
+```
+### 2.3创建餐厅
+```
+POST /restaurant
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|canteen_id   |integer | **必填。** 餐厅所在食堂编号  |
+|introduction     |string | **必填。** 餐厅介绍|
+|name      |string | **必填。** 餐厅名称  |
+
+#### 示例
+```json
+{
+	    "canteen_id": 1,
+        "introduction": "",
+        "name": "汤哥特色风味"
+}
+```
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/restaurant"
 }
 ```
 

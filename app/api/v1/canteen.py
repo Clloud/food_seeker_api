@@ -18,7 +18,7 @@ def get_canteen(canteen_id):
 @api.route('/campus/<int:campus_id>/canteens', methods=['GET'])
 def get_canteen_by_campus(campus_id):
     # TODO bug
-    canteens = Canteen.query.filter_by(id=campus_id).all()
+    canteens = Canteen.query.filter_by(campus_id=campus_id).all()
     return jsonify(canteens)
 
 
