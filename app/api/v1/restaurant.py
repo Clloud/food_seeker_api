@@ -2,10 +2,12 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify, request
+from flask import jsonify
 from app.models.restaurant import Restaurant
 from app.validators.restaurant import RestaurantForm
 from app.libs.error_code import CreateSuccess
+from app.libs.token_auth import auth
+from models.base import db
 from . import api
 
 
@@ -17,16 +19,16 @@ def get_restaurant(restaurant_id):
 
 @api.route('/canteen/<int:canteen_id>/restaurants', methods=['GET'])
 def get_restaurant_by_canteen(canteen_id):
-    page = int(request.args["page"])
-    per_page = int(request.args["per_page"])
-    restaurant = Restaurant.query.filter_by(canteen_id=canteen_id).paginate(page, per_page).items
-    return jsonify(restaurant)
+    restaurants = Restaurant.query.filter_by(canteen_id=canteen_id).custom_paginate()
+    return jsonify(restaurants)
 
 
 @api.route('/restaurant', methods=['POST'])
+@auth.login_required
 def create_restaurant():
     form = RestaurantForm().validate_for_api()
-    Restaurant.create_Restaurant(form.name.data,
-                                 form.introduction.data,
-                                 form.canteen_id.data)
+    with db.auto_commit():
+        restaurant = Restaurant()
+        restaurant.set_attrs(form)
+        db.session.add(restaurant)
     return CreateSuccess()
