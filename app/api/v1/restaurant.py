@@ -17,9 +17,9 @@ def get_restaurant(restaurant_id):
 
 @api.route('/canteen/<int:canteen_id>/restaurants', methods=['GET'])
 def get_restaurant_by_canteen(canteen_id):
-    page = 4
-    per_page = 5
-    restaurant = Restaurant.query.filter_by(canteen_id=canteen_id).paginate(page, per_page)
+    page = 2
+    per_page = 3
+    restaurant = Restaurant.query.filter_by(canteen_id=canteen_id).paginate(page, per_page).items
     return jsonify(restaurant)
 
 
