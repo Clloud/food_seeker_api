@@ -3,7 +3,7 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
-from app.models.base import Base
+from app.models.base import Base, db
 
 
 class Restaurant(Base):

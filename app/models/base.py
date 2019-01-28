@@ -4,9 +4,12 @@
 @time: 2019/1/15 00:01
 '''
 from datetime import datetime
+
+from flask import request, current_app
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import inspect, Column, Integer, SmallInteger, orm
 from contextlib import contextmanager
+from wtforms import Form
 from app.libs.error_code import NotFound
 
 
@@ -39,6 +42,11 @@ class Query(BaseQuery):
             raise NotFound()
         return rv
 
+    def custom_paginate(self):
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', current_app.config['PER_PAGE'], type=int)
+        return self.paginate(page, per_page, error_out=False).items
+
 
 db = SQLAlchemy(query_class=Query)
 
@@ -61,12 +69,16 @@ class Base(db.Model):
         else:
             return None
 
-    def set_attrs(self, attrs_dict):
-        # TODO 解决无法处理form对象的问题
-        '''set a group of attributes'''
-        for key, value in attrs_dict.items():
-            if hasattr(self, key) and key != 'id':
-                setattr(self, key, value)
+    def set_attrs(self, attrs):
+        '''set attributes of the model with Form object or dict'''
+        if isinstance(attrs, dict):
+            for key, value in attrs.items():
+                if hasattr(self, key) and key != 'id':
+                    setattr(self, key, value)
+        elif isinstance(attrs, Form):
+            for key in attrs.__dict__:
+                if hasattr(self, key) and key != 'id':
+                    setattr(self, key, getattr(attrs, key).data)
 
     def delete(self):
         '''soft delete'''

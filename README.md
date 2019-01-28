@@ -6,25 +6,28 @@
   - [身份认证](#身份认证)
   - [HTTP动词](#HTTP动词)
   - [参数](#参数)
+  - [分页](#分页)
 - [1.用户](#1用户)
   - [1.1 用户注册](#11用户注册)
   - [1.2 用户登录](#12用户登录)
   - [1.3 校验令牌](#13校验令牌)
-  - [1.4 获取用户信息*](#14获取用户信息)
-  - [1.5 获取经过身份验证用户的信息*](#15获取经过身份验证用户的信息)
-  - [1.6 更新用户信息*](#16更新用户信息)
-  - [1.7 删除用户*](#16删除用户)
+  - [1.4 获取用户信息](#14获取用户信息)
+  - [1.5 获取经过身份验证用户的信息](#15获取经过身份验证用户的信息)
+  - [1.6 更新用户信息](#16更新用户信息)
+  - [1.7 删除用户](#17删除用户)
 - [2.食堂](#2食堂)
-  - [2.1 列出单个校区的食堂*](#21列出单个校区的食堂)
-  - [2.2 获取食堂信息*](#22获取食堂信息)
-- [3.食堂窗口](#3食堂窗口)
-  - [3.1 列出单个食堂的窗口*](#31列出单个食堂的窗口)
-  - [3.2 获取窗口信息*](#32获取窗口信息)
+  - [2.1 列出单个校区的食堂](#21列出单个校区的食堂)
+  - [2.2 获取食堂信息](#22获取食堂信息)
+  - [2.3 创建食堂](#23创建食堂)
+- [3.餐厅](#3餐厅)
+  - [3.1 列出单个食堂的餐厅](#31列出单个食堂的餐厅)
+  - [3.2 获取餐厅信息](#32获取餐厅信息)
+  - [3.3 创建餐厅](#33创建餐厅)
 - [4.食品](#4食品)
-  - [4.1 列出单个窗口的食品*](#41列出单个窗口的食品)
+  - [4.1 列出单个餐厅的食品*](#41列出单个餐厅的食品)
   - [4.2 获取食品信息*](#42获取食品信息)
 - [5.评论](#5评论)
-  - [5.1 列出单个窗口的评论*](#51列出单个窗口的评论)
+  - [5.1 列出单个餐厅的评论*](#51列出单个餐厅的评论)
   - [5.2 创建评论*](#52创建评论)
 
 
@@ -61,6 +64,13 @@ Authentication: Basic base64Encoded(username:password)
 ```http
 Content-Type: application/json
 ```
+
+### 分页
+对于返回多条结果的请求，默认返回第一页的20个结果。可以通过`page`指定页数，`per_page`指定页面大小，例如:
+```
+https://api.foodadvisor.top/v1/restraunt/1/comments?page=2&per_page=50
+```
+请注意，页码编号是从1开始的。
 
 ## 1. 用户
 ### 1.1用户注册
@@ -264,9 +274,26 @@ GET /campus/:campus_id/canteens
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "没有介绍",
+        "location": "东校区浴室旁边",
+        "name": "第五食堂"
+    },
+    {
+        "campus_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "没有介绍",
+        "location": "东校区浴室旁边",
+        "name": "第六食堂"
+    }
+]
 ```
 
 ### 2.2获取食堂信息
@@ -279,70 +306,56 @@ GET /canteen/:canteen_id
 Status: 200 OK
 
 {
-
+    "campus_id": 1,
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "没有介绍",
+    "location": "东校区浴室旁边",
+    "name": "第五食堂"
 }
 ```
 
-## 2. 食堂
-### 2.1列出单个校区的食堂
+### 2.3创建食堂
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
-GET /campus/:campus_id/canteens
+POST /canteen
+```
+
+#### 参数
+
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **必填。** 食堂名称    |
+|introduction |string | **选填。** 食堂介绍    |
+|location     |string | **必填。** 食堂位置    |
+|campus_id    |integer| **必填。** 食堂所在校区编号|
+
+#### 示例
+```json
+{
+	"name": "第四食堂",
+	"introduction": "没有介绍",
+	"location": "东区教超旁边",
+	"campus_id": 1
+}
 ```
 
 #### 响应
 ```json
-Status: 200 OK
+Status: 201 Created
 
 {
-
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/canteen"
 }
 ```
 
-### 2.2获取食堂信息
-```
-GET /canteen/:canteen_id
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-## 2. 食堂
-### 2.1列出单个校区的食堂
-```
-GET /campus/:campus_id/canteens
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-### 2.2获取食堂信息
-```
-GET /canteen/:canteen_id
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-
-}
-```
-
-## 3. 食堂窗口
-### 3.1列出单个食堂的窗口
+## 3. 餐厅
+### 3.1列出单个食堂的餐厅
 ```
 GET /canteen/:canteen_id/restraunts
 ```
@@ -351,12 +364,27 @@ GET /canteen/:canteen_id/restraunts
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "很好",
+        "name": "汤哥特色风味"
+    },
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "很好",
+        "name": "汤哥特色风味"
+    }
+]
 ```
 
-### 3.2获取窗口信息
+### 3.2获取餐厅信息
 ```
 GET /restraunt/:restraunt_id
 ```
@@ -365,13 +393,48 @@ GET /restraunt/:restraunt_id
 ```json
 Status: 200 OK
 
-{
+{   
+    "canteen_id": 1,
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "很好",
+    "name": "汤哥特色风味"
+}
+```
+### 3.3创建餐厅
+```
+POST /restaurant
+```
+#### 参数
 
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|canteen_id   |integer | **必填。** 餐厅所在食堂编号  |
+|introduction     |string | **必填。** 餐厅介绍|
+|name      |string | **必填。** 餐厅名称  |
+
+#### 示例
+```json
+{
+    "canteen_id": 1,
+    "introduction": "",
+    "name": "汤哥特色风味"
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/restaurant"
 }
 ```
 
 ## 4. 食品
-### 4.1列出单个窗口的食品
+### 4.1列出单个餐厅的食品
 ```
 GET /restraunt/:restraunt_id/foods
 ```
@@ -400,7 +463,7 @@ Status: 200 OK
 ```
 
 ## 5. 评论
-### 5.1列出单个窗口的评论
+### 5.1列出单个餐厅的评论
 ```
 GET /restraunt/:restraunt_id/comments
 ```

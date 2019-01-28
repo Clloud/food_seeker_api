@@ -21,11 +21,18 @@ class Scope:
 
 
 class User(Scope):
-    permitted = ['get_authenticated_user', 'delete_user', 'update_user']
+    permitted = [
+        'get_authenticated_user',
+        'delete_user',
+        'update_user'
+    ]
 
 
 class Administrator(Scope):
-    permitted = []
+    permitted = [
+        'create_canteen',
+        'create_restaurant'
+    ]
 
     def __init__(self):
         self + User()
