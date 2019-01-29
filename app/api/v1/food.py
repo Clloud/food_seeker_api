@@ -18,7 +18,7 @@ def get_food(food_id):
 
 
 @api.route('/restaurant/<int:restaurant_id>/foods', methods=['GET'])
-def get_food_by_restaurant(restaurant_id):
+def get_foods_by_restaurant(restaurant_id):
     foods = Food.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
     return jsonify(foods)
 

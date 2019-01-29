@@ -21,15 +21,15 @@ def get_comment(comment_id):
 
 
 @api.route('/restaurant/<int:restaurant_id>/comments', methods=['GET'])
-def get_comment_by_restaurant(restaurant_id):
-    comment = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
-    return jsonify(comment)
+def get_comments_by_restaurant(restaurant_id):
+    comments = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
+    return jsonify(comments)
 
 
 @api.route('/user/<int:user_id>/comments', methods=['GET'])
-def get_comment_by_user(user_id):
-    comment = Comment.query.filter_by(user_id=user_id).custom_paginate()
-    return jsonify(comment)
+def get_comments_by_user(user_id):
+    comments = Comment.query.filter_by(user_id=user_id).custom_paginate()
+    return jsonify(comments)
 
 
 @api.route('/comment', methods=['POST'])
