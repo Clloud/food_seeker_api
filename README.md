@@ -24,11 +24,15 @@
   - [3.2 获取餐厅信息](#32获取餐厅信息)
   - [3.3 新增餐厅](#33新增餐厅)
 - [4.食品](#4食品)
-  - [4.1 列出单个餐厅的食品*](#41列出单个餐厅的食品)
-  - [4.2 获取食品信息*](#42获取食品信息)
+  - [4.1 列出单个餐厅的食品](#41列出单个餐厅的食品)
+  - [4.2 获取食品信息](#42获取食品信息)
+  - [4.3 新增食品](#43新增食品)
 - [5.评论](#5评论)
-  - [5.1 列出单个餐厅的评论*](#51列出单个餐厅的评论)
-  - [5.2 新增评论*](#52新增评论)
+  - [5.1 列出单个餐厅的评论](#51列出单个餐厅的评论)
+  - [5.2 列出单个用户的评论](#52列出单个用户的评论)
+  - [5.3 获取评论信息](#53获取评论信息)
+  - [5.4 新增评论](#54新增评论)
+  - [5.5 删除评论](#55删除评论)
 
 
 ## 概述
@@ -340,8 +344,7 @@ POST /canteen
 	"name": "第四食堂",
 	"introduction": "没有介绍",
 	"location": "东区教超旁边",
-	"campus_id": 1,
-    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
+	"campus_id": 1
 }
 ```
 
@@ -422,8 +425,7 @@ POST /restaurant
 {
     "canteen_id": 1,
     "introduction": "",
-    "name": "汤哥特色风味",
-    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
+    "name": "汤哥特色风味"
 }
 ```
 #### 响应
@@ -508,8 +510,7 @@ POST /food
     "restaurant_id": 1,
     "introduction": "",
     "price": 15.0,
-    "name": "椒盐排条",
-    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
+    "name": "椒盐排条"
 }
 ```
 #### 响应
@@ -551,7 +552,33 @@ Status: 200 OK
 ]
 ```
 
-### 5.2获取评论信息
+### 5.2列出单个用户的评论
+```
+GET /user/:user_id/comments
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 1,
+        "restaurant_id": 1,
+        "user_id": 1
+    },
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 2,
+        "restaurant_id": 1,
+        "user_id": 1
+    }
+]
+```
+### 5.3获取评论信息
 ```
 GET /comment/:comment_id
 ```
@@ -568,7 +595,8 @@ Status: 201 Created
     "user_id": 1
 }
 ```
-### 5.3新增评论
+### 5.4新增评论
+**注意**：仅对通过身份认证的`用户`有效
 ```
 POST /comment
 ```
@@ -584,10 +612,10 @@ POST /comment
 #### 示例
 ```json
 {
-	    "restaurant_id": 1,
-        "user_id": 1,
-        "grade": 1,
-        "content": "我吃到了虫子！"
+    "restaurant_id": 1,
+    "user_id": 1,
+    "grade": 1,
+    "content": "我吃到了虫子！"
 }
 ```
 #### 响应
@@ -598,5 +626,21 @@ Status: 201 Created
     "error_code": 0,
     "message": "Created",
     "request_url": "POST /v1/comment"
+}
+```
+### 5.5删除评论
+**注意**：仅对通过身份认证的`用户`有效,可删除对象仅为自己的评论
+```
+DELETE /comment/:comment
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{  
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/comment/1"
 }
 ```
