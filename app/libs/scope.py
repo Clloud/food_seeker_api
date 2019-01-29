@@ -25,16 +25,7 @@ class User(Scope):
         'get_authenticated_user',
         'delete_user',
         'update_user',
-        'get_canteen_by_campus',
-        'get_canteen',
-        'get_restaurant_by_canteen',
-        'get_restaurant',
-        'get_food_by_restaurant',
-        'get_food',
-        'get_comment_by_restaurant',
-        'get_comment',
         'create_comment',
-        'get_comment_by_user',
         'delete_comment'
     ]
 
