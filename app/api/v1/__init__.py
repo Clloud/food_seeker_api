@@ -12,3 +12,4 @@ from app.api.v1 import token
 from app.api.v1 import comment
 from app.api.v1 import canteen
 from app.api.v1 import restaurant
+from app.api.v1 import food

@@ -7,7 +7,7 @@ from app.models.restaurant import Restaurant
 from app.validators.restaurant import RestaurantForm
 from app.libs.error_code import CreateSuccess
 from app.libs.token_auth import auth
-from models.base import db
+from app.models.base import db
 from . import api
 
 

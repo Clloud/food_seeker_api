@@ -7,7 +7,7 @@ from app.models.canteen import Canteen
 from app.validators.canteen import CanteenForm
 from app.libs.error_code import CreateSuccess
 from app.libs.token_auth import auth
-from models.base import db
+from app.models.base import db
 from . import api
 
 

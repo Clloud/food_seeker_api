@@ -332,6 +332,7 @@ POST /canteen
 |introduction |string | **选填。** 食堂介绍    |
 |location     |string | **必填。** 食堂位置    |
 |campus_id    |integer| **必填。** 食堂所在校区编号|
+|token    |string | **必填。** 管理员令牌    |
 
 #### 示例
 ```json
@@ -339,7 +340,8 @@ POST /canteen
 	"name": "第四食堂",
 	"introduction": "没有介绍",
 	"location": "东区教超旁边",
-	"campus_id": 1
+	"campus_id": 1,
+    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
 }
 ```
 
@@ -413,13 +415,15 @@ POST /restaurant
 |canteen_id   |integer | **必填。** 餐厅所在食堂编号  |
 |introduction     |string | **必填。** 餐厅介绍|
 |name      |string | **必填。** 餐厅名称  |
+|token    |string | **必填。** 管理员令牌    |
 
 #### 示例
 ```json
 {
     "canteen_id": 1,
     "introduction": "",
-    "name": "汤哥特色风味"
+    "name": "汤哥特色风味",
+    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
 }
 ```
 #### 响应
@@ -443,9 +447,26 @@ GET /restraunt/:restraunt_id/foods
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    },
+    {
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    }
+]
 ```
 
 ### 4.2获取食品信息
@@ -458,7 +479,47 @@ GET /food/:food_id
 Status: 200 OK
 
 {
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "",
+    "name": "椒盐排条",
+    "price": 15,
+    "restaurant_id": 1
+}
+```
+### 4.3新增食品
+```
+POST /food
+```
+#### 参数
 
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|restaurant_id   |integer | **必填。** 食品所在餐厅编号  |
+|introduction     |string | **必填。** 食品介绍|
+|price    |float | **必填。** 食品价格|
+|name      |string | **必填。** 食品名称  |
+|token    |string | **必填。** 管理员令牌    |
+
+#### 示例
+```json
+{
+    "restaurant_id": 1,
+    "introduction": "",
+    "price": 15.0,
+    "name": "椒盐排条",
+    "token":"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0ODY4NzU2MywiZXhwIjoxNTUxMjc5NTYzfQ.eyJ1aWQiOjcsInR5cGUiOjEwMCwic2NvcGUiOjJ9.6uj4RuOEkAzwUlCwSmWdTiQ3jfMbsmE19WGJULAsDOOGD-HAT8HaRqxo8kdmBw5LsZRC6TnhxvHdiY1bdOmk4w"
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/food"
 }
 ```
 
@@ -472,15 +533,27 @@ GET /restraunt/:restraunt_id/comments
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 1,
+        "restaurant_id": 1,
+        "user_id": 1
+    },
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 2,
+        "restaurant_id": 1,
+        "user_id": 1
+    }
+]
 ```
 
-### 5.2新增评论
-**注意**：仅对通过身份认证的用户有效
+### 5.2获取评论信息
 ```
-POST /comment
+GET /comment/:comment_id
 ```
 
 #### 响应
@@ -488,6 +561,42 @@ POST /comment
 Status: 201 Created
 
 {
+    "content": "我吃到了虫子！",
+    "grade": 1,
+    "id": 1,
+    "restaurant_id": 1,
+    "user_id": 1
+}
+```
+### 5.3新增评论
+```
+POST /comment
+```
+#### 参数
 
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|restaurant_id   |integer | **必填。** 评论针对餐厅编号  |
+|user_id   |integer | **必填。** 评论者编号  |
+|content     |string | **必填。** 评论内容|
+|grade    |float | **必填。** 评分|
+
+#### 示例
+```json
+{
+	    "restaurant_id": 1,
+        "user_id": 1,
+        "grade": 1,
+        "content": "我吃到了虫子！"
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/comment"
 }
 ```
