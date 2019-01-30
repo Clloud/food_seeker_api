@@ -7,7 +7,7 @@ from app.models.restaurant import Restaurant
 from app.validators.restaurant import RestaurantForm
 from app.libs.error_code import CreateSuccess
 from app.libs.token_auth import auth
-from models.base import db
+from app.models.base import db
 from . import api
 
 
@@ -18,7 +18,7 @@ def get_restaurant(restaurant_id):
 
 
 @api.route('/canteen/<int:canteen_id>/restaurants', methods=['GET'])
-def get_restaurant_by_canteen(canteen_id):
+def get_restaurants_by_canteen(canteen_id):
     restaurants = Restaurant.query.filter_by(canteen_id=canteen_id).custom_paginate()
     return jsonify(restaurants)
 

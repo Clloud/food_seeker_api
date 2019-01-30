@@ -24,11 +24,15 @@
   - [3.2 获取餐厅信息](#32获取餐厅信息)
   - [3.3 新增餐厅](#33新增餐厅)
 - [4.食品](#4食品)
-  - [4.1 列出单个餐厅的食品*](#41列出单个餐厅的食品)
-  - [4.2 获取食品信息*](#42获取食品信息)
+  - [4.1 列出单个餐厅的食品](#41列出单个餐厅的食品)
+  - [4.2 获取食品信息](#42获取食品信息)
+  - [4.3 新增食品](#43新增食品)
 - [5.评论](#5评论)
-  - [5.1 列出单个餐厅的评论*](#51列出单个餐厅的评论)
-  - [5.2 新增评论*](#52新增评论)
+  - [5.1 列出单个餐厅的评论](#51列出单个餐厅的评论)
+  - [5.2 列出单个用户的评论](#52列出单个用户的评论)
+  - [5.3 获取评论信息](#53获取评论信息)
+  - [5.4 新增评论](#54新增评论)
+  - [5.5 删除评论](#55删除评论)
 
 
 ## 概述
@@ -332,6 +336,7 @@ POST /canteen
 |introduction |string | **选填。** 食堂介绍    |
 |location     |string | **必填。** 食堂位置    |
 |campus_id    |integer| **必填。** 食堂所在校区编号|
+|token    |string | **必填。** 管理员令牌    |
 
 #### 示例
 ```json
@@ -413,6 +418,7 @@ POST /restaurant
 |canteen_id   |integer | **必填。** 餐厅所在食堂编号  |
 |introduction     |string | **必填。** 餐厅介绍|
 |name      |string | **必填。** 餐厅名称  |
+|token    |string | **必填。** 管理员令牌    |
 
 #### 示例
 ```json
@@ -443,9 +449,26 @@ GET /restraunt/:restraunt_id/foods
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 1,
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    },
+    {
+        "comment_amount": 0,
+        "grade": 0,
+        "id": 2,
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    }
+]
 ```
 
 ### 4.2获取食品信息
@@ -458,7 +481,46 @@ GET /food/:food_id
 Status: 200 OK
 
 {
+    "comment_amount": 0,
+    "grade": 0,
+    "id": 1,
+    "introduction": "",
+    "name": "椒盐排条",
+    "price": 15,
+    "restaurant_id": 1
+}
+```
+### 4.3新增食品
+```
+POST /food
+```
+#### 参数
 
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|restaurant_id   |integer | **必填。** 食品所在餐厅编号  |
+|introduction     |string | **必填。** 食品介绍|
+|price    |float | **必填。** 食品价格|
+|name      |string | **必填。** 食品名称  |
+|token    |string | **必填。** 管理员令牌    |
+
+#### 示例
+```json
+{
+    "restaurant_id": 1,
+    "introduction": "",
+    "price": 15.0,
+    "name": "椒盐排条"
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/food"
 }
 ```
 
@@ -472,15 +534,53 @@ GET /restraunt/:restraunt_id/comments
 ```json
 Status: 200 OK
 
-{
-
-}
+[
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 1,
+        "restaurant_id": 1,
+        "user_id": 1
+    },
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 2,
+        "restaurant_id": 1,
+        "user_id": 1
+    }
+]
 ```
 
-### 5.2新增评论
-**注意**：仅对通过身份认证的用户有效
+### 5.2列出单个用户的评论
 ```
-POST /comment
+GET /user/:user_id/comments
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 1,
+        "restaurant_id": 1,
+        "user_id": 1
+    },
+    {
+        "content": "我吃到了虫子！",
+        "grade": 1,
+        "id": 2,
+        "restaurant_id": 1,
+        "user_id": 1
+    }
+]
+```
+### 5.3获取评论信息
+```
+GET /comment/:comment_id
 ```
 
 #### 响应
@@ -488,6 +588,59 @@ POST /comment
 Status: 201 Created
 
 {
+    "content": "我吃到了虫子！",
+    "grade": 1,
+    "id": 1,
+    "restaurant_id": 1,
+    "user_id": 1
+}
+```
+### 5.4新增评论
+**注意**：仅对通过身份认证的`用户`有效
+```
+POST /comment
+```
+#### 参数
 
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|restaurant_id   |integer | **必填。** 评论针对餐厅编号  |
+|user_id   |integer | **必填。** 评论者编号  |
+|content     |string | **必填。** 评论内容|
+|grade    |float | **必填。** 评分|
+
+#### 示例
+```json
+{
+    "restaurant_id": 1,
+    "user_id": 1,
+    "grade": 1,
+    "content": "我吃到了虫子！"
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/comment"
+}
+```
+### 5.5删除评论
+**注意**：仅对通过身份认证的`用户`有效,可删除对象仅为自己的评论
+```
+DELETE /comment/:comment
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{  
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/comment/1"
 }
 ```

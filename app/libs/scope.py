@@ -24,14 +24,17 @@ class User(Scope):
     permitted = [
         'get_authenticated_user',
         'delete_user',
-        'update_user'
+        'update_user',
+        'create_comment',
+        'delete_comment'
     ]
 
 
 class Administrator(Scope):
     permitted = [
         'create_canteen',
-        'create_restaurant'
+        'create_restaurant',
+        'create_food'
     ]
 
     def __init__(self):

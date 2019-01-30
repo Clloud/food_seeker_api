@@ -7,7 +7,7 @@ from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
 from app.models.base import Base
 
 
-class Cuisine(Base):
+class Food(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     introduction = Column(String(200), default="")
