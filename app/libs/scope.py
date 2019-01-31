@@ -26,6 +26,7 @@ class User(Scope):
         'delete_user',
         'update_user',
         'create_comment',
+        'update_comment',
         'delete_comment'
     ]
 
@@ -34,7 +35,13 @@ class Administrator(Scope):
     permitted = [
         'create_canteen',
         'create_restaurant',
-        'create_food'
+        'create_food',
+        'update_canteen',
+        'update_restaurant',
+        'update_food',
+        'delete_canteen',
+        'delete_restaurant',
+        'delete_food'
     ]
 
     def __init__(self):
