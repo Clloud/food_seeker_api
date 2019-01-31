@@ -5,7 +5,7 @@ Enjoy The Code!
 from flask import jsonify
 from app.models.restaurant import Restaurant
 from app.validators.restaurant import RestaurantForm
-from app.libs.error_code import CreateSuccess
+from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
 from . import api
@@ -32,3 +32,23 @@ def create_restaurant():
         restaurant.set_attrs(form)
         db.session.add(restaurant)
     return CreateSuccess()
+
+
+@api.route('/restaurant/<int:restaurant_id>', methods=['PUT'])
+@auth.login_required
+def update_restaurant(restaurant_id):
+    form = RestaurantForm().validate_for_api()
+    with db.auto_commit():
+        restaurant = Restaurant.query.get_or_404(restaurant_id)
+        restaurant.set_attrs(form)
+        db.session.add(restaurant)
+    return UpdateSuccess()
+
+
+@api.route('/restaurant/<int:restaurant_id>', methods=['DELETE'])
+@auth.login_required
+def delete_restaurant(restaurant_id):
+    with db.auto_commit():
+        restaurant = Restaurant.query.filter_by(id=restaurant_id).first_or_404()
+        restaurant.delete()
+    return DeleteSuccess()

@@ -5,7 +5,7 @@ Enjoy The Code!
 from flask import jsonify
 from app.models.canteen import Canteen
 from app.validators.canteen import CanteenForm
-from app.libs.error_code import CreateSuccess
+from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
 from . import api
@@ -32,3 +32,23 @@ def create_canteen():
         canteen.set_attrs(form)
         db.session.add(canteen)
     return CreateSuccess()
+
+
+@api.route('/canteen/<int:canteen_id>', methods=['PUT'])
+@auth.login_required
+def update_canteen(canteen_id):
+    form = CanteenForm().validate_for_api()
+    with db.auto_commit():
+        canteen = Canteen.query.get_or_404(canteen_id)
+        canteen.set_attrs(form)
+        db.session.add(canteen)
+    return UpdateSuccess()
+
+
+@api.route('/canteen/<int:canteen_id>', methods=['DELETE'])
+@auth.login_required
+def delete_canteen(canteen_id):
+    with db.auto_commit():
+        canteen = Canteen.query.filter_by(id=canteen_id).first_or_404()
+        canteen.delete()
+    return DeleteSuccess()
