@@ -73,11 +73,11 @@ class Base(db.Model):
         '''set attributes of the model with Form object or dict'''
         if isinstance(attrs, dict):
             for key, value in attrs.items():
-                if hasattr(self, key) and key != 'id':
+                if hasattr(self, key) and key != 'id' and value:
                     setattr(self, key, value)
         elif isinstance(attrs, Form):
             for key in attrs.__dict__:
-                if hasattr(self, key) and key != 'id':
+                if hasattr(self, key) and key != 'id'and getattr(attrs, key).data:
                     setattr(self, key, getattr(attrs, key).data)
 
     def delete(self):
