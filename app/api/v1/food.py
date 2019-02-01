@@ -4,7 +4,7 @@ Enjoy The Code!
 #__Auther__:__blank__
 from flask import jsonify
 from app.models.food import Food
-from app.validators.food import FoodForm
+from app.validators.food import FoodPutForm, FoodPostForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -26,7 +26,7 @@ def get_foods_by_restaurant(restaurant_id):
 @api.route('/food', methods=['POST'])
 @auth.login_required
 def create_food():
-    form = FoodForm().validate_for_api()
+    form = FoodPostForm().validate_for_api()
     with db.auto_commit():
         food = Food()
         food.set_attrs(form)
@@ -37,7 +37,7 @@ def create_food():
 @api.route('/food/<int:food_id>', methods=['PUT'])
 @auth.login_required
 def update_food(food_id):
-    form = FoodForm().validate_for_api()
+    form = FoodPutForm().validate_for_api()
     with db.auto_commit():
         food = Food.query.get_or_404(food_id)
         food.set_attrs(form)

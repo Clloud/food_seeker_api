@@ -4,7 +4,7 @@ Enjoy The Code!
 #__Auther__:__blank__
 from flask import jsonify
 from app.models.canteen import Canteen
-from app.validators.canteen import CanteenForm
+from app.validators.canteen import CanteenPostForm, CanteenPutForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -26,7 +26,7 @@ def get_canteens_by_campus(campus_id):
 @api.route('/canteen', methods=['POST'])
 @auth.login_required
 def create_canteen():
-    form = CanteenForm().validate_for_api()
+    form = CanteenPostForm().validate_for_api()
     with db.auto_commit():
         canteen = Canteen()
         canteen.set_attrs(form)
@@ -37,7 +37,7 @@ def create_canteen():
 @api.route('/canteen/<int:canteen_id>', methods=['PUT'])
 @auth.login_required
 def update_canteen(canteen_id):
-    form = CanteenForm().validate_for_api()
+    form = CanteenPutForm().validate_for_api()
     with db.auto_commit():
         canteen = Canteen.query.get_or_404(canteen_id)
         canteen.set_attrs(form)

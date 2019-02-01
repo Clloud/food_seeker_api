@@ -19,20 +19,27 @@
   - [2.1 列出单个校区的食堂](#21列出单个校区的食堂)
   - [2.2 获取食堂信息](#22获取食堂信息)
   - [2.3 新增食堂](#23新增食堂)
+  - [2.4 更新食堂信息](#24更新食堂信息)
+  - [2.5 删除食堂](#25删除食堂)
 - [3.餐厅](#3餐厅)
   - [3.1 列出单个食堂的餐厅](#31列出单个食堂的餐厅)
   - [3.2 获取餐厅信息](#32获取餐厅信息)
   - [3.3 新增餐厅](#33新增餐厅)
+  - [3.4 更新餐厅信息](#34更新餐厅信息)
+  - [3.5 删除餐厅](#35删除餐厅)
 - [4.食品](#4食品)
   - [4.1 列出单个餐厅的食品](#41列出单个餐厅的食品)
   - [4.2 获取食品信息](#42获取食品信息)
   - [4.3 新增食品](#43新增食品)
+  - [4.4 更新食品信息](#44更新食品信息)
+  - [4.5 删除食品](#45删除食品)
 - [5.评论](#5评论)
   - [5.1 列出单个餐厅的评论](#51列出单个餐厅的评论)
   - [5.2 列出单个用户的评论](#52列出单个用户的评论)
   - [5.3 获取评论信息](#53获取评论信息)
   - [5.4 新增评论](#54新增评论)
-  - [5.5 删除评论](#55删除评论)
+  - [5.5 更新评论](#55更新评论)
+  - [5.6 删除评论](#56删除评论)
 
 
 ## 概述
@@ -358,6 +365,53 @@ Status: 201 Created
     "request_url": "POST /v1/canteen"
 }
 ```
+### 2.4更新食堂信息
+```
+PUT /canteen/:canteen_id
+```
+#### 参数
+
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **选填。** 食堂名称    |
+|introduction |string | **选填。** 食堂介绍    |
+|location     |string | **选填。** 食堂位置    |
+|campus_id    |integer| **选填。** 食堂所在校区编号|
+|comment_amount    |integer| **选填。** 食堂评论数量|
+|status    |integer| **选填。** 食堂状态|
+|grade    |float| **选填。** 食堂评分|
+|token    |string | **选填。** 管理员令牌    |
+#### 示例
+```json
+{
+    "name": "第5食堂"
+}
+```
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Updated",
+    "request_url": "PUT /v1/canteen/1"
+}
+```
+### 2.5删除食堂
+```
+DELETE /canteen/:canteen_id
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/canteen/1"
+}
+```
 
 ## 3. 餐厅
 ### 3.1列出单个食堂的餐厅
@@ -436,6 +490,52 @@ Status: 201 Created
     "error_code": 0,
     "message": "Created",
     "request_url": "POST /v1/restaurant"
+}
+```
+### 3.4更新餐厅信息
+```
+PUT /restaurant/:restaurant_id
+```
+#### 参数
+
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **选填。** 餐厅名称    |
+|introduction |string | **选填。** 餐厅介绍    |
+|canteen_id    |integer| **选填。** 餐厅所在食堂编号|
+|comment_amount    |integer| **选填。** 餐厅评论数量|
+|status    |integer| **选填。** 餐厅状态|
+|grade    |float| **选填。** 餐厅评分|
+|token    |string | **选填。** 管理员令牌    |
+#### 示例
+```json
+{
+    "name": "汤哥特色风味"
+}
+```
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Updated",
+    "request_url": "PUT /v1/restaurant/1"
+}
+```
+### 3.5删除餐厅
+```
+DELETE /restaurant/:restaurant_id
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/restaurant/1"
 }
 ```
 
@@ -521,6 +621,53 @@ Status: 201 Created
     "error_code": 0,
     "message": "Created",
     "request_url": "POST /v1/food"
+}
+```
+### 4.4更新食品信息
+```
+PUT /food/:food_id
+```
+#### 参数
+
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **选填。** 食品名称    |
+|introduction |string | **选填。** 食品介绍    |
+|canteen_id    |integer| **选填。** 食品所在餐厅编号|
+|price    |integer| **选填。** 食品价格|
+|comment_amount    |integer| **选填。** 食品评论数量|
+|status    |integer| **选填。** 食品状态|
+|grade    |float| **选填。** 食品评分|
+|token    |string | **必填。** 管理员令牌    |
+#### 示例
+```json
+{
+    "price":15
+}
+```
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Updated",
+    "request_url": "PUT /v1/food/1"
+}
+```
+### 4.5删除食品
+```
+DELETE /food/:food_id
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/food/1"
 }
 ```
 
@@ -628,7 +775,42 @@ Status: 201 Created
     "request_url": "POST /v1/comment"
 }
 ```
-### 5.5删除评论
+
+### 5.5更新评论
+**注意**：仅对通过身份认证的`用户`有效
+```
+PUT /comment/:comment_id
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|restaurant_id   |integer | **必填。** 评论针对餐厅编号  |
+|user_id   |integer | **必填。** 评论者编号  |
+|content     |string | **必填。** 评论内容|
+|grade    |float | **必填。** 评分|
+
+#### 示例
+```json
+{
+    "content": "hhh",
+    "user_id": 1,
+    "restaurant_id":1,
+    "grade":5
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Updated",
+    "request_url": "PUT /v1/comment/1"
+}
+```
+
+### 5.6删除评论
 **注意**：仅对通过身份认证的`用户`有效,可删除对象仅为自己的评论
 ```
 DELETE /comment/:comment

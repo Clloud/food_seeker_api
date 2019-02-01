@@ -7,7 +7,7 @@ from flask import jsonify,g
 
 from app.api.v1.token import get_token_info
 from app.models.comment import Comment
-from app.validators.comment import CommentForm
+from app.validators.comment import CommentPostForm, CommentPutForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
 from app.libs.token_auth import auth
@@ -35,7 +35,7 @@ def get_comments_by_user(user_id):
 @api.route('/comment', methods=['POST'])
 @auth.login_required
 def create_comment():
-    form = CommentForm().validate_for_api()
+    form = CommentPostForm().validate_for_api()
     with db.auto_commit():
         comment = Comment()
         comment.set_attrs(form)
@@ -46,7 +46,7 @@ def create_comment():
 @api.route('/comment/<int:comment_id>', methods=['PUT'])
 @auth.login_required
 def update_comment(comment_id):
-    form = CommentForm().validate_for_api()
+    form = CommentPutForm().validate_for_api()
     with db.auto_commit():
         comment = Comment.query.get_or_404(comment_id)
         comment.set_attrs(form)
