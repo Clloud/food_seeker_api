@@ -4,10 +4,10 @@ Enjoy The Code!
 #__Auther__:__blank__
 import os
 from flask import request, make_response, jsonify, current_app
-from app.libs.error_code import CreateSuccess, FormatError, ContentError, SizeError
+from app.libs.error_code import CreateSuccess, FormatError, ContentError, SizeError, UpdateSuccess, DeleteSuccess
 from app.models.base import db
 from app.models.picture import Picture
-from app.validators.picture import PictureForm
+from app.validators.picture import PicturePostForm, PicturePutForm
 from . import api
 
 
@@ -65,7 +65,7 @@ def create_photo():
         return ContentError()
     if not picture.allowed_file(img.filename):
         return FormatError()
-    form = PictureForm().validate_for_api()
+    form = PicturePostForm().validate_for_api()
     img.filename = picture.create_unique_name()
     picture.save_picture(img)
     with db.auto_commit():
@@ -73,3 +73,21 @@ def create_photo():
         picture.url = img.filename
         db.session.add(picture)
     return CreateSuccess()
+
+
+@api.route('/picture/<int:picture_id>', methods=['PUT'])
+def update_picture(picture_id):
+    form = PicturePutForm().validate_for_api()
+    with db.auto_commit():
+        picture = Picture.query.get_or_404(picture_id)
+        picture.set_attrs(form)
+        db.session.add(picture)
+    return UpdateSuccess()
+
+
+@api.route('/picture/<int:picture_id>', methods=['DELETE'])
+def delete_picture(picture_id):
+    with db.auto_commit():
+        picture = Picture.query.filter_by(id=picture_id).first_or_404()
+        picture.delete()
+    return DeleteSuccess()
