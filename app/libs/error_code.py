@@ -64,3 +64,21 @@ class Forbidden(APIException):
     code = 403
     message = 'Not authorized to perform the operation'
     error_code = 1004
+
+
+class FormatError(APIException):
+    code = 415
+    message = 'Data format error'
+    error_code = 999
+
+
+class ContentError(APIException):
+    code = 411
+    message = 'Content cannot be null'
+    error_code = 999
+
+
+class SizeError(APIException):
+    code = 411
+    message = 'Content Excess Limitation'
+    error_code = 999

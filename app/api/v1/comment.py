@@ -3,9 +3,7 @@
 @author: Cloud
 @time: 2019/1/14 22:06
 '''
-from flask import jsonify,g
-
-from app.api.v1.token import get_token_info
+from flask import jsonify, g
 from app.models.comment import Comment
 from app.validators.comment import CommentPostForm, CommentPutForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
