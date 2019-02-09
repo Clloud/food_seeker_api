@@ -9,6 +9,7 @@ from sqlalchemy import Column, Integer, orm, ForeignKey, VARCHAR
 from app.models.base import Base
 import datetime
 import random
+import time
 
 basedir = os.path.dirname(os.path.dirname(__file__))
 
@@ -31,7 +32,15 @@ class Picture(Base):
 
     def save_picture(self, img):
         path = basedir + "\pictures\\"
-        file_path = path + img.filename
+        year = time.strftime('%Y', time.localtime(time.time()))
+        month = time.strftime('%m', time.localtime(time.time()))
+        day = time.strftime('%d', time.localtime(time.time()))
+        fileyear = path + year
+        filemonth = fileyear + month
+        fileday = filemonth + day
+        if not os.path.exists(fileday):
+            os.makedirs(fileday)
+        file_path = fileday + '/' + img.filename
         img.save(file_path)
         im = Image.open(file_path)
         im.thumbnail(current_app.config['SIZE'])
