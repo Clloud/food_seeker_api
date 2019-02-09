@@ -16,10 +16,5 @@ class PicturePostForm(Form):
 
 
 class PicturePutForm(Form):
-    user_id = IntegerField()
-    canteen_id = IntegerField()
-    restaurant_id = IntegerField()
-    food_id = IntegerField()
-    comment_id = IntegerField()
     status = IntegerField()
-    #url = StringField()
+    url = StringField()
