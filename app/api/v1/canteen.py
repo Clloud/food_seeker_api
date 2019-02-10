@@ -6,7 +6,7 @@ from flask import jsonify
 from sqlalchemy import func
 
 from app.models.canteen import Canteen
-from app.models.picture import Picture
+from app.models.image import Image
 from app.validators.canteen import CanteenCreateForm, CanteenUpdateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
@@ -16,15 +16,15 @@ from . import api
 
 @api.route('/canteen/<int:canteen_id>', methods=['GET'])
 def get_canteen(canteen_id):
-    temp = db.session.query(Canteen).join(Picture).filter(Canteen.id == canteen_id).filter(
-        Picture.canteen_id == canteen_id).all()
+    temp = db.session.query(Canteen).join(Image).filter(Canteen.id == canteen_id).filter(
+        Image.canteen_id == canteen_id).all()
     return jsonify(temp)
 
 
 @api.route('/campus/<int:campus_id>/canteens', methods=['GET'])
 def get_canteens_by_campus(campus_id):
-    temp = db.session.query(Canteen).join(Picture).filter(Canteen.campus_id == campus_id).filter(
-        Picture.canteen_id == Canteen.id).all()
+    temp = db.session.query(Canteen).join(Image).filter(Canteen.campus_id == campus_id).filter(
+        Image.canteen_id == Canteen.id).all()
     return jsonify(temp)
 
 
