@@ -8,14 +8,14 @@ from wtforms.validators import DataRequired, length
 from app.validators.base import BaseForm as Form
 
 
-class FoodPostForm(Form):
+class FoodCreateForm(Form):
     name = StringField(validators=[DataRequired(), length(min=2, max=32)])
     introduction = StringField()
     price = FloatField(validators=[DataRequired()])
     restaurant_id = IntegerField(validators=[DataRequired()])
 
 
-class FoodPutForm(Form):
+class FoodUpdateForm(Form):
     name = StringField()
     introduction = StringField()
     price = FloatField()
