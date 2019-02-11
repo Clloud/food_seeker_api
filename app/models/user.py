@@ -20,6 +20,7 @@ class User(Base):
 
     @orm.reconstructor
     def __init__(self):
+        super().__init__()
         self.fields = ['id', 'email', 'nickname', 'mobile','avatar']
 
     @property

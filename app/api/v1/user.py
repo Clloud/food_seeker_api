@@ -30,7 +30,6 @@ def get_authenticated_user():
 
 @api.route('/user', methods=['POST'])
 def create_user():
-    # TODO 修正不能自动写入时间戳的问题
     form = ClientForm().validate_for_api()
     promise = {
         ClientTypeEnum.USER_EMAIL: __register_user_by_email

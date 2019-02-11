@@ -16,4 +16,5 @@ class CommentImage(Base):
 
     @orm.reconstructor
     def __init__(self):
+        super().__init__()
         self.fields = ['image']

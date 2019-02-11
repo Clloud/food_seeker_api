@@ -17,6 +17,7 @@ class Canteen(Base):
 
     @orm.reconstructor
     def __init__(self):
+        super().__init__()
         self.fields = ['id', 'name', 'introduction', 'grade',
                        'location', 'campus_id', 'comment_amount']
 

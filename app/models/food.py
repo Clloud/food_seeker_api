@@ -18,4 +18,5 @@ class Food(Base):
 
     @orm.reconstructor
     def __init__(self):
+        super().__init__()
         self.fields = ['id', 'name', 'introduction', 'price', 'grade', 'restaurant_id', 'comment_amount']

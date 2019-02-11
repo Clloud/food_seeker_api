@@ -22,6 +22,7 @@ def get_comment(comment_id):
 @api.route('/restaurant/<int:restaurant_id>/comments', methods=['GET'])
 def get_comments_by_restaurant(restaurant_id):
     comments = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
+    comments = [comment.hide('restaurant') for comment in comments]
     return jsonify(comments)
 
 

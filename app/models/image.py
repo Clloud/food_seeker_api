@@ -17,6 +17,7 @@ class Image(Base):
 
     @orm.reconstructor
     def __init__(self):
+        super().__init__()
         self.fields = ['id', 'url']
 
     @property
@@ -36,14 +37,7 @@ class Image(Base):
         返回图片相对路径和图片的id
         '''
         cls.validate_image(image)
-
-        directory_name = time.strftime('%Y%m%d', time.localtime(time.time()))
-        directory_path = current_app.config['IMAGE_URL_PREFIX'] + '/' + directory_name
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path)
-        filename = cls.generate_filename(image)
-        file_path = directory_path + '/' + filename
-        image.save(file_path)
+        directory_name, filename = cls.save_to_file(image)
 
         img = Image()
         with db.auto_commit():
@@ -54,6 +48,17 @@ class Image(Base):
             "image_id": img.id,
             "image_url": img.url
         }
+
+    @classmethod
+    def save_to_file(cls, image):
+        directory_name = time.strftime('%Y%m%d', time.localtime(time.time()))
+        directory_path = current_app.config['IMAGE_URL_PREFIX'] + '/' + directory_name
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+        filename = cls.generate_filename(image)
+        file_path = directory_path + '/' + filename
+        image.save(file_path)
+        return directory_name, filename
 
     @staticmethod
     def validate_image(image):
@@ -75,5 +80,3 @@ class Image(Base):
     @staticmethod
     def generate_filename(image):
         return str(uuid.uuid1()).replace('-','') + '.' + image.filename.rsplit('.', 1)[1]
-
-

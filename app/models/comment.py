@@ -14,9 +14,19 @@ class Comment(Base):
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     grade = Column(Float(5), default=0)
     content = Column(Text)
-    images = relationship('CommentImage', backref='comment')
     user = relationship('User', backref='comment')
+    restaurant = relationship('Restaurant', backref='comment')
+    _images = relationship('CommentImage', backref='comment')
 
     @orm.reconstructor
     def __init__(self):
-        self.fields = ['id', 'user', 'restaurant_id', 'grade', 'content', 'images']
+        super().__init__()
+        self.fields = ['id', 'user', 'restaurant', 'grade', 'content', 'images','create_time']
+
+    @property
+    def images(self):
+        return [item.image for item in self._images]
+
+    @images.setter
+    def images(self, value):
+        self._images = value

@@ -54,6 +54,7 @@ db = SQLAlchemy(query_class=Query)
 class Base(db.Model):
     __abstract__ = True
     create_time = Column(Integer)
+    delete_time = Column(Integer)
     status = Column(SmallInteger, default=1)
 
     def __init__(self):
@@ -83,6 +84,7 @@ class Base(db.Model):
     def delete(self):
         '''soft delete'''
         self.status = 0
+        self.delete_time = int(datetime.now().timestamp())
 
     def keys(self):
         return self.fields
