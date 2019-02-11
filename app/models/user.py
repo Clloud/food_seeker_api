@@ -20,7 +20,7 @@ class User(Base):
 
     @orm.reconstructor
     def __init__(self):
-        self.fields = ['id', 'email', 'nickname', 'auth', 'mobile','avatar']
+        self.fields = ['id', 'email', 'nickname', 'mobile','avatar']
 
     @property
     def password(self):

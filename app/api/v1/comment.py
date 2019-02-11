@@ -5,6 +5,7 @@
 '''
 from flask import jsonify, g
 from app.models.comment import Comment
+from app.models.comment_image import CommentImage
 from app.validators.comment import CommentCreateForm, CommentUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
