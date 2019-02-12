@@ -4,6 +4,8 @@ Enjoy The Code!
 #__Auther__:__blank__
 
 from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
+from sqlalchemy.orm import relationship
+
 from app.models.base import Base
 
 
@@ -15,8 +17,18 @@ class Food(Base):
     grade = Column(Float(5), default=0)
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     comment_amount = Column(Integer, nullable=False, default=0)
+    _images = relationship('FoodImage', backref='food')
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'name', 'introduction', 'price', 'grade', 'restaurant_id', 'comment_amount']
+        self.fields = ['id', 'name', 'introduction', 'price', 'grade',
+                       'restaurant_id', 'comment_amount', 'images', 'create_time']
+
+    @property
+    def images(self):
+        return [item.image for item in self._images]
+
+    @images.setter
+    def images(self, value):
+        self._images = value

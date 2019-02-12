@@ -3,6 +3,7 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 from sqlalchemy import Column, Integer, String, Float, orm
+from sqlalchemy.orm import relationship
 from app.models.base import Base
 
 
@@ -14,11 +15,18 @@ class Canteen(Base):
     location = Column(String(50), nullable=False)
     campus_id = Column(Integer, nullable=False)
     comment_amount = Column(Integer, nullable=False, default=0)
+    _images = relationship('CanteenImage', backref='canteen')
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
         self.fields = ['id', 'name', 'introduction', 'grade',
-                       'location', 'campus_id', 'comment_amount']
+                       'location', 'campus_id', 'comment_amount', 'images', 'create_time']
 
+    @property
+    def images(self):
+        return [item.image for item in self._images]
 
+    @images.setter
+    def images(self, value):
+        self._images = value

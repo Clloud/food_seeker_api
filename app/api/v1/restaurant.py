@@ -4,6 +4,7 @@ Enjoy The Code!
 #__Auther__:__blank__
 from flask import jsonify
 from app.models.restaurant import Restaurant
+from app.models.restaurant_image import RestaurantImage
 from app.validators.restaurant import RestaurantUpdateForm, RestaurantCreateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth

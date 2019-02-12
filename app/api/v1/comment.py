@@ -23,12 +23,15 @@ def get_comment(comment_id):
 def get_comments_by_restaurant(restaurant_id):
     comments = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
     comments = [comment.hide('restaurant') for comment in comments]
+    comments = [comment.hide('user') for comment in comments]
     return jsonify(comments)
 
 
 @api.route('/user/<int:user_id>/comments', methods=['GET'])
 def get_comments_by_user(user_id):
     comments = Comment.query.filter_by(user_id=user_id).custom_paginate()
+    comments = [comment.hide('restaurant') for comment in comments]
+    comments = [comment.hide('user') for comment in comments]
     return jsonify(comments)
 
 

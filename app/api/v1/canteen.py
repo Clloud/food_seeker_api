@@ -2,9 +2,10 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
 
 from app.models.canteen import Canteen
+from app.models.canteen_image import CanteenImage
 from app.models.image import Image
 from app.validators.canteen import CanteenCreateForm, CanteenUpdateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
@@ -15,21 +16,21 @@ from . import api
 
 @api.route('/canteen/<int:canteen_id>', methods=['GET'])
 def get_canteen(canteen_id):
-    temp = db.session.query(Canteen).join(Image).filter(Canteen.id == canteen_id).filter(
-        Image.canteen_id == canteen_id).all()
-    return jsonify(temp)
+    canteen = Canteen.query.filter_by(id=canteen_id).first_or_404()
+    return jsonify(canteen)
 
 
 @api.route('/campus/<int:campus_id>/canteens', methods=['GET'])
 def get_canteens_by_campus(campus_id):
-    temp = db.session.query(Canteen).join(Image).filter(Canteen.campus_id == campus_id).filter(
-        Image.canteen_id == Canteen.id).all()
-    return jsonify(temp)
+    canteens = Canteen.query.filter_by(campus_id=campus_id).custom_paginate()
+    return jsonify(canteens)
 
 
 @api.route('/canteen', methods=['POST'])
 @auth.login_required
 def create_canteen():
+    image = request.files.get('image')
+    result = Image.save_image(image)
     form = CanteenCreateForm().validate_for_api()
     with db.auto_commit():
         canteen = Canteen()
