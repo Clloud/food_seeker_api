@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base, db
+from app.models.restaurant_image import RestaurantImage
 
 
 class Restaurant(Base):
@@ -30,3 +31,15 @@ class Restaurant(Base):
     @images.setter
     def images(self, value):
         self._images = value
+
+    @classmethod
+    def save_restaurant(cls, form, image_id):
+        with db.auto_commit():
+            with db.auto_commit():
+                restaurant = Restaurant()
+                restaurant.set_attrs(form)
+                db.session.add(restaurant)
+            restaurant_image = RestaurantImage()
+            restaurant_image.restaurant_id = restaurant.id
+            restaurant_image.image_id = image_id
+            db.session.add(restaurant_image)

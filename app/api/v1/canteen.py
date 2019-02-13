@@ -32,10 +32,7 @@ def create_canteen():
     image = request.files.get('image')
     result = Image.save_image(image)
     form = CanteenCreateForm().validate_for_api()
-    with db.auto_commit():
-        canteen = Canteen()
-        canteen.set_attrs(form)
-        db.session.add(canteen)
+    Canteen.save_canteen(form, result["image_id"])
     return CreateSuccess()
 
 

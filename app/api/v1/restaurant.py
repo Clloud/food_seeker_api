@@ -2,7 +2,9 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
+
+from app.models.image import Image
 from app.models.restaurant import Restaurant
 from app.models.restaurant_image import RestaurantImage
 from app.validators.restaurant import RestaurantUpdateForm, RestaurantCreateForm
@@ -27,11 +29,10 @@ def get_restaurants_by_canteen(canteen_id):
 @api.route('/restaurant', methods=['POST'])
 @auth.login_required
 def create_restaurant():
+    image = request.files.get('image')
+    result = Image.save_image(image)
     form = RestaurantCreateForm().validate_for_api()
-    with db.auto_commit():
-        restaurant = Restaurant()
-        restaurant.set_attrs(form)
-        db.session.add(restaurant)
+    Restaurant.save_restaurant(form, result["image_id"])
     return CreateSuccess()
 
 

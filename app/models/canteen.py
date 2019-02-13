@@ -4,7 +4,8 @@ Enjoy The Code!
 #__Auther__:__blank__
 from sqlalchemy import Column, Integer, String, Float, orm
 from sqlalchemy.orm import relationship
-from app.models.base import Base
+from app.models.base import Base, db
+from app.models.canteen_image import CanteenImage
 
 
 class Canteen(Base):
@@ -30,3 +31,15 @@ class Canteen(Base):
     @images.setter
     def images(self, value):
         self._images = value
+
+    @classmethod
+    def save_canteen(cls, form, image_id):
+        with db.auto_commit():
+            with db.auto_commit():
+                canteen = Canteen()
+                canteen.set_attrs(form)
+                db.session.add(canteen)
+            canteen_image = CanteenImage()
+            canteen_image.canteen_id = canteen.id
+            canteen_image.image_id = image_id
+            db.session.add(canteen_image)

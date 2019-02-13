@@ -12,7 +12,8 @@ class BaseForm(Form):
     def __init__(self):
         data = request.get_json(silent=True)
         args = request.args.to_dict()
-        super(BaseForm, self).__init__(data=data, **args)
+        formdata = request.form
+        super(BaseForm, self).__init__(data=data, formdata=formdata, **args)
 
     def validate_for_api(self):
         valid = super(BaseForm, self).validate()

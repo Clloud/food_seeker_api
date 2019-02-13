@@ -2,9 +2,10 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
 from app.models.food import Food
 from app.models.food_image import FoodImage
+from app.models.image import Image
 from app.validators.food import FoodUpdateForm, FoodCreateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
@@ -27,11 +28,10 @@ def get_foods_by_restaurant(restaurant_id):
 @api.route('/food', methods=['POST'])
 @auth.login_required
 def create_food():
+    image = request.files.get('image')
+    result = Image.save_image(image)
     form = FoodCreateForm().validate_for_api()
-    with db.auto_commit():
-        food = Food()
-        food.set_attrs(form)
-        db.session.add(food)
+    Food.save_food(form, result["image_id"])
     return CreateSuccess()
 
 

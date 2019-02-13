@@ -3,9 +3,10 @@
 @author: Cloud
 @time: 2019/1/14 22:06
 '''
-from flask import jsonify, g
+from flask import jsonify, g, request
 from app.models.comment import Comment
 from app.models.comment_image import CommentImage
+from app.models.image import Image
 from app.validators.comment import CommentCreateForm, CommentUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
@@ -38,11 +39,10 @@ def get_comments_by_user(user_id):
 @api.route('/comment', methods=['POST'])
 @auth.login_required
 def create_comment():
+    image = request.files.get('image')
+    result = Image.save_image(image)
     form = CommentCreateForm().validate_for_api()
-    with db.auto_commit():
-        comment = Comment()
-        comment.set_attrs(form)
-        db.session.add(comment)
+    Comment.save_comment(form, result["image_id"])
     return CreateSuccess()
 
 
