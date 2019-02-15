@@ -58,6 +58,7 @@ class Base(db.Model):
     status = Column(SmallInteger, default=1)
 
     def __init__(self):
+        # TODO 修复自动写入时间的问题
         self.create_time = int(datetime.now().timestamp())
 
     def __getitem__(self, item):
