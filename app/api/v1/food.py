@@ -28,10 +28,8 @@ def get_foods_by_restaurant(restaurant_id):
 @api.route('/food', methods=['POST'])
 @auth.login_required
 def create_food():
-    image = request.files.get('image')
-    result = Image.save_image(image)
     form = FoodCreateForm().validate_for_api()
-    Food.save_food(form, result["image_id"])
+    Food.save_food(form)
     return CreateSuccess()
 
 

@@ -2,11 +2,12 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-
+from flask import request
 from sqlalchemy import Column, Integer, Float, Text, orm, ForeignKey
 from sqlalchemy.orm import relationship
 from app.models.base import Base, db
 from app.models.comment_image import CommentImage
+from app.models.image import Image
 
 
 class Comment(Base):
@@ -33,14 +34,23 @@ class Comment(Base):
     def images(self, value):
         self._images = value
 
-    @classmethod
-    def save_comment(cls, form, image_id):
-        with db.auto_commit():
+    @staticmethod
+    def save_comment(form):
+        try:
+            image_amount = form.image_amount.data
             with db.auto_commit():
                 comment = Comment()
                 comment.set_attrs(form)
                 db.session.add(comment)
-            comment_image = CommentImage()
-            comment_image.comment_id = comment.id
-            comment_image.image_id = image_id
-            db.session.add(comment_image)
+            for i in range(image_amount):
+                image = request.files.get('image' + str(i + 1))
+                result = Image.save_image(image)
+                image_id = result["image_id"]
+                comment_image = CommentImage()
+                comment_image.comment_id = comment.id
+                comment_image.image_id = image_id
+                db.session.add(comment_image)
+                db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e

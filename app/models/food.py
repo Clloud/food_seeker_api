@@ -2,12 +2,13 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-
+from flask import request
 from sqlalchemy import Column, Integer, String, Float, orm, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base, db
 from app.models.food_image import FoodImage
+from app.models.image import Image
 
 
 class Food(Base):
@@ -34,14 +35,23 @@ class Food(Base):
     def images(self, value):
         self._images = value
 
-    @classmethod
-    def save_food(cls, form, image_id):
-        with db.auto_commit():
+    @staticmethod
+    def save_food(form):
+        try:
+            image_amount = form.image_amount.data
             with db.auto_commit():
                 food = Food()
                 food.set_attrs(form)
                 db.session.add(food)
-            food_image = FoodImage()
-            food_image.food_id = food.id
-            food_image.image_id = image_id
-            db.session.add(food_image)
+            for i in range(image_amount):
+                image = request.files.get('image' + str(i + 1))
+                result = Image.save_image(image)
+                image_id = result["image_id"]
+                food_image = FoodImage()
+                food_image.food_id = food.id
+                food_image.image_id = image_id
+                db.session.add(food_image)
+                db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e

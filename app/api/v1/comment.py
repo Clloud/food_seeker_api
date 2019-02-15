@@ -39,10 +39,8 @@ def get_comments_by_user(user_id):
 @api.route('/comment', methods=['POST'])
 @auth.login_required
 def create_comment():
-    image = request.files.get('image')
-    result = Image.save_image(image)
     form = CommentCreateForm().validate_for_api()
-    Comment.save_comment(form, result["image_id"])
+    Comment.save_comment(form)
     return CreateSuccess()
 
 

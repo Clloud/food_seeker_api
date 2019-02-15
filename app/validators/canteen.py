@@ -12,6 +12,7 @@ class CanteenCreateForm(Form):
     introduction = StringField()
     location = StringField(validators=[DataRequired(), length(min=5, max=50)])
     campus_id = IntegerField(validators=[DataRequired()])
+    image_amount = IntegerField(validators=[DataRequired()])
 
 
 class CanteenUpdateForm(Form):

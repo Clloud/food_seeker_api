@@ -11,6 +11,7 @@ class RestaurantCreateForm(Form):
     name = StringField(validators=[DataRequired(), length(min=2, max=32)])
     introduction = StringField()
     canteen_id = IntegerField(validators=[DataRequired()])
+    image_amount = IntegerField(validators=[DataRequired()])
 
 
 class RestaurantUpdateForm(Form):

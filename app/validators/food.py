@@ -13,6 +13,7 @@ class FoodCreateForm(Form):
     introduction = StringField()
     price = FloatField(validators=[DataRequired()])
     restaurant_id = IntegerField(validators=[DataRequired()])
+    image_amount = IntegerField(validators=[DataRequired()])
 
 
 class FoodUpdateForm(Form):

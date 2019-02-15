@@ -29,10 +29,8 @@ def get_restaurants_by_canteen(canteen_id):
 @api.route('/restaurant', methods=['POST'])
 @auth.login_required
 def create_restaurant():
-    image = request.files.get('image')
-    result = Image.save_image(image)
     form = RestaurantCreateForm().validate_for_api()
-    Restaurant.save_restaurant(form, result["image_id"])
+    Restaurant.save_restaurant(form)
     return CreateSuccess()
 
 

@@ -79,4 +79,4 @@ class Image(Base):
 
     @staticmethod
     def generate_filename(image):
-        return str(uuid.uuid1()).replace('-','') + '.' + image.filename.rsplit('.', 1)[1]
+        return str(uuid.uuid1()).replace('-', '') + '.' + image.filename.rsplit('.', 1)[1]

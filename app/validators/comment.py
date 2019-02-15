@@ -12,6 +12,7 @@ class CommentCreateForm(Form):
     restaurant_id = IntegerField(validators=[DataRequired()])
     grade = FloatField(validators=[DataRequired()])
     content = StringField(validators=[DataRequired()])
+    image_amount = IntegerField(validators=[DataRequired()])
 
 
 class CommentUpdateForm(Form):

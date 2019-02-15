@@ -2,10 +2,12 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
+from flask import request
 from sqlalchemy import Column, Integer, String, Float, orm
 from sqlalchemy.orm import relationship
 from app.models.base import Base, db
 from app.models.canteen_image import CanteenImage
+from app.models.image import Image
 
 
 class Canteen(Base):
@@ -32,14 +34,23 @@ class Canteen(Base):
     def images(self, value):
         self._images = value
 
-    @classmethod
-    def save_canteen(cls, form, image_id):
-        with db.auto_commit():
+    @staticmethod
+    def save_canteen(form):
+        try:
+            image_amount = form.image_amount.data
             with db.auto_commit():
                 canteen = Canteen()
                 canteen.set_attrs(form)
                 db.session.add(canteen)
-            canteen_image = CanteenImage()
-            canteen_image.canteen_id = canteen.id
-            canteen_image.image_id = image_id
-            db.session.add(canteen_image)
+            for i in range(image_amount):
+                image = request.files.get('image'+str(i+1))
+                result = Image.save_image(image)
+                image_id = result["image_id"]
+                canteen_image = CanteenImage()
+                canteen_image.canteen_id = canteen.id
+                canteen_image.image_id = image_id
+                db.session.add(canteen_image)
+                db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e

@@ -29,10 +29,8 @@ def get_canteens_by_campus(campus_id):
 @api.route('/canteen', methods=['POST'])
 @auth.login_required
 def create_canteen():
-    image = request.files.get('image')
-    result = Image.save_image(image)
     form = CanteenCreateForm().validate_for_api()
-    Canteen.save_canteen(form, result["image_id"])
+    Canteen.save_canteen(form)
     return CreateSuccess()
 
 
