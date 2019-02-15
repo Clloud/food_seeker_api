@@ -4,9 +4,12 @@
 @time: 2019/1/14 22:06
 '''
 from flask import jsonify, g, request
+
+from app.models.canteen import Canteen
 from app.models.comment import Comment
 from app.models.comment_image import CommentImage
 from app.models.image import Image
+from app.models.restaurant import Restaurant
 from app.validators.comment import CommentCreateForm, CommentUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
@@ -40,6 +43,8 @@ def get_comments_by_user(user_id):
 @auth.login_required
 def create_comment():
     form = CommentCreateForm().validate_for_api()
+    Restaurant().update_grade(form['restaurant_id'].data, form['grade'].data)
+    Canteen().update_grade(form['restaurant_id'].data, form['grade'].data)
     Comment.save_comment(form)
     return CreateSuccess()
 

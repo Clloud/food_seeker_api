@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from app.models.base import Base, db
 from app.models.canteen_image import CanteenImage
 from app.models.image import Image
+from app.models.restaurant import Restaurant
 
 
 class Canteen(Base):
@@ -54,3 +55,16 @@ class Canteen(Base):
         except Exception as e:
             db.session.rollback()
             raise e
+
+    @classmethod
+    def update_grade(cls, restaurant_id, comment_grade):
+        restaurant = Restaurant().query.filter_by(id=restaurant_id).first_or_404()
+        canteen = Canteen().query.filter_by(id=restaurant.canteen_id).first_or_404()
+        grade = canteen.grade
+        amount = canteen.comment_amount
+        grade = (grade*amount+comment_grade)/(amount+1)
+        amount += 1
+        with db.auto_commit():
+            canteen.grade = grade
+            canteen.comment_amount = amount
+            db.session.add(canteen)
