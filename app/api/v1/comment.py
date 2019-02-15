@@ -3,11 +3,14 @@
 @author: Cloud
 @time: 2019/1/14 22:06
 '''
-from flask import jsonify,g
+from flask import jsonify, g, request
 
-from app.api.v1.token import get_token_info
+from app.models.canteen import Canteen
 from app.models.comment import Comment
-from app.validators.comment import CommentPostForm, CommentPutForm
+from app.models.comment_image import CommentImage
+from app.models.image import Image
+from app.models.restaurant import Restaurant
+from app.validators.comment import CommentCreateForm, CommentUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
 from app.libs.token_auth import auth
@@ -23,30 +26,33 @@ def get_comment(comment_id):
 @api.route('/restaurant/<int:restaurant_id>/comments', methods=['GET'])
 def get_comments_by_restaurant(restaurant_id):
     comments = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
+    comments = [comment.hide('restaurant') for comment in comments]
+    comments = [comment.hide('user') for comment in comments]
     return jsonify(comments)
 
 
 @api.route('/user/<int:user_id>/comments', methods=['GET'])
 def get_comments_by_user(user_id):
     comments = Comment.query.filter_by(user_id=user_id).custom_paginate()
+    comments = [comment.hide('restaurant') for comment in comments]
+    comments = [comment.hide('user') for comment in comments]
     return jsonify(comments)
 
 
 @api.route('/comment', methods=['POST'])
 @auth.login_required
 def create_comment():
-    form = CommentPostForm().validate_for_api()
-    with db.auto_commit():
-        comment = Comment()
-        comment.set_attrs(form)
-        db.session.add(comment)
+    form = CommentCreateForm().validate_for_api()
+    Restaurant().update_grade(form['restaurant_id'].data, form['grade'].data)
+    Canteen().update_grade(form['restaurant_id'].data, form['grade'].data)
+    Comment.save_comment(form)
     return CreateSuccess()
 
 
 @api.route('/comment/<int:comment_id>', methods=['PUT'])
 @auth.login_required
 def update_comment(comment_id):
-    form = CommentPutForm().validate_for_api()
+    form = CommentUpdateForm().validate_for_api()
     with db.auto_commit():
         comment = Comment.query.get_or_404(comment_id)
         comment.set_attrs(form)

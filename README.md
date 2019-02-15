@@ -196,7 +196,6 @@ GET /uesr/:user_id
 Status: 200 OK
 
 {
-    "auth": 1,
     "avatar": null,
     "email": "example@gmail.com",
     "id": 16,
@@ -216,7 +215,8 @@ GET /uesr
 ```json
 Status: 200 OK
 
-{
+{   
+    "auth": 1,
     "avatar": null,
     "email": "example@gmail.com",
     "id": 16,
@@ -287,23 +287,37 @@ Status: 200 OK
 
 [
     {
-        "campus_id": 1,
-        "comment_amount": 0,
-        "grade": 0,
-        "id": 1,
-        "introduction": "没有介绍",
-        "location": "东校区浴室旁边",
-        "name": "第五食堂"
+    "campus_id": 1,
+    "comment_amount": 0,
+    "create_time": 1549957033,
+    "grade": 0,
+    "id": 1,
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        }
+    ],
+    "introduction": "没有介绍",
+    "location": "东区教超旁边",
+    "name": "第四食堂"
     },
     {
-        "campus_id": 1,
-        "comment_amount": 0,
-        "grade": 0,
-        "id": 2,
-        "introduction": "没有介绍",
-        "location": "东校区浴室旁边",
-        "name": "第六食堂"
-    }
+    "campus_id": 1,
+    "comment_amount": 0,
+    "create_time": 1549957033,
+    "grade": 0,
+    "id": 1,
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        }
+    ],
+    "introduction": "没有介绍",
+    "location": "东区教超旁边",
+    "name": "第五食堂"
+}
 ]
 ```
 
@@ -319,11 +333,18 @@ Status: 200 OK
 {
     "campus_id": 1,
     "comment_amount": 0,
+    "create_time": 1549957033,
     "grade": 0,
     "id": 1,
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        }
+    ],
     "introduction": "没有介绍",
-    "location": "东校区浴室旁边",
-    "name": "第五食堂"
+    "location": "东区教超旁边",
+    "name": "第四食堂"
 }
 ```
 
@@ -344,14 +365,16 @@ POST /canteen
 |location     |string | **必填。** 食堂位置    |
 |campus_id    |integer| **必填。** 食堂所在校区编号|
 |token    |string | **必填。** 管理员令牌    |
+|image    |file | **必填。** 食堂图片    |
 
 #### 示例
-```json
+```form-data
 {
-	"name": "第四食堂",
-	"introduction": "没有介绍",
-	"location": "东区教超旁边",
-	"campus_id": 1
+    name = 第四食堂,
+    introduction = 没有介绍,
+    location = 东区教超旁边,
+    campus_id = 1,
+    image = a.jpg
 }
 ```
 
@@ -416,7 +439,7 @@ Status: 202 Accepted
 ## 3. 餐厅
 ### 3.1列出单个食堂的餐厅
 ```
-GET /canteen/:canteen_id/restraunts
+GET /canteen/:canteen_id/restaurants
 ```
 
 #### 响应
@@ -427,16 +450,30 @@ Status: 200 OK
     {
         "canteen_id": 1,
         "comment_amount": 0,
+        "create_time": 1549957256,
         "grade": 0,
         "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
         "introduction": "很好",
         "name": "汤哥特色风味"
     },
     {
         "canteen_id": 1,
         "comment_amount": 0,
+        "create_time": 1549957256,
         "grade": 0,
         "id": 2,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
         "introduction": "很好",
         "name": "汤哥特色风味"
     }
@@ -445,7 +482,7 @@ Status: 200 OK
 
 ### 3.2获取餐厅信息
 ```
-GET /restraunt/:restraunt_id
+GET /restaurant/:restaurant_id
 ```
 
 #### 响应
@@ -455,8 +492,15 @@ Status: 200 OK
 {   
     "canteen_id": 1,
     "comment_amount": 0,
+    "create_time": 1549957256,
     "grade": 0,
     "id": 1,
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        }
+    ],
     "introduction": "很好",
     "name": "汤哥特色风味"
 }
@@ -473,13 +517,15 @@ POST /restaurant
 |introduction     |string | **必填。** 餐厅介绍|
 |name      |string | **必填。** 餐厅名称  |
 |token    |string | **必填。** 管理员令牌    |
+|image    |file | **必填。** 餐厅图片    |
 
 #### 示例
-```json
+```form-data
 {
-    "canteen_id": 1,
-    "introduction": "",
-    "name": "汤哥特色风味"
+    name = 汤哥特色风味,
+    introduction = 没有介绍,
+    canteen_id = 1,
+    image = a.jpg
 }
 ```
 #### 响应
@@ -552,8 +598,15 @@ Status: 200 OK
 [
     {
         "comment_amount": 0,
+        "create_time": 1549957632,
         "grade": 0,
         "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
         "introduction": "",
         "name": "椒盐排条",
         "price": 15,
@@ -561,8 +614,15 @@ Status: 200 OK
     },
     {
         "comment_amount": 0,
+        "create_time": 1549957632,
         "grade": 0,
         "id": 2,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
         "introduction": "",
         "name": "椒盐排条",
         "price": 15,
@@ -582,8 +642,15 @@ Status: 200 OK
 
 {
     "comment_amount": 0,
+    "create_time": 1549957632,
     "grade": 0,
     "id": 1,
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        }
+    ],
     "introduction": "",
     "name": "椒盐排条",
     "price": 15,
@@ -603,14 +670,16 @@ POST /food
 |price    |float | **必填。** 食品价格|
 |name      |string | **必填。** 食品名称  |
 |token    |string | **必填。** 管理员令牌    |
+|image    |file | **必填。** 食品图片    |
 
 #### 示例
-```json
+```form-data
 {
-    "restaurant_id": 1,
-    "introduction": "",
-    "price": 15.0,
-    "name": "椒盐排条"
+    name = 椒盐排条,
+    introduction = 没有介绍,
+    restaurant_id = 1,
+    price = 15,
+    image = a.jpg
 }
 ```
 #### 响应
@@ -683,18 +752,40 @@ Status: 200 OK
 
 [
     {
+        
         "content": "我吃到了虫子！",
+        "create_time": 1549967536,
         "grade": 1,
         "id": 1,
-        "restaurant_id": 1,
-        "user_id": 1
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 8,
+                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+            }
+        ]
+        
     },
     {
+        
         "content": "我吃到了虫子！",
+        "create_time": 1549967536,
         "grade": 1,
-        "id": 2,
-        "restaurant_id": 1,
-        "user_id": 1
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 8,
+                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+            }
+        ]
+        
     }
 ]
 ```
@@ -711,17 +802,35 @@ Status: 200 OK
 [
     {
         "content": "我吃到了虫子！",
+        "create_time": 1549967736,
         "grade": 1,
         "id": 1,
-        "restaurant_id": 1,
-        "user_id": 1
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 8,
+                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+            }
+        ]
     },
     {
         "content": "我吃到了虫子！",
+        "create_time": 1549967736,
         "grade": 1,
-        "id": 2,
-        "restaurant_id": 1,
-        "user_id": 1
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 8,
+                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+            }
+        ]
     }
 ]
 ```
@@ -736,10 +845,46 @@ Status: 201 Created
 
 {
     "content": "我吃到了虫子！",
+    "create_time": 1549967782,
     "grade": 1,
     "id": 1,
-    "restaurant_id": 1,
-    "user_id": 1
+    "images": [
+        {
+            "id": 1,
+            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+        },
+        {
+            "id": 8,
+            "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+        }
+    ],
+    "restaurant": {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "create_time": 1549967782,
+        "grade": 0,
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 6,
+                "url": "E:/food_seeker/images/20190212/21f712a82ea111e98abc54ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "很好",
+        "name": "汤哥特色风味"
+    },
+    "user": {
+        "auth": 2,
+        "avatar": null,
+        "email": "12345678@163.com",
+        "id": 1,
+        "mobile": "15967542312",
+        "nickname": "中道"
+    }
 }
 ```
 ### 5.4新增评论
@@ -755,14 +900,16 @@ POST /comment
 |user_id   |integer | **必填。** 评论者编号  |
 |content     |string | **必填。** 评论内容|
 |grade    |float | **必填。** 评分|
+|image    |file | **必填。** 评论图片    |
 
 #### 示例
-```json
+```form-data
 {
-    "restaurant_id": 1,
-    "user_id": 1,
-    "grade": 1,
-    "content": "我吃到了虫子！"
+    user_id = 1,
+    content = 没有介绍,
+    restaurant_id = 1,
+    grade = 5,
+    image = a.jpg
 }
 ```
 #### 响应

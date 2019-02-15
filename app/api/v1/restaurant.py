@@ -2,9 +2,12 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
+
+from app.models.image import Image
 from app.models.restaurant import Restaurant
-from app.validators.restaurant import RestaurantPostForm, RestaurantPutForm
+from app.models.restaurant_image import RestaurantImage
+from app.validators.restaurant import RestaurantUpdateForm, RestaurantCreateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -26,18 +29,15 @@ def get_restaurants_by_canteen(canteen_id):
 @api.route('/restaurant', methods=['POST'])
 @auth.login_required
 def create_restaurant():
-    form = RestaurantPostForm().validate_for_api()
-    with db.auto_commit():
-        restaurant = Restaurant()
-        restaurant.set_attrs(form)
-        db.session.add(restaurant)
+    form = RestaurantCreateForm().validate_for_api()
+    Restaurant.save_restaurant(form)
     return CreateSuccess()
 
 
 @api.route('/restaurant/<int:restaurant_id>', methods=['PUT'])
 @auth.login_required
 def update_restaurant(restaurant_id):
-    form = RestaurantPutForm().validate_for_api()
+    form = RestaurantUpdateForm().validate_for_api()
     with db.auto_commit():
         restaurant = Restaurant.query.get_or_404(restaurant_id)
         restaurant.set_attrs(form)

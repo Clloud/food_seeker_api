@@ -18,6 +18,7 @@ wtforms = "*"
 jinja2 = "*"
 sqlalchemy = "*"
 flask-migrate = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"
