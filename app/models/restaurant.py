@@ -55,8 +55,8 @@ class Restaurant(Base):
             db.session.rollback()
             raise e
 
-    @classmethod
-    def update_grade(cls, restaurant_id, comment_grade):
+    @staticmethod
+    def update_grade(restaurant_id, comment_grade):
         restaurant = Restaurant().query.filter_by(id=restaurant_id).first_or_404()
         grade = restaurant.grade
         amount = restaurant.comment_amount
@@ -66,3 +66,27 @@ class Restaurant(Base):
             restaurant.grade = grade
             restaurant.comment_amount = amount
             db.session.add(restaurant)
+
+    @staticmethod
+    def search_sort_grade(q, order):
+        if order == 'desc':
+            restaurants = Restaurant.query.filter(
+                Restaurant.name.contains(q),
+                Restaurant.status == 1).order_by(Restaurant.grade.desc()).custom_paginate()
+        else:
+            restaurants = Restaurant.query.filter(
+                Restaurant.name.contains(q),
+                Restaurant.status == 1).order_by(Restaurant.grade.asc()).custom_paginate()
+        return restaurants
+
+    @staticmethod
+    def search_sort_hot(q, order):
+        if order == 'desc':
+            restaurants = Restaurant.query.filter(
+                Restaurant.name.contains(q),
+                Restaurant.status == 1).order_by(Restaurant.comment_amount.desc()).custom_paginate()
+        else:
+            restaurants = Restaurant.query.filter(
+                Restaurant.name.contains(q),
+                Restaurant.status == 1).order_by(Restaurant.comment_amount.asc()).custom_paginate()
+        return restaurants

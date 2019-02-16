@@ -56,8 +56,8 @@ class Canteen(Base):
             db.session.rollback()
             raise e
 
-    @classmethod
-    def update_grade(cls, restaurant_id, comment_grade):
+    @staticmethod
+    def update_grade(restaurant_id, comment_grade):
         restaurant = Restaurant().query.filter_by(id=restaurant_id).first_or_404()
         canteen = Canteen().query.filter_by(id=restaurant.canteen_id).first_or_404()
         grade = canteen.grade
