@@ -40,6 +40,8 @@
   - [5.4 新增评论](#54新增评论)
   - [5.5 更新评论](#55更新评论)
   - [5.6 删除评论](#56删除评论)
+- [6.查询](#6查询)
+  - [6.1 查询餐厅](#61查询餐厅)
 
 
 ## 概述
@@ -972,4 +974,59 @@ Status: 202 Accepted
     "message": "Deleted",
     "request_url": "DELETE /v1/comment/1"
 }
+```
+## 6. 查询
+### 6.1查询
+```
+GET /search/restaurants
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|q   |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据好评率(grade)、热门度(hot)、相似度(like)或者综合排序(best-match)，对查询结果进行排序。默认：bast-match  |
+|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(as)。除非您提供，否则将忽略此参数sort。默认：desc|
+
+#### 示例
+```
+http://api.foodadvisor.top/search/restaurants?q=第四食堂&sort=relevant&order=desc
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+[
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "create_time": 1550293165,
+        "grade": 0,
+        "id": 2,
+        "images": [
+            {
+                "id": 38,
+                "url": "E:/food_seeker/images/20190213/96f440702fa211e9825654ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "没有",
+        "name": "第四食堂1"
+    },
+    {
+        "canteen_id": 1,
+        "comment_amount": 0,
+        "create_time": 1550293165,
+        "grade": 0,
+        "id": 3,
+        "images": [
+            {
+                "id": 39,
+                "url": "E:/food_seeker/images/20190213/aeef21302fa211e9b67754ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "没有",
+        "name": "第四食堂"
+    }
+]
 ```
