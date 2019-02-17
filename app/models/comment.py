@@ -54,3 +54,51 @@ class Comment(Base):
         except Exception as e:
             db.session.rollback()
             raise e
+
+    @staticmethod
+    def search_sort_image(q, order):
+        if order == 'desc':
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.images is not None,
+                Comment.status == 1).order_by(Comment.create_time.desc()).custom_paginate()
+        else:
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.images is not None,
+                Comment.status == 1).order_by(Comment.create_time.asc()).custom_paginate()
+        return comments
+
+    @staticmethod
+    def search_sort_grade(q, order):
+        if order == 'desc':
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.grade == 5,
+                Comment.status == 1).order_by(Comment.create_time.desc()).custom_paginate()
+        else:
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.grade == 5,
+                Comment.status == 1).order_by(Comment.create_time.asc()).custom_paginate()
+        return comments
+
+    @staticmethod
+    def search_sort_poor(q, order):
+        if order == 'desc':
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.grade <= 2.0,
+                Comment.status == 1).order_by(Comment.create_time.desc()).custom_paginate()
+        else:
+            comments = Comment.query.filter(
+                Comment.content.contains(q), Comment.grade <= 2.0,
+                Comment.status == 1).order_by(Comment.create_time.asc()).custom_paginate()
+        return comments
+
+    @staticmethod
+    def search_sort_new(q, order):
+        if order == 'desc':
+            comments = Comment.query.filter(
+                Comment.content.contains(q),
+                Comment.status == 1).order_by(Comment.create_time.desc()).custom_paginate()
+        else:
+            comments = Comment.query.filter(
+                Comment.content.contains(q),
+                Comment.status == 1).order_by(Comment.create_time.asc()).custom_paginate()
+        return comments

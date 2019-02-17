@@ -55,3 +55,28 @@ class Food(Base):
         except Exception as e:
             db.session.rollback()
             raise e
+
+    @staticmethod
+    def search_sort_grade(q, order):
+        if order == 'desc':
+            foods = Food.query.filter(
+                Food.name.contains(q),
+                Food.status == 1).order_by(Food.grade.desc()).custom_paginate()
+        else:
+            foods = Food.query.filter(
+                Food.name.contains(q),
+                Food.status == 1).order_by(Food.grade.asc()).custom_paginate()
+        return foods
+
+    @staticmethod
+    def search_sort_hot(q, order):
+        if order == 'desc':
+            foods = Food.query.filter(
+                Food.name.contains(q),
+                Food.status == 1).order_by(Food.comment_amount.desc()).custom_paginate()
+        else:
+            foods = Food.query.filter(
+                Food.name.contains(q),
+                Food.status == 1).order_by(Food.comment_amount.asc()).custom_paginate()
+        return foods
+
