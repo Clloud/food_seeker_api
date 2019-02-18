@@ -16,12 +16,12 @@ class User(Base):
     auth = Column(SmallInteger, default=1)
     _password = Column('password', String(128))
     mobile = Column(String(15), unique=True)
-    avatar = Column(String(100))
+    avatar_url = Column(String(100))
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'email', 'nickname', 'mobile', 'avatar', 'auth','create_time']
+        self.fields = ['id', 'email', 'nickname', 'mobile', 'avatar_url', 'auth','create_time']
 
     @property
     def password(self):
