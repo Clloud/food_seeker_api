@@ -7,7 +7,7 @@ from flask import request, jsonify
 from app.libs.error_code import CreateSuccess
 from app.models.base import db
 from app.models.canteen_image import CanteenImage
-from app.models.comment_image import CommentImage
+from app.models.review_image import CommentImage
 from app.models.food_image import FoodImage
 from app.models.image import Image
 from app.models.restaurant_image import RestaurantImage

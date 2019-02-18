@@ -6,7 +6,7 @@ from flask import request
 from sqlalchemy import Column, Integer, Float, Text, orm, ForeignKey
 from sqlalchemy.orm import relationship
 from app.models.base import Base, db
-from app.models.comment_image import CommentImage
+from app.models.review_image import CommentImage
 from app.models.image import Image
 
 

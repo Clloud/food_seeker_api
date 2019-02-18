@@ -6,11 +6,11 @@
 from flask import jsonify, g, request
 
 from app.models.canteen import Canteen
-from app.models.comment import Comment
-from app.models.comment_image import CommentImage
+from app.models.review import Comment
+from app.models.review_image import CommentImage
 from app.models.image import Image
 from app.models.restaurant import Restaurant
-from app.validators.comment import CommentCreateForm, CommentUpdateForm
+from app.validators.review import CommentCreateForm, CommentUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
 from app.libs.token_auth import auth
