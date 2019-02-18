@@ -7,7 +7,7 @@ from flask import request, jsonify
 from app.libs.error_code import CreateSuccess
 from app.models.base import db
 from app.models.canteen_image import CanteenImage
-from app.models.review_image import CommentImage
+from app.models.review_image import ReviewImage
 from app.models.food_image import FoodImage
 from app.models.image import Image
 from app.models.restaurant_image import RestaurantImage
@@ -62,7 +62,7 @@ def create_comment_image(comment_id):
     image = request.files.get('image')
     result = Image.save_image(image)
     with db.auto_commit():
-        comment_image = CommentImage()
+        comment_image = ReviewImage()
         comment_image.comment_id = comment_id
         comment_image.image_id = result["image_id"]
         db.session.add(comment_image)

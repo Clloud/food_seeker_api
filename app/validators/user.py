@@ -44,7 +44,6 @@ class TokenForm(Form):
 
 
 class UserUpdateForm(Form):
-    # TODO 添加新的校验字段
     nickname = StringField(validators=[length(min=2, max=24)])
     email = StringField(validators=[Email(message='Invalid email address')])
     mobile = StringField(validators=[Regexp(r'^[0-9]{11}$')])

@@ -6,65 +6,65 @@
 from flask import jsonify, g, request
 
 from app.models.canteen import Canteen
-from app.models.review import Comment
-from app.models.review_image import CommentImage
+from app.models.review import Review
+from app.models.review_image import ReviewImage
 from app.models.image import Image
 from app.models.restaurant import Restaurant
-from app.validators.review import CommentCreateForm, CommentUpdateForm
+from app.validators.review import ReviewCreateForm, ReviewUpdateForm
 from app.libs.error_code import CreateSuccess, DeleteSuccess, UpdateSuccess
 from app.models.base import db
 from app.libs.token_auth import auth
 from . import api
 
 
-@api.route('/comment/<int:comment_id>', methods=['GET'])
-def get_comment(comment_id):
-    comment = Comment.query.filter_by(id=comment_id).first_or_404()
-    return jsonify(comment)
+@api.route('/review/<int:review_id>', methods=['GET'])
+def get_review(review_id):
+    review = Review.query.filter_by(id=review_id).first_or_404()
+    return jsonify(review)
 
 
-@api.route('/restaurant/<int:restaurant_id>/comments', methods=['GET'])
-def get_comments_by_restaurant(restaurant_id):
-    comments = Comment.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
-    comments = [comment.hide('restaurant') for comment in comments]
-    comments = [comment.hide('user') for comment in comments]
-    return jsonify(comments)
+@api.route('/restaurant/<int:restaurant_id>/reviews', methods=['GET'])
+def get_reviews_by_restaurant(restaurant_id):
+    reviews = Review.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
+    reviews = [review.hide('restaurant') for review in reviews]
+    reviews = [review.hide('user') for review in reviews]
+    return jsonify(reviews)
 
 
-@api.route('/user/<int:user_id>/comments', methods=['GET'])
-def get_comments_by_user(user_id):
-    comments = Comment.query.filter_by(user_id=user_id).custom_paginate()
-    comments = [comment.hide('restaurant') for comment in comments]
-    comments = [comment.hide('user') for comment in comments]
-    return jsonify(comments)
+@api.route('/user/<int:user_id>/reviews', methods=['GET'])
+def get_reviews_by_user(user_id):
+    reviews = Review.query.filter_by(user_id=user_id).custom_paginate()
+    reviews = [review.hide('restaurant') for review in reviews]
+    reviews = [review.hide('user') for review in reviews]
+    return jsonify(reviews)
 
 
-@api.route('/comment', methods=['POST'])
+@api.route('/review', methods=['POST'])
 @auth.login_required
-def create_comment():
-    form = CommentCreateForm().validate_for_api()
+def create_review():
+    form = ReviewCreateForm().validate_for_api()
     Restaurant().update_grade(form['restaurant_id'].data, form['grade'].data)
     Canteen().update_grade(form['restaurant_id'].data, form['grade'].data)
-    Comment.save_comment(form)
+    Review.save_review(form)
     return CreateSuccess()
 
 
-@api.route('/comment/<int:comment_id>', methods=['PUT'])
+@api.route('/review/<int:review_id>', methods=['PUT'])
 @auth.login_required
-def update_comment(comment_id):
-    form = CommentUpdateForm().validate_for_api()
+def update_review(review_id):
+    form = ReviewUpdateForm().validate_for_api()
     with db.auto_commit():
-        comment = Comment.query.get_or_404(comment_id)
-        comment.set_attrs(form)
-        db.session.add(comment)
+        review = Review.query.get_or_404(review_id)
+        review.set_attrs(form)
+        db.session.add(review)
     return UpdateSuccess()
 
 
-@api.route('/comment/<int:comment_id>', methods=['DELETE'])
+@api.route('/review/<int:review_id>', methods=['DELETE'])
 @auth.login_required
-def delete_comment(comment_id):
+def delete_review(review_id):
     user_id = g.user.uid
     with db.auto_commit():
-        comment = Comment.query.filter_by(user_id=user_id, id=comment_id).first_or_404()
-        comment.delete()
+        review = Review.query.filter_by(user_id=user_id, id=review_id).first_or_404()
+        review.delete()
     return DeleteSuccess()

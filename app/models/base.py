@@ -54,12 +54,13 @@ db = SQLAlchemy(query_class=Query)
 class Base(db.Model):
     __abstract__ = True
     create_time = Column(Integer)
+    update_time = Column(Integer)
     delete_time = Column(Integer)
     status = Column(SmallInteger, default=1)
 
     def __init__(self):
-        # TODO 修复自动写入时间的问题
-        self.create_time = int(datetime.now().timestamp())
+        if not self.create_time:
+            self.create_time = int(datetime.now().timestamp())
 
     def __getitem__(self, item):
         return getattr(self, item)

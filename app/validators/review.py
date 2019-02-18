@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 from app.validators.base import BaseForm as Form
 
 
-class CommentCreateForm(Form):
+class ReviewCreateForm(Form):
     user_id = IntegerField(validators=[DataRequired()])
     restaurant_id = IntegerField(validators=[DataRequired()])
     grade = FloatField(validators=[DataRequired()])
@@ -15,9 +15,8 @@ class CommentCreateForm(Form):
     image_amount = IntegerField(validators=[DataRequired()])
 
 
-class CommentUpdateForm(Form):
+class ReviewUpdateForm(Form):
     user_id = IntegerField()
     restaurant_id = IntegerField()
     grade = FloatField()
     content = StringField()
-    status = IntegerField()

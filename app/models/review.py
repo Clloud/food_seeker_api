@@ -6,19 +6,19 @@ from flask import request
 from sqlalchemy import Column, Integer, Float, Text, orm, ForeignKey
 from sqlalchemy.orm import relationship
 from app.models.base import Base, db
-from app.models.review_image import CommentImage
+from app.models.review_image import ReviewImage
 from app.models.image import Image
 
 
-class Comment(Base):
+class Review(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("user.id"))
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     grade = Column(Float(5), default=0)
     content = Column(Text)
-    user = relationship('User', backref='comment')
-    restaurant = relationship('Restaurant', backref='comment')
-    _images = relationship('CommentImage', backref='comment')
+    user = relationship('User', backref='review')
+    restaurant = relationship('Restaurant', backref='review')
+    _images = relationship('ReviewImage', backref='review')
 
     @orm.reconstructor
     def __init__(self):
@@ -35,21 +35,21 @@ class Comment(Base):
         self._images = value
 
     @staticmethod
-    def save_comment(form):
+    def save_review(form):
         try:
             image_amount = form.image_amount.data
             with db.auto_commit():
-                comment = Comment()
-                comment.set_attrs(form)
-                db.session.add(comment)
+                review = Review()
+                review.set_attrs(form)
+                db.session.add(review)
             for i in range(image_amount):
                 image = request.files.get('image' + str(i + 1))
                 result = Image.save_image(image)
                 image_id = result["image_id"]
-                comment_image = CommentImage()
-                comment_image.comment_id = comment.id
-                comment_image.image_id = image_id
-                db.session.add(comment_image)
+                review_image = ReviewImage()
+                review_image.review_id = review.id
+                review_image.image_id = image_id
+                db.session.add(review_image)
                 db.session.commit()
         except Exception as e:
             db.session.rollback()

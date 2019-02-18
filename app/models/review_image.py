@@ -8,9 +8,9 @@ from sqlalchemy.orm import relationship
 from app.models.base import Base
 
 
-class CommentImage(Base):
+class ReviewImage(Base):
     id = Column(Integer, primary_key=True)
-    comment_id = Column(Integer, ForeignKey("comment.id"))
+    review_id = Column(Integer, ForeignKey("review.id"))
     image_id = Column(Integer, ForeignKey("image.id"))
     image = relationship('Image')
 
