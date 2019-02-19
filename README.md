@@ -42,6 +42,8 @@
   - [5.6 删除评论](#56删除评论)
 - [6.查询](#6查询)
   - [6.1 查询餐厅](#61查询餐厅)
+  - [6.2 查询食品](#62查询食品)
+  - [6.3 查询评论](#63查询评论)
 
 
 ## 概述
@@ -976,7 +978,7 @@ Status: 202 Accepted
 }
 ```
 ## 6. 查询
-### 6.1查询
+### 6.1查询餐厅
 ```
 GET /search/restaurants
 ```
@@ -990,7 +992,7 @@ GET /search/restaurants
 
 #### 示例
 ```
-http://api.foodadvisor.top/search/restaurants?q=第四食堂&sort=relevant&order=desc
+http://api.foodadvisor.top/search/restaurants?q=第四食堂&sort=grade&order=desc
 ```
 
 #### 响应
@@ -1027,6 +1029,142 @@ Status: 202 Accepted
         ],
         "introduction": "没有",
         "name": "第四食堂"
+    }
+]
+```
+### 6.2查询食品
+```
+GET /search/foods
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|q   |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据评分(grade)或者热度(hot)，对查询结果进行排序。默认：grade  |
+|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
+
+#### 示例
+```
+http://api.foodadvisor.top/search/foods?q=椒盐排条&sort=grade&order=desc
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+[
+    {
+        "comment_amount": 0,
+        "create_time": 1550579932,
+        "grade": 0,
+        "id": 5,
+        "images": [
+            {
+                "id": 59,
+                "url": "E:/food_seeker/images/20190215/beabcfd230fc11e990c054ee75dc7dce.jpg"
+            },
+            {
+                "id": 60,
+                "url": "E:/food_seeker/images/20190215/bec0c24c30fc11e98e2454ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    },
+    {
+        "comment_amount": 0,
+        "create_time": 1550579932,
+        "grade": 0,
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            },
+            {
+                "id": 7,
+                "url": "E:/food_seeker/images/20190212/26d532dc2ea111e9a36f54ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "",
+        "name": "椒盐排条",
+        "price": 15,
+        "restaurant_id": 1
+    }
+]
+```
+### 6.3查询评论
+```
+GET /search/comments
+```
+#### 参数
+
+|名称       |类型    |描述                   |
+|:---------:|:------|:----------------------|
+|q   |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据评分(grade)、热度(hot)或者有图(image)，对查询结果进行排序。默认：grade  |
+|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
+
+#### 示例
+```
+http://api.foodadvisor.top/search/comments?q=没有&sort=grade&order=desc
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+[
+    {
+        "content": "没有",
+        "create_time": 1550580208,
+        "grade": 5,
+        "id": 12,
+        "images": [
+            {
+                "id": 75,
+                "url": "E:/food_seeker/images/20190219/3aae031e343c11e998b554ee75dc7dce.jpg"
+            },
+            {
+                "id": 76,
+                "url": "E:/food_seeker/images/20190219/3ac17562343c11e9af0454ee75dc7dce.jpg"
+            }
+        ],
+        "user": {
+            "auth": 2,
+            "avatar": null,
+            "email": "12345678@163.com",
+            "id": 1,
+            "mobile": "15967542312",
+            "nickname": "中道"
+        }
+    },
+    {
+        "content": "没有",
+        "create_time": 1550580208,
+        "grade": 5,
+        "id": 11,
+        "images": [
+            {
+                "id": 73,
+                "url": "E:/food_seeker/images/20190219/1fb2ea80343c11e9a35c54ee75dc7dce.jpg"
+            },
+            {
+                "id": 74,
+                "url": "E:/food_seeker/images/20190219/1fc2d146343c11e9bbd154ee75dc7dce.jpg"
+            }
+        ],
+        "user": {
+            "auth": 2,
+            "avatar": null,
+            "email": "12345678@163.com",
+            "id": 1,
+            "mobile": "15967542312",
+            "nickname": "中道"
+        }
     }
 ]
 ```
