@@ -23,9 +23,9 @@ def __sort_by_hot(r, order):
 
 
 def __sort_by_image(r, order):
-    #_order_by = order + 'images'
-    #return r.order_by(_order_by).custom_paginate()
-    pass
+    _order_by = order + 'image_amount'
+    _order_by2 = '-' + 'create_time'
+    return r.order_by(_order_by, _order_by2).custom_paginate()
 
 
 def __sort_by_new(r, order):
@@ -64,7 +64,11 @@ def search_food():
 def search_comments():
     form = SearchCommentForm().validate_for_api()
     q, sort, order = form.q.data, form.sort.data, form.order.data
-    r = Comment.query.filter(Comment.content.contains(q), Comment.status == 1)
+    if sort == 'image':
+        r = Comment.query.filter(Comment.content.contains(q),
+                                 Comment.image_amount > 0, Comment.status == 1)
+    else:
+        r = Comment.query.filter(Comment.content.contains(q), Comment.status == 1)
     promise = {
         'grade': __sort_by_grade,
         'new': __sort_by_new,

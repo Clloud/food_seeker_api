@@ -19,6 +19,7 @@ class Comment(Base):
     user = relationship('User', backref='comment')
     restaurant = relationship('Restaurant', backref='comment')
     _images = relationship('CommentImage', backref='comment')
+    image_amount = Column(Integer, nullable=False, default=0)
 
     @orm.reconstructor
     def __init__(self):
@@ -41,6 +42,7 @@ class Comment(Base):
             with db.auto_commit():
                 comment = Comment()
                 comment.set_attrs(form)
+                comment.image_amount = image_amount
                 db.session.add(comment)
             for i in range(image_amount):
                 image = request.files.get('image' + str(i + 1))
