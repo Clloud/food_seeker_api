@@ -29,11 +29,13 @@ class SearchFoodForm(BaseSearchForm):
     sort = StringField(default='best-match')
 
     def validate_sort(self, field):
-        pass
+        if field.data not in ('grade', 'hot'):
+            raise ParameterError(message='Invalid sort type')
 
 
 class SearchCommentForm(BaseSearchForm):
     sort = StringField(default='best-match')
 
     def validate_sort(self, field):
-        pass
+        if field.data not in ('grade', 'new', 'image'):
+            raise ParameterError(message='Invalid sort type')
