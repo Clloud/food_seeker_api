@@ -5,40 +5,35 @@ Enjoy The Code!
 from app.validators.base import BaseForm as Form
 from wtforms import StringField
 from wtforms.validators import DataRequired
-from app.libs.error_code import SearchSortError, SearchOrderError
+from app.libs.error_code import ParameterError
 
 
-def validate_allow_sort(self, field):
-    allow_list = ['best-match', 'grade', 'hot']
-    if field.data not in allow_list:
-        raise SearchSortError()
-
-
-def validate_allow_sort_comment(self, field):
-    allow_list = ['best-match', 'grade', 'poor', 'image', 'new']
-    if field.data not in allow_list:
-        raise SearchSortError()
-
-
-def validate_allow_order(self, field):
-    allow_list = ['desc', 'asc']
-    if field.data not in allow_list:
-        raise SearchOrderError()
-
-
-class SearchRestaurantForm(Form):
+class BaseSearchForm(Form):
     q = StringField(validators=[DataRequired()])
-    sort = StringField(default='best-match', validators=[validate_allow_sort])
-    order = StringField(default='desc', validators=[validate_allow_order])
+    order = StringField(default='desc')
+
+    def validate_order(self, field):
+        if field.data not in ('desc', 'asc'):
+            raise ParameterError(message='Invalid order type')
 
 
-class SearchFoodForm(Form):
-    q = StringField(validators=[DataRequired()])
-    sort = StringField(default='best-match', validators=[validate_allow_sort])
-    order = StringField(default='desc', validators=[validate_allow_order])
+class SearchRestaurantForm(BaseSearchForm):
+    sort = StringField(default='grade')
+
+    def validate_sort(self, field):
+        if field.data not in ('grade', 'hot'):
+            raise ParameterError(message='Invalid sort type')
 
 
-class SearchCommentForm(Form):
-    q = StringField(validators=[DataRequired()])
-    sort = StringField(default='best-match', validators=[validate_allow_sort_comment])
-    order = StringField(default='desc', validators=[validate_allow_order])
+class SearchFoodForm(BaseSearchForm):
+    sort = StringField(default='best-match')
+
+    def validate_sort(self, field):
+        pass
+
+
+class SearchCommentForm(BaseSearchForm):
+    sort = StringField(default='best-match')
+
+    def validate_sort(self, field):
+        pass

@@ -2,8 +2,7 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify, request
-
+from flask import jsonify
 from app.api.v1 import api
 from app.models.base import db
 from app.models.comment import Comment
@@ -13,21 +12,27 @@ from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchCo
 
 
 @api.route('/search/restaurants', methods=['GET'])
-def search_restaurant():
+def search_restaurants():
     form = SearchRestaurantForm().validate_for_api()
-    q = form.q.data
-    sort = form.sort.data
-    order = form.order.data
-    restaurants = Restaurant()
-    if sort == 'best-match':
-        restaurants = Restaurant.query.filter(
-            Restaurant.name.contains(q),
-            Restaurant.status == 1).order_by().custom_paginate()
-    elif sort == 'grade':
-        restaurants = restaurants.search_sort_grade(q, order)
-    elif sort == 'hot':
-        restaurants = restaurants.search_sort_hot(q, order)
+    q, sort, order = form.q.data, form.sort.data, form.order.data
+    r = Restaurant.query.filter(Restaurant.name.contains(q),
+                                Restaurant.status == 1)
+    promise = {
+        'grade': __sort_restaurants_by_grade,
+        'hot': __sort_restaurants_by_hot
+    }
+    restaurants = promise[sort](r, '+' if order == 'asc' else '-')
     return jsonify(restaurants)
+
+
+def __sort_restaurants_by_grade(r, order):
+    _order_by = order + 'grade'
+    return r.order_by(_order_by).custom_paginate()
+
+
+def __sort_restaurants_by_hot(r, order):
+    _order_by = order + 'comment_amount'
+    return r.order_by(_order_by).custom_paginate()
 
 
 @api.route('/search/foods', methods=['GET'])

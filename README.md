@@ -985,8 +985,8 @@ GET /search/restaurants
 |名称       |类型    |描述                   |
 |:---------:|:------|:----------------------|
 |q   |string | **必填。** 查询关键字  |
-|sort   |string | **选填。** 根据好评率(grade)、热门度(hot)、相似度(like)或者综合排序(best-match)，对查询结果进行排序。默认：bast-match  |
-|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(as)。除非您提供，否则将忽略此参数sort。默认：desc|
+|sort   |string | **选填。** 根据评分(grade)或者热度(hot)，对查询结果进行排序。默认：grade  |
+|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
 
 #### 示例
 ```

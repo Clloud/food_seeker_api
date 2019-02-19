@@ -83,14 +83,3 @@ class TypeError(APIException):
     message = 'Content type is not allowed'
     error_code = 1010
 
-
-class SearchSortError(APIException):
-    code = 400
-    message = 'sort is not allowed'
-    error_code = 1010
-
-
-class SearchOrderError(APIException):
-    code = 400
-    message = 'order is not allowed'
-    error_code = 1010
