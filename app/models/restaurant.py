@@ -67,28 +67,3 @@ class Restaurant(Base):
             restaurant.comment_amount = amount
             db.session.add(restaurant)
 
-    # @staticmethod
-    # def search_sort_grade(q, order):
-    #     s = '-grade,-comment_amount'
-    #     if order == 'desc':
-    #         restaurants = Restaurant.query.filter(
-    #             Restaurant.name.contains(q),
-    #             Restaurant.status == 1)
-    #         restaurants = restaurants.order_by(s).custom_paginate()
-    #     else:
-    #         restaurants = Restaurant.query.filter(
-    #             Restaurant.name.contains(q),
-    #             Restaurant.status == 1).order_by('+grade').custom_paginate()
-    #     return restaurants
-    #
-    # @staticmethod
-    # def search_sort_hot(q, order):
-    #     if order == 'desc':
-    #         restaurants = Restaurant.query.filter(
-    #             Restaurant.name.contains(q),
-    #             Restaurant.status == 1).order_by(Restaurant.comment_amount.desc()).custom_paginate()
-    #     else:
-    #         restaurants = Restaurant.query.filter(
-    #             Restaurant.name.contains(q),
-    #             Restaurant.status == 1).order_by(Restaurant.comment_amount.asc()).custom_paginate()
-    #     return restaurants

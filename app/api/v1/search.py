@@ -13,7 +13,8 @@ from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchCo
 
 def __sort_by_grade(r, order):
     _order_by = order + 'grade'
-    return r.order_by(_order_by).custom_paginate()
+    _order_by2 = '-'+'create_time'
+    return r.order_by(_order_by, _order_by2).custom_paginate()
 
 
 def __sort_by_hot(r, order):
