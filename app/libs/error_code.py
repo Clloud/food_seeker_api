@@ -82,3 +82,4 @@ class TypeError(APIException):
     code = 400
     message = 'Content type is not allowed'
     error_code = 1010
+

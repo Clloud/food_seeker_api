@@ -16,9 +16,10 @@ class Review(Base):
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     grade = Column(Float(5), default=0)
     content = Column(Text)
-    user = relationship('User', backref='review')
-    restaurant = relationship('Restaurant', backref='review')
-    _images = relationship('ReviewImage', backref='review')
+    user = relationship('User', backref='comment')
+    restaurant = relationship('Restaurant', backref='comment')
+    _images = relationship('CommentImage', backref='comment')
+    image_amount = Column(Integer, nullable=False, default=0)
 
     @orm.reconstructor
     def __init__(self):
@@ -39,9 +40,10 @@ class Review(Base):
         try:
             image_amount = form.image_amount.data
             with db.auto_commit():
-                review = Review()
-                review.set_attrs(form)
-                db.session.add(review)
+                comment = Comment()
+                comment.set_attrs(form)
+                comment.image_amount = image_amount
+                db.session.add(comment)
             for i in range(image_amount):
                 image = request.files.get('image' + str(i + 1))
                 result = Image.save_image(image)
