@@ -18,14 +18,14 @@ class Food(Base):
     price = Column(Float(5), nullable=False)
     grade = Column(Float(5), default=0)
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
-    comment_amount = Column(Integer, nullable=False, default=0)
+    review_amount = Column(Integer, nullable=False, default=0)
     _images = relationship('FoodImage', backref='food')
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
         self.fields = ['id', 'name', 'introduction', 'price', 'grade',
-                       'restaurant_id', 'comment_amount', 'images', 'create_time']
+                       'restaurant_id', 'review_amount', 'images', 'create_time']
 
     @property
     def images(self):
@@ -36,22 +36,18 @@ class Food(Base):
         self._images = value
 
     @staticmethod
-    def save_food(form):
-        try:
+    def create_food(form):
+        with db.auto_commit():
+            food = Food()
+            food.set_attrs(form)
+            db.session.add(food)
+
             image_amount = form.image_amount.data
-            with db.auto_commit():
-                food = Food()
-                food.set_attrs(form)
-                db.session.add(food)
             for i in range(image_amount):
-                image = request.files.get('image' + str(i + 1))
-                result = Image.save_image(image)
-                image_id = result["image_id"]
+                image = request.files.get('image-' + str(i + 1))
+                image_id = Image.save_image(image)["image_id"]
+
                 food_image = FoodImage()
                 food_image.food_id = food.id
                 food_image.image_id = image_id
                 db.session.add(food_image)
-                db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e

@@ -3,20 +3,19 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 from wtforms import StringField, IntegerField, FloatField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange
 from app.validators.base import BaseForm as Form
 
 
-class ReviewCreateForm(Form):
-    user_id = IntegerField(validators=[DataRequired()])
+class BaseReviewForm(Form):
     restaurant_id = IntegerField(validators=[DataRequired()])
-    grade = FloatField(validators=[DataRequired()])
+    grade = FloatField(validators=[NumberRange(min=0, max=5)])
     content = StringField(validators=[DataRequired()])
-    image_amount = IntegerField(validators=[DataRequired()])
 
 
-class ReviewUpdateForm(Form):
-    user_id = IntegerField()
-    restaurant_id = IntegerField()
-    grade = FloatField()
-    content = StringField()
+class ReviewCreateForm(BaseReviewForm):
+    image_amount = IntegerField()
+
+
+class ReviewUpdateForm(BaseReviewForm):
+    pass

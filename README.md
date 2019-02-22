@@ -82,7 +82,7 @@ Content-Type: application/json
 ### 分页
 对于返回多条结果的请求，默认返回第一页的20个结果。可以通过`page`指定页数，`per_page`指定页面大小，例如:
 ```
-https://api.foodadvisor.top/v1/restraunt/1/comments?page=2&per_page=50
+http://api.foodadvisor.top/v1/restraunt/1/comments?page=2&per_page=50
 ```
 请注意，页码编号是从1开始的。
 
@@ -119,13 +119,13 @@ Status: 200 OK
 {
     "error_code": 0,
     "message": "OK",
-    "request_url": "POST /v1/client/register"
+    "request_url": "POST /v1/user"
 }
 ```
 
 ### 1.2用户登录
 成功登录后可获取唯一的身份标识。
- 
+
 ```
 POST /token/auth
 ```
@@ -220,7 +220,7 @@ Status: 200 OK
 
 {   
     "auth": 1,
-    "avatar": null,
+    "avatar_url": null,
     "email": "example@gmail.com",
     "id": 16,
     "mobile": "17716805432",
@@ -290,37 +290,37 @@ Status: 200 OK
 
 [
     {
-    "campus_id": 1,
-    "comment_amount": 0,
-    "create_time": 1549957033,
-    "grade": 0,
-    "id": 1,
-    "images": [
-        {
-            "id": 1,
-            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
-        }
-    ],
-    "introduction": "没有介绍",
-    "location": "东区教超旁边",
-    "name": "第四食堂"
+        "campus_id": 1,
+        "review_amount": 0,
+        "create_time": 1549957033,
+        "grade": 0,
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "没有介绍",
+        "location": "东区教超旁边",
+        "name": "第四食堂"
     },
     {
-    "campus_id": 1,
-    "comment_amount": 0,
-    "create_time": 1549957033,
-    "grade": 0,
-    "id": 1,
-    "images": [
-        {
-            "id": 1,
-            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
-        }
-    ],
-    "introduction": "没有介绍",
-    "location": "东区教超旁边",
-    "name": "第五食堂"
-}
+        "campus_id": 1,
+        "review_amount": 0,
+        "create_time": 1549957033,
+        "grade": 0,
+        "id": 1,
+        "images": [
+            {
+                "id": 1,
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            }
+        ],
+        "introduction": "没有介绍",
+        "location": "东区教超旁边",
+        "name": "第五食堂"
+    }
 ]
 ```
 
@@ -335,14 +335,14 @@ Status: 200 OK
 
 {
     "campus_id": 1,
-    "comment_amount": 0,
+    "review_amount": 0,
     "create_time": 1549957033,
     "grade": 0,
     "id": 1,
     "images": [
         {
             "id": 1,
-            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
         }
     ],
     "introduction": "没有介绍",
@@ -367,18 +367,51 @@ POST /canteen
 |introduction |string | **选填。** 食堂介绍    |
 |location     |string | **必填。** 食堂位置    |
 |campus_id    |integer| **必填。** 食堂所在校区编号|
-|token    |string | **必填。** 管理员令牌    |
-|image    |file | **必填。** 食堂图片    |
+|image_amount |integer| **必填。** 上传图片总数    |
+|image        |file   | **必填。** 食堂图片    |
 
 #### 示例
-```form-data
-{
-    name = 第四食堂,
-    introduction = 没有介绍,
-    location = 东区教超旁边,
-    campus_id = 1,
-    image = a.jpg
-}
+```http
+POST /v1/canteen HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: multipart/form-data; boundary=7MA4YWxkTrZu0gW
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UVTBPRFkxTkRneE15d2laWGh3SWpveE5UVXhNalEyT0RFemZRLmV5SjFhV1FpT2pFMkxDSjBlWEJsSWpveE1EQXNJbk5qYjNCbElqb3lmUS5HOU14c2QtSm43cTFRTWY0eUx1a1B0elY0eUJmV2RKUURmSWRId2NraUJJa1BnN0lXRHVZWUtIOU55ZFMzeDZtMnp4cWEzaWpBYThaRzJPSFdGVWtuUTo=
+cache-control: no-cache
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="name"
+
+第四食堂
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="introduction"
+
+这是食堂介绍
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="location"
+
+东校区教超旁边
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="campus_id"
+
+1
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image_amount"
+
+2
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-1"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-2"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
 ```
 
 #### 响应
@@ -392,6 +425,9 @@ Status: 201 Created
 }
 ```
 ### 2.4更新食堂信息
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 PUT /canteen/:canteen_id
 ```
@@ -403,10 +439,7 @@ PUT /canteen/:canteen_id
 |introduction |string | **选填。** 食堂介绍    |
 |location     |string | **选填。** 食堂位置    |
 |campus_id    |integer| **选填。** 食堂所在校区编号|
-|comment_amount    |integer| **选填。** 食堂评论数量|
-|status    |integer| **选填。** 食堂状态|
-|grade    |float| **选填。** 食堂评分|
-|token    |string | **选填。** 管理员令牌    |
+
 #### 示例
 ```json
 {
@@ -452,14 +485,14 @@ Status: 200 OK
 [
     {
         "canteen_id": 1,
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1549957256,
         "grade": 0,
         "id": 1,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             }
         ],
         "introduction": "很好",
@@ -467,14 +500,14 @@ Status: 200 OK
     },
     {
         "canteen_id": 1,
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1549957256,
         "grade": 0,
         "id": 2,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             }
         ],
         "introduction": "很好",
@@ -494,7 +527,7 @@ Status: 200 OK
 
 {   
     "canteen_id": 1,
-    "comment_amount": 0,
+    "review_amount": 0,
     "create_time": 1549957256,
     "grade": 0,
     "id": 1,
@@ -509,28 +542,67 @@ Status: 200 OK
 }
 ```
 ### 3.3新增餐厅
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 POST /restaurant
 ```
+
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|canteen_id   |integer | **必填。** 餐厅所在食堂编号  |
-|introduction     |string | **必填。** 餐厅介绍|
-|name      |string | **必填。** 餐厅名称  |
-|token    |string | **必填。** 管理员令牌    |
-|image    |file | **必填。** 餐厅图片    |
+|名称         |类型    |描述                   |
+|:-----------:|:------|:----------------------|
+|name         |string | **必填。** 餐厅名称    |
+|introduction |string | **必填。** 餐厅介绍    |
+|canteen_id   |integer| **必填。** 餐厅所在食堂编号 |
+|image_amount |string | **必填。** 餐厅图片总数|
+|image        |file   | **必填。** 餐厅图片    |
 
 #### 示例
-```form-data
-{
-    name = 汤哥特色风味,
-    introduction = 没有介绍,
-    canteen_id = 1,
-    image = a.jpg
-}
+```http
+POST /v1/restaurant HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: multipart/form-data; boundary=7MA4YWxkTrZu0gW
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UVTBPRFkxTkRneE15d2laWGh3SWpveE5UVXhNalEyT0RFemZRLmV5SjFhV1FpT2pFMkxDSjBlWEJsSWpveE1EQXNJbk5qYjNCbElqb3lmUS5HOU14c2QtSm43cTFRTWY0eUx1a1B0elY0eUJmV2RKUURmSWRId2NraUJJa1BnN0lXRHVZWUtIOU55ZFMzeDZtMnp4cWEzaWpBYThaRzJPSFdGVWtuUTo=
+cache-control: no-cache
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="name"
+
+汤哥特色风味
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="introduction"
+
+这是食堂窗口的介绍
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="location"
+
+第四食堂
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="canteen_id"
+
+1
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image_amount"
+
+2
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-1"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-2"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
 ```
+
 #### 响应
 ```json
 Status: 201 Created
@@ -541,7 +613,11 @@ Status: 201 Created
     "request_url": "POST /v1/restaurant"
 }
 ```
+
 ### 3.4更新餐厅信息
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 PUT /restaurant/:restaurant_id
 ```
@@ -551,17 +627,15 @@ PUT /restaurant/:restaurant_id
 |:-----------:|:------|:----------------------|
 |name         |string | **选填。** 餐厅名称    |
 |introduction |string | **选填。** 餐厅介绍    |
-|canteen_id    |integer| **选填。** 餐厅所在食堂编号|
-|comment_amount    |integer| **选填。** 餐厅评论数量|
-|status    |integer| **选填。** 餐厅状态|
-|grade    |float| **选填。** 餐厅评分|
-|token    |string | **选填。** 管理员令牌    |
+|canteen_id   |integer| **选填。** 餐厅所在食堂编号|
+
 #### 示例
 ```json
 {
     "name": "汤哥特色风味"
 }
 ```
+
 #### 响应
 ```json
 Status: 202 Accepted
@@ -573,6 +647,9 @@ Status: 202 Accepted
 }
 ```
 ### 3.5删除餐厅
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 DELETE /restaurant/:restaurant_id
 ```
@@ -600,14 +677,14 @@ Status: 200 OK
 
 [
     {
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1549957632,
         "grade": 0,
         "id": 1,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             }
         ],
         "introduction": "",
@@ -616,14 +693,14 @@ Status: 200 OK
         "restaurant_id": 1
     },
     {
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1549957632,
         "grade": 0,
         "id": 2,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             }
         ],
         "introduction": "",
@@ -644,14 +721,14 @@ GET /food/:food_id
 Status: 200 OK
 
 {
-    "comment_amount": 0,
+    "review_amount": 0,
     "create_time": 1549957632,
     "grade": 0,
     "id": 1,
     "images": [
         {
             "id": 1,
-            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            "url": "http://foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
         }
     ],
     "introduction": "",
@@ -661,30 +738,63 @@ Status: 200 OK
 }
 ```
 ### 4.3新增食品
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 POST /food
 ```
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|restaurant_id   |integer | **必填。** 食品所在餐厅编号  |
-|introduction     |string | **必填。** 食品介绍|
-|price    |float | **必填。** 食品价格|
-|name      |string | **必填。** 食品名称  |
-|token    |string | **必填。** 管理员令牌    |
-|image    |file | **必填。** 食品图片    |
+|名称           |类型    |描述                   |
+|:------------:|:-------|:----------------------|
+|restaurant_id |integer | **必填。** 食品所在餐厅编号  |
+|name          |string  | **必填。** 食品名称    |
+|introduction  |string  | **必填。** 食品介绍    |
+|price         |float   | **必填。** 食品价格    |
+|image_amount  |integer | **必填。** 食品图片总数|
+|image         |file    | **必填。** 食品图片    |
 
 #### 示例
-```form-data
-{
-    name = 椒盐排条,
-    introduction = 没有介绍,
-    restaurant_id = 1,
-    price = 15,
-    image = a.jpg
-}
+
+```http
+POST /v1/food HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: multipart/form-data; boundary=7MA4YWxkTrZu0gW
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UVTBPRFkxTkRneE15d2laWGh3SWpveE5UVXhNalEyT0RFemZRLmV5SjFhV1FpT2pFMkxDSjBlWEJsSWpveE1EQXNJbk5qYjNCbElqb3lmUS5HOU14c2QtSm43cTFRTWY0eUx1a1B0elY0eUJmV2RKUURmSWRId2NraUJJa1BnN0lXRHVZWUtIOU55ZFMzeDZtMnp4cWEzaWpBYThaRzJPSFdGVWtuUTo=
+cache-control: no-cache
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="name"
+
+椒盐排条
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="introduction"
+
+这是介绍
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="restaurant_id"
+
+1
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image_amount"
+
+2
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-1"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-2"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
 ```
+
 #### 响应
 ```json
 Status: 201 Created
@@ -696,6 +806,9 @@ Status: 201 Created
 }
 ```
 ### 4.4更新食品信息
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 PUT /food/:food_id
 ```
@@ -705,19 +818,18 @@ PUT /food/:food_id
 |:-----------:|:------|:----------------------|
 |name         |string | **选填。** 食品名称    |
 |introduction |string | **选填。** 食品介绍    |
-|canteen_id    |integer| **选填。** 食品所在餐厅编号|
-|price    |integer| **选填。** 食品价格|
-|comment_amount    |integer| **选填。** 食品评论数量|
-|status    |integer| **选填。** 食品状态|
-|grade    |float| **选填。** 食品评分|
-|token    |string | **必填。** 管理员令牌    |
+|canteen_id   |integer| **选填。** 食品所在餐厅编号|
+|price        |integer| **选填。** 食品价格    |
+
 #### 示例
 ```json
 {
-    "price":15
+    "price": 15
 }
 ```
+
 #### 响应
+
 ```json
 Status: 202 Accepted
 
@@ -727,7 +839,11 @@ Status: 202 Accepted
     "request_url": "PUT /v1/food/1"
 }
 ```
+
 ### 4.5删除食品
+
+**注意**：仅对通过身份认证的`管理员`有效
+
 ```
 DELETE /food/:food_id
 ```
@@ -746,7 +862,7 @@ Status: 202 Accepted
 ## 5. 评论
 ### 5.1列出单个餐厅的评论
 ```
-GET /restraunt/:restraunt_id/comments
+GET /restraunt/:restraunt_id/reviews
 ```
 
 #### 响应
@@ -755,7 +871,6 @@ Status: 200 OK
 
 [
     {
-        
         "content": "我吃到了虫子！",
         "create_time": 1549967536,
         "grade": 1,
@@ -763,11 +878,11 @@ Status: 200 OK
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 8,
-                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
             }
         ]
         
@@ -781,11 +896,11 @@ Status: 200 OK
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 8,
-                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
             }
         ]
         
@@ -795,7 +910,7 @@ Status: 200 OK
 
 ### 5.2列出单个用户的评论
 ```
-GET /user/:user_id/comments
+GET /user/:user_id/reviews
 ```
 
 #### 响应
@@ -811,11 +926,11 @@ Status: 200 OK
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 8,
-                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
             }
         ]
     },
@@ -827,19 +942,20 @@ Status: 200 OK
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 8,
-                "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
             }
         ]
     }
 ]
 ```
+
 ### 5.3获取评论信息
 ```
-GET /comment/:comment_id
+GET /review/:review_id
 ```
 
 #### 响应
@@ -854,35 +970,34 @@ Status: 201 Created
     "images": [
         {
             "id": 1,
-            "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+            "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
         },
         {
             "id": 8,
-            "url": "E:/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
+            "url": "http://api.foodadvisor.top/food_seeker/images/20190212/d6a31b622ea211e9be1654ee75dc7dce.jpg"
         }
     ],
     "restaurant": {
         "canteen_id": 1,
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1549967782,
         "grade": 0,
         "id": 1,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 6,
-                "url": "E:/food_seeker/images/20190212/21f712a82ea111e98abc54ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/21f712a82ea111e98abc54ee75dc7dce.jpg"
             }
         ],
         "introduction": "很好",
         "name": "汤哥特色风味"
     },
     "user": {
-        "auth": 2,
-        "avatar": null,
+        "avatar_url": null,
         "email": "12345678@163.com",
         "id": 1,
         "mobile": "15967542312",
@@ -890,31 +1005,61 @@ Status: 201 Created
     }
 }
 ```
+
 ### 5.4新增评论
 **注意**：仅对通过身份认证的`用户`有效
 ```
-POST /comment
+POST /review
 ```
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|restaurant_id   |integer | **必填。** 评论针对餐厅编号  |
-|user_id   |integer | **必填。** 评论者编号  |
-|content     |string | **必填。** 评论内容|
-|grade    |float | **必填。** 评分|
-|image    |file | **必填。** 评论图片    |
+|名称            |类型    |描述                   |
+|:-------------:|:-------|:----------------------|
+|restaurant_id  |integer | **必填。** 评论针对餐厅编号  |
+|content        |string  | **必填。** 评论内容    |
+|grade          |float   | **必填。** 评分        |
+|image_amount   |integer | **必填。** 评论图片总数 |
+|image          |file    | **必填。** 评论图片    |
 
 #### 示例
-```form-data
-{
-    user_id = 1,
-    content = 没有介绍,
-    restaurant_id = 1,
-    grade = 5,
-    image = a.jpg
-}
+```http
+POST /v1/review HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: multipart/form-data; boundary=7MA4YWxkTrZu0gW
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UVTBPRFkxTkRneE15d2laWGh3SWpveE5UVXhNalEyT0RFemZRLmV5SjFhV1FpT2pFMkxDSjBlWEJsSWpveE1EQXNJbk5qYjNCbElqb3lmUS5HOU14c2QtSm43cTFRTWY0eUx1a1B0elY0eUJmV2RKUURmSWRId2NraUJJa1BnN0lXRHVZWUtIOU55ZFMzeDZtMnp4cWEzaWpBYThaRzJPSFdGVWtuUTo=
+cache-control: no-cache
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="content"
+
+这是一条评论
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="restaurant_id"
+
+1
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="grade"
+
+5
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image_amount"
+
+2
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-1"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
+Content-Disposition: form-data; name="image-2"; filename="C:\Users\lenovo\Desktop\github_release.png
+
+
+--7MA4YWxkTrZu0gW--
 ```
+
 #### 响应
 ```json
 Status: 201 Created
@@ -922,72 +1067,75 @@ Status: 201 Created
 {
     "error_code": 0,
     "message": "Created",
-    "request_url": "POST /v1/comment"
+    "request_url": "POST /v1/review"
 }
 ```
 
 ### 5.5更新评论
+
 **注意**：仅对通过身份认证的`用户`有效
 ```
-PUT /comment/:comment_id
+PUT /review/:review_id
 ```
+
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|restaurant_id   |integer | **必填。** 评论针对餐厅编号  |
-|user_id   |integer | **必填。** 评论者编号  |
-|content     |string | **必填。** 评论内容|
-|grade    |float | **必填。** 评分|
+|名称            |类型    |描述                   |
+|:-------------:|:-------|:----------------------|
+|restaurant_id  |integer | **选填。** 评论针对餐厅编号  |
+|content        |string  | **选填。** 评论内容    |
+|grade          |float   | **选填。** 评分        |
 
 #### 示例
 ```json
 {
     "content": "hhh",
-    "user_id": 1,
-    "restaurant_id":1,
-    "grade":5
+    "grade": 5
 }
-```
-#### 响应
-```json
-Status: 201 Created
-
-{
-    "error_code": 0,
-    "message": "Updated",
-    "request_url": "PUT /v1/comment/1"
-}
-```
-
-### 5.6删除评论
-**注意**：仅对通过身份认证的`用户`有效,可删除对象仅为自己的评论
-```
-DELETE /comment/:comment
 ```
 
 #### 响应
 ```json
 Status: 202 Accepted
 
-{  
+{
     "error_code": 0,
-    "message": "Deleted",
-    "request_url": "DELETE /v1/comment/1"
+    "message": "Updated",
+    "request_url": "PUT /v1/review/1"
 }
 ```
+
+### 5.6删除评论
+**注意**：仅对通过身份认证的`用户`有效
+```
+DELETE /review/:review_id
+```
+
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/review/1"
+}
+```
+
 ## 6. 查询
+
 ### 6.1查询餐厅
 ```
 GET /search/restaurants
 ```
+
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|q   |string | **必填。** 查询关键字  |
-|sort   |string | **选填。** 根据评分(grade)或者热度(hot)，对查询结果进行排序。默认：grade  |
-|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
+|名称    |类型  |描述                    |
+|:-----:|:------|:----------------------|
+|q      |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据评分(`grade`)或者热度(`hot`)，对查询结果进行排序。默认：`grade`   |
+|order  |string | **选填。** 确定返回的搜索结果是降序(`desc`)还是升序(`asc`)。默认：`desc`|
 
 #### 示例
 ```
@@ -996,19 +1144,19 @@ http://api.foodadvisor.top/search/restaurants?q=第四食堂&sort=grade&order=de
 
 #### 响应
 ```json
-Status: 202 Accepted
+Status: 200 OK
 
 [
     {
         "canteen_id": 1,
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1550293165,
         "grade": 0,
         "id": 2,
         "images": [
             {
                 "id": 38,
-                "url": "E:/food_seeker/images/20190213/96f440702fa211e9825654ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190213/96f440702fa211e9825654ee75dc7dce.jpg"
             }
         ],
         "introduction": "没有",
@@ -1016,14 +1164,14 @@ Status: 202 Accepted
     },
     {
         "canteen_id": 1,
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1550293165,
         "grade": 0,
         "id": 3,
         "images": [
             {
                 "id": 39,
-                "url": "E:/food_seeker/images/20190213/aeef21302fa211e9b67754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190213/aeef21302fa211e9b67754ee75dc7dce.jpg"
             }
         ],
         "introduction": "没有",
@@ -1031,17 +1179,18 @@ Status: 202 Accepted
     }
 ]
 ```
+
 ### 6.2查询食品
 ```
 GET /search/foods
 ```
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|q   |string | **必填。** 查询关键字  |
-|sort   |string | **选填。** 根据评分(grade)或者热度(hot)，对查询结果进行排序。默认：grade  |
-|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
+|名称    |类型  |描述                    |
+|:-----:|:------|:----------------------|
+|q      |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据评分(`grade`)或者热度(`hot`)，对查询结果进行排序。默认：`grade`   |
+|order  |string | **选填。** 确定返回的搜索结果是降序(`desc`)还是升序(`asc`)。默认：`desc`|
 
 #### 示例
 ```
@@ -1050,22 +1199,22 @@ http://api.foodadvisor.top/search/foods?q=椒盐排条&sort=grade&order=desc
 
 #### 响应
 ```json
-Status: 202 Accepted
+Status: 200 OK
 
 [
     {
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1550579932,
         "grade": 0,
         "id": 5,
         "images": [
             {
                 "id": 59,
-                "url": "E:/food_seeker/images/20190215/beabcfd230fc11e990c054ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190215/beabcfd230fc11e990c054ee75dc7dce.jpg"
             },
             {
                 "id": 60,
-                "url": "E:/food_seeker/images/20190215/bec0c24c30fc11e98e2454ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190215/bec0c24c30fc11e98e2454ee75dc7dce.jpg"
             }
         ],
         "introduction": "",
@@ -1074,18 +1223,18 @@ Status: 202 Accepted
         "restaurant_id": 1
     },
     {
-        "comment_amount": 0,
+        "review_amount": 0,
         "create_time": 1550579932,
         "grade": 0,
         "id": 1,
         "images": [
             {
                 "id": 1,
-                "url": "E:/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
             },
             {
                 "id": 7,
-                "url": "E:/food_seeker/images/20190212/26d532dc2ea111e9a36f54ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/26d532dc2ea111e9a36f54ee75dc7dce.jpg"
             }
         ],
         "introduction": "",
@@ -1095,17 +1244,18 @@ Status: 202 Accepted
     }
 ]
 ```
+
 ### 6.3查询评论
 ```
 GET /search/comments
 ```
 #### 参数
 
-|名称       |类型    |描述                   |
-|:---------:|:------|:----------------------|
-|q   |string | **必填。** 查询关键字  |
-|sort   |string | **选填。** 根据评分(grade)、热度(hot)或者有图(image)，对查询结果进行排序。默认：grade  |
-|order     |string | **选填。** 确定返回的第一个搜索结果是最高匹配数(desc)还是最低匹配数(asc)。除非您提供，否则将忽略此参数sort。默认：desc|
+|名称    |类型  |描述                    |
+|:-----:|:------|:----------------------|
+|q      |string | **必填。** 查询关键字  |
+|sort   |string | **选填。** 根据评分(`grade`)或者热度(`hot`)，对查询结果进行排序。默认：`grade`   |
+|order  |string | **选填。** 确定返回的搜索结果是降序(`desc`)还是升序(`asc`)。默认：`desc`|
 
 #### 示例
 ```
@@ -1114,7 +1264,7 @@ http://api.foodadvisor.top/search/comments?q=没有&sort=grade&order=desc
 
 #### 响应
 ```json
-Status: 202 Accepted
+Status: 200 OK
 
 [
     {
@@ -1125,16 +1275,15 @@ Status: 202 Accepted
         "images": [
             {
                 "id": 75,
-                "url": "E:/food_seeker/images/20190219/3aae031e343c11e998b554ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/3aae031e343c11e998b554ee75dc7dce.jpg"
             },
             {
                 "id": 76,
-                "url": "E:/food_seeker/images/20190219/3ac17562343c11e9af0454ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/3ac17562343c11e9af0454ee75dc7dce.jpg"
             }
         ],
         "user": {
-            "auth": 2,
-            "avatar": null,
+            "avatar_url": null,
             "email": "12345678@163.com",
             "id": 1,
             "mobile": "15967542312",
@@ -1149,16 +1298,15 @@ Status: 202 Accepted
         "images": [
             {
                 "id": 73,
-                "url": "E:/food_seeker/images/20190219/1fb2ea80343c11e9a35c54ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/1fb2ea80343c11e9a35c54ee75dc7dce.jpg"
             },
             {
                 "id": 74,
-                "url": "E:/food_seeker/images/20190219/1fc2d146343c11e9bbd154ee75dc7dce.jpg"
+                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/1fc2d146343c11e9bbd154ee75dc7dce.jpg"
             }
         ],
         "user": {
-            "auth": 2,
-            "avatar": null,
+            "avatar_url": null,
             "email": "12345678@163.com",
             "id": 1,
             "mobile": "15967542312",

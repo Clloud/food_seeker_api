@@ -25,22 +25,22 @@ class User(Scope):
         'get_authenticated_user',
         'delete_user',
         'update_user',
-        'create_comment',
-        'update_comment',
-        'delete_comment'
+        'create_review',
+        'update_review',
+        'delete_review'
     ]
 
 
 class Administrator(Scope):
     permitted = [
         'create_canteen',
-        'create_restaurant',
-        'create_food',
         'update_canteen',
-        'update_restaurant',
-        'update_food',
         'delete_canteen',
+        'create_restaurant',
+        'update_restaurant',
         'delete_restaurant',
+        'create_food',
+        'update_food',
         'delete_food'
     ]
 

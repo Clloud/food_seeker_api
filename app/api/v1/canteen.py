@@ -2,11 +2,9 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify, request
-
+from flask import jsonify
 from app.models.canteen import Canteen
 from app.models.canteen_image import CanteenImage
-from app.models.image import Image
 from app.validators.canteen import CanteenCreateForm, CanteenUpdateForm
 from app.libs.error_code import CreateSuccess, UpdateSuccess, DeleteSuccess
 from app.libs.token_auth import auth
@@ -30,13 +28,14 @@ def get_canteens_by_campus(campus_id):
 @auth.login_required
 def create_canteen():
     form = CanteenCreateForm().validate_for_api()
-    Canteen.save_canteen(form)
+    Canteen.create_canteen(form)
     return CreateSuccess()
 
 
 @api.route('/canteen/<int:canteen_id>', methods=['PUT'])
 @auth.login_required
 def update_canteen(canteen_id):
+    # TODO 支持修改图片
     form = CanteenUpdateForm().validate_for_api()
     with db.auto_commit():
         canteen = Canteen.query.get_or_404(canteen_id)

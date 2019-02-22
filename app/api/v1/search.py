@@ -4,11 +4,10 @@ Enjoy The Code!
 #__Auther__:__blank__
 from flask import jsonify
 from app.api.v1 import api
-from app.models.base import db
-from app.models.comment import Comment
+from app.models.review import Review
 from app.models.food import Food
 from app.models.restaurant import Restaurant
-from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchCommentForm
+from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchReviewForm
 
 
 def __sort_by_grade(r, order):
@@ -18,7 +17,7 @@ def __sort_by_grade(r, order):
 
 
 def __sort_by_hot(r, order):
-    _order_by = order + 'comment_amount'
+    _order_by = order + 'review_amount'
     return r.order_by(_order_by).custom_paginate()
 
 
@@ -60,20 +59,20 @@ def search_food():
     return jsonify(foods)
 
 
-@api.route('/search/comments', methods=['GET'])
-def search_comments():
-    form = SearchCommentForm().validate_for_api()
+@api.route('/search/reviews', methods=['GET'])
+def search_reviews():
+    form = SearchReviewForm().validate_for_api()
     q, sort, order = form.q.data, form.sort.data, form.order.data
     if sort == 'image':
-        r = Comment.query.filter(Comment.content.contains(q),
-                                 Comment.image_amount > 0, Comment.status == 1)
+        r = Review.query.filter(Review.content.contains(q),
+                                 Review.image_amount > 0, Review.status == 1)
     else:
-        r = Comment.query.filter(Comment.content.contains(q), Comment.status == 1)
+        r = Review.query.filter(Review.content.contains(q), Review.status == 1)
     promise = {
         'grade': __sort_by_grade,
         'new': __sort_by_new,
         'image': __sort_by_image
     }
-    comments = promise[sort](r, '+' if order == 'asc' else '-')
-    comments = [comment.hide('restaurant') for comment in comments]
-    return jsonify(comments)
+    reviews = promise[sort](r, '+' if order == 'asc' else '-')
+    reviews = [review.hide('restaurant') for review in reviews]
+    return jsonify(reviews)

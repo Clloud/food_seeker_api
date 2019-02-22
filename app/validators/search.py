@@ -4,38 +4,26 @@ Enjoy The Code!
 #__Auther__:__blank__
 from app.validators.base import BaseForm as Form
 from wtforms import StringField
-from wtforms.validators import DataRequired
-from app.libs.error_code import ParameterError
+from wtforms.validators import DataRequired, AnyOf
 
 
 class BaseSearchForm(Form):
     q = StringField(validators=[DataRequired()])
-    order = StringField(default='desc')
-
-    def validate_order(self, field):
-        if field.data not in ('desc', 'asc'):
-            raise ParameterError(message='Invalid order type')
+    order = StringField(validators=[AnyOf('desc', 'asc')],
+                        default='desc')
 
 
 class SearchRestaurantForm(BaseSearchForm):
-    sort = StringField(default='grade')
-
-    def validate_sort(self, field):
-        if field.data not in ('grade', 'hot'):
-            raise ParameterError(message='Invalid sort type')
+    sort = StringField(validators=[AnyOf('grade', 'hot')],
+           default='grade')
 
 
 class SearchFoodForm(BaseSearchForm):
-    sort = StringField(default='best-match')
-
-    def validate_sort(self, field):
-        if field.data not in ('grade', 'hot'):
-            raise ParameterError(message='Invalid sort type')
+    sort = StringField(validators=[AnyOf('grade', 'hot')],
+           default='best-match')
 
 
-class SearchCommentForm(BaseSearchForm):
-    sort = StringField(default='best-match')
+class SearchReviewForm(BaseSearchForm):
+    sort = StringField(validators=[AnyOf('grade', 'hot', 'best-match')],
+                       default='best-match')
 
-    def validate_sort(self, field):
-        if field.data not in ('grade', 'new', 'image'):
-            raise ParameterError(message='Invalid sort type')

@@ -29,7 +29,7 @@ def get_foods_by_restaurant(restaurant_id):
 @auth.login_required
 def create_food():
     form = FoodCreateForm().validate_for_api()
-    Food.save_food(form)
+    Food.create_food(form)
     return CreateSuccess()
 
 

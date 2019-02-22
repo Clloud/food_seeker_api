@@ -9,15 +9,12 @@ from app.validators.base import BaseForm as Form
 
 class RestaurantCreateForm(Form):
     name = StringField(validators=[DataRequired(), length(min=2, max=32)])
-    introduction = StringField()
+    introduction = StringField(validators=[length(max=200)])
     canteen_id = IntegerField(validators=[DataRequired()])
-    image_amount = IntegerField(validators=[DataRequired()])
+    image_amount = IntegerField()
 
 
 class RestaurantUpdateForm(Form):
-    name = StringField()
-    introduction = StringField()
-    grade = FloatField()
-    comment_amount = IntegerField()
-    status = IntegerField()
+    name = StringField(validators=[length(min=2, max=32)])
+    introduction = StringField(validators=[length(max=200)])
     canteen_id = IntegerField()
