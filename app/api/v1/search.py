@@ -4,10 +4,11 @@ Enjoy The Code!
 #__Auther__:__blank__
 from flask import jsonify
 from app.api.v1 import api
+from app.models.user import User
 from app.models.review import Review
 from app.models.food import Food
 from app.models.restaurant import Restaurant
-from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchReviewForm
+from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchReviewForm, SearchUserForm
 
 
 def __sort_by_grade(r, order):
@@ -76,3 +77,20 @@ def search_reviews():
     reviews = promise[sort](r, '+' if order == 'asc' else '-')
     reviews = [review.hide('restaurant') for review in reviews]
     return jsonify(reviews)
+
+
+@api.route('/search/users', methods=['GET'])
+def search_users():
+    form = SearchUserForm().validate_for_api()
+    q, sort, order = form.q.data, form.sort.data, form.order.data
+    if sort == 'email':
+        r = User.query.filter(User.email.contains(q), User.status == 1)
+    else:
+        r = Review.query.filter(User.mobile.contains(q), User.status == 1)
+    promise = {
+        'email': __sort_by_new,
+        'mobile': __sort_by_new
+    }
+    users = promise[sort](r, '+' if order == 'asc' else '-')
+    users = [user.hide('auth') for user in users]
+    return jsonify(users)
