@@ -82,14 +82,28 @@ def search_reviews():
 @api.route('/search/users', methods=['GET'])
 def search_users():
     form = SearchUserForm().validate_for_api()
-    q, sort, order = form.q.data, form.sort.data, form.order.data
-    if sort == 'email':
-        r = User.query.filter(User.email.contains(q), User.status == 1)
+    sort, order = form.sort.data, form.order.data
+    q = form.q.data.split(',')
+    q = [item.split(':') for item in q]
+    tempdict = {}
+    for item in q:
+        tempdict[item[0]] = item[1]
+    q = tempdict
+    standard = {
+        'email': '',
+        'mobile': ''
+    }
+    for key, value in q.items():
+        standard[key] = value
+    if standard['email'] == '':
+        r = User.query.filter(User.mobile == standard['mobile'], User.status == 1)
+    elif standard['mobile'] == '':
+        r = User.query.filter(User.email == standard['email'], User.status == 1)
     else:
-        r = Review.query.filter(User.mobile.contains(q), User.status == 1)
+        r = User.query.filter(User.email == standard['email'], User.mobile == standard[
+            'mobile'], User.status == 1)
     promise = {
-        'email': __sort_by_new,
-        'mobile': __sort_by_new
+        'new': __sort_by_new
     }
     users = promise[sort](r, '+' if order == 'asc' else '-')
     users = [user.hide('auth') for user in users]

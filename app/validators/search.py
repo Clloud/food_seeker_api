@@ -29,4 +29,4 @@ class SearchReviewForm(BaseSearchForm):
 
 
 class SearchUserForm(BaseSearchForm):
-    sort = StringField(validators=[AnyOf('email', 'mobile')], default='mobile')
+    sort = StringField(validators=[AnyOf('new')], default='new')
