@@ -34,6 +34,7 @@ def get_authenticated_user():
 def get_authenticated_user_collections():
     uid = g.user.uid
     collections = UserCollection.query.filter_by(user_id=uid).custom_paginate()
+    collections = [item.restaurant for item in collections]
     return jsonify(collections)
 
 
