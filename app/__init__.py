@@ -5,10 +5,12 @@
 '''
 from app.app import Flask
 from app.config.setting import config
+from flask_cors import CORS
 
 def create_app(config_name='development'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
+    CORS(app, supports_credentials=True)
 
     register_blueprint(app)
     register_plugin(app)
