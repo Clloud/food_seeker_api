@@ -4,6 +4,7 @@
 @time: 2019/1/14 23:57
 '''
 from sqlalchemy import Column, Integer, String, SmallInteger, orm
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.base import Base, db
 from app.libs.error_code import NotFound, AuthFailed
@@ -21,7 +22,7 @@ class User(Base):
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'email', 'nickname', 'mobile', 'avatar_url', 'auth','create_time']
+        self.fields = ['id', 'email', 'nickname', 'mobile', 'avatar_url', 'auth', 'create_time']
 
     @property
     def password(self):

@@ -27,3 +27,6 @@ class SearchReviewForm(BaseSearchForm):
     sort = StringField(validators=[AnyOf('grade', 'hot', 'best-match')],
                        default='best-match')
 
+
+class SearchUserForm(BaseSearchForm):
+    sort = StringField(validators=[AnyOf('new')], default='new')

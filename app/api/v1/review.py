@@ -23,14 +23,14 @@ def get_review(review_id):
 @api.route('/restaurant/<int:restaurant_id>/reviews', methods=['GET'])
 def get_reviews_by_restaurant(restaurant_id):
     reviews = Review.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
-    reviews = [review.hide('restaurant','user') for review in reviews]
+    reviews = [review.hide('restaurant') for review in reviews]
     return jsonify(reviews)
 
 
 @api.route('/user/<int:user_id>/reviews', methods=['GET'])
 def get_reviews_by_user(user_id):
     reviews = Review.query.filter_by(user_id=user_id).custom_paginate()
-    reviews = [review.hide('restaurant', 'user') for review in reviews]
+    reviews = [review.hide('restaurant') for review in reviews]
     return jsonify(reviews)
 
 
