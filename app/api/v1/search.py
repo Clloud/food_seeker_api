@@ -13,19 +13,12 @@ from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchRe
 
 def __sort_by_grade(r, order):
     _order_by = order + 'grade'
-    _order_by2 = '-'+'create_time'
-    return r.order_by(_order_by, _order_by2).custom_paginate()
+    return r.order_by(_order_by, '-create_time').custom_paginate()
 
 
 def __sort_by_hot(r, order):
     _order_by = order + 'review_amount'
     return r.order_by(_order_by).custom_paginate()
-
-
-def __sort_by_image(r, order):
-    _order_by = order + 'image_amount'
-    _order_by2 = '-' + 'create_time'
-    return r.order_by(_order_by, _order_by2).custom_paginate()
 
 
 def __sort_by_new(r, order):
@@ -62,17 +55,15 @@ def search_food():
 
 @api.route('/search/reviews', methods=['GET'])
 def search_reviews():
+    # TODO 重构
     form = SearchReviewForm().validate_for_api()
     q, sort, order = form.q.data, form.sort.data, form.order.data
+    r = Review.query.filter(Review.content.contains(q), Review.status == 1)
     if sort == 'image':
-        r = Review.query.filter(Review.content.contains(q),
-                                 Review.image_amount > 0, Review.status == 1)
-    else:
-        r = Review.query.filter(Review.content.contains(q), Review.status == 1)
+        r = r.filter(Review.image_amount > 0)
     promise = {
         'grade': __sort_by_grade,
-        'new': __sort_by_new,
-        'image': __sort_by_image
+        'new': __sort_by_new
     }
     reviews = promise[sort](r, '+' if order == 'asc' else '-')
     reviews = [review.hide('restaurant') for review in reviews]
@@ -81,9 +72,10 @@ def search_reviews():
 
 @api.route('/search/users', methods=['GET'])
 def search_users():
+    # TODO 重构
     form = SearchUserForm().validate_for_api()
     sort, order = form.sort.data, form.order.data
-    q = form.q.data.split(',')
+    q = form.q.data.split(' ')
     q = [item.split(':') for item in q]
     tempdict = {}
     for item in q:
