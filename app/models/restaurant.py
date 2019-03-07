@@ -15,6 +15,7 @@ class Restaurant(Base):
     name = Column(String(50), nullable=False)
     introduction = Column(String(200), default="")
     grade = Column(Float, default=0)
+    location = Column(String(50), default="")
     canteen_id = Column(Integer, ForeignKey("canteen.id"))
     review_amount = Column(Integer, nullable=False, default=0)
     _images = relationship('RestaurantImage', backref='restaurant')
@@ -22,7 +23,7 @@ class Restaurant(Base):
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'name', 'introduction', 'grade',
+        self.fields = ['id', 'name', 'introduction', 'grade', 'location',
                        'canteen_id', 'review_amount', 'images', 'create_time']
 
     @property
