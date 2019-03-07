@@ -83,7 +83,7 @@ Content-Type: application/json
 ### 分页
 对于返回多条结果的请求，默认返回第一页的20个结果。可以通过`page`指定页数，`per_page`指定页面大小，例如:
 ```
-http://api.foodadvisor.top/v1/restraunt/1/comments?page=2&per_page=50
+http://api.foodadvisor.top/v1/restraunt/1/reviews?page=2&per_page=50
 ```
 请注意，页码编号是从1开始的。
 
@@ -1181,38 +1181,21 @@ http://api.foodadvisor.top/search/restaurants?q=第四食堂&sort=grade&order=de
 ```json
 Status: 200 OK
 
-[
-    {
-        "canteen_id": 1,
-        "review_amount": 0,
-        "create_time": 1550293165,
-        "grade": 0,
-        "id": 2,
-        "images": [
-            {
-                "id": 38,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190213/96f440702fa211e9825654ee75dc7dce.jpg"
-            }
-        ],
-        "introduction": "没有",
-        "name": "第四食堂1"
-    },
-    {
-        "canteen_id": 1,
-        "review_amount": 0,
-        "create_time": 1550293165,
-        "grade": 0,
-        "id": 3,
-        "images": [
-            {
-                "id": 39,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190213/aeef21302fa211e9b67754ee75dc7dce.jpg"
-            }
-        ],
-        "introduction": "没有",
-        "name": "第四食堂"
-    }
-]
+{
+    "items": [
+        {
+            "canteen_id": 1,
+            "create_time": 1551871049,
+            "grade": 0,
+            "id": 1,
+            "images": [],
+            "introduction": "暂无",
+            "name": "家之味",
+            "review_amount": 0
+        }
+    ],
+    "total_count": 1
+}
 ```
 
 ### 6.2查询食品
@@ -1236,53 +1219,38 @@ http://api.foodadvisor.top/search/foods?q=椒盐排条&sort=grade&order=desc
 ```json
 Status: 200 OK
 
-[
-    {
-        "review_amount": 0,
-        "create_time": 1550579932,
-        "grade": 0,
-        "id": 5,
-        "images": [
-            {
-                "id": 59,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190215/beabcfd230fc11e990c054ee75dc7dce.jpg"
-            },
-            {
-                "id": 60,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190215/bec0c24c30fc11e98e2454ee75dc7dce.jpg"
-            }
-        ],
-        "introduction": "",
-        "name": "椒盐排条",
-        "price": 15,
-        "restaurant_id": 1
-    },
-    {
-        "review_amount": 0,
-        "create_time": 1550579932,
-        "grade": 0,
-        "id": 1,
-        "images": [
-            {
-                "id": 1,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/2f46051c2e9811e9aaf754ee75dc7dce.jpg"
-            },
-            {
-                "id": 7,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190212/26d532dc2ea111e9a36f54ee75dc7dce.jpg"
-            }
-        ],
-        "introduction": "",
-        "name": "椒盐排条",
-        "price": 15,
-        "restaurant_id": 1
-    }
-]
+{
+    "items": [
+        {
+            "create_time": 1551884675,
+            "grade": 0,
+            "id": 2,
+            "images": [],
+            "introduction": "暂无",
+            "name": "招牌香辣花溪牛肉粉",
+            "price": 12,
+            "restaurant_id": 1,
+            "review_amount": 0
+        },
+        {
+            "create_time": 1551871255,
+            "grade": 0,
+            "id": 1,
+            "images": [],
+            "introduction": "暂无",
+            "name": "招牌原味花溪牛肉粉",
+            "price": 12,
+            "restaurant_id": 1,
+            "review_amount": 0
+        }
+    ],
+    "total_count": 2
+}
 ```
 
 ### 6.3查询评论
 ```
-GET /search/comments
+GET /search/reviews
 ```
 #### 参数
 
@@ -1294,61 +1262,34 @@ GET /search/comments
 
 #### 示例
 ```
-http://api.foodadvisor.top/search/comments?q=没有&sort=grade&order=desc
+http://api.foodadvisor.top/search/reviews?q=没有&sort=grade&order=desc
 ```
 
 #### 响应
 ```json
 Status: 200 OK
 
-[
-    {
-        "content": "没有",
-        "create_time": 1550580208,
-        "grade": 5,
-        "id": 12,
-        "images": [
-            {
-                "id": 75,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/3aae031e343c11e998b554ee75dc7dce.jpg"
-            },
-            {
-                "id": 76,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/3ac17562343c11e9af0454ee75dc7dce.jpg"
-            }
-        ],
-        "user": {
-            "avatar_url": null,
-            "email": "12345678@163.com",
+{
+    "items": [
+        {
+            "content": "很好吃",
+            "create_time": 1551969464,
+            "grade": 5,
             "id": 1,
-            "mobile": "15967542312",
-            "nickname": "中道"
-        }
-    },
-    {
-        "content": "没有",
-        "create_time": 1550580208,
-        "grade": 5,
-        "id": 11,
-        "images": [
-            {
-                "id": 73,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/1fb2ea80343c11e9a35c54ee75dc7dce.jpg"
-            },
-            {
-                "id": 74,
-                "url": "http://api.foodadvisor.top/food_seeker/images/20190219/1fc2d146343c11e9bbd154ee75dc7dce.jpg"
+            "images": [],
+            "user": {
+                "auth": 2,
+                "avatar_url": null,
+                "create_time": 1551870546,
+                "email": "example@gmail.com",
+                "id": 1,
+                "mobile": null,
+                "nickname": "Ann"
             }
-        ],
-        "user": {
-            "avatar_url": null,
-            "email": "12345678@163.com",
-            "id": 1,
-            "mobile": "15967542312",
-            "nickname": "中道"
         }
-    }
-]
+    ],
+    "total_count": 1
+}
 ```
 
 ### 6.4查询用户
@@ -1365,21 +1306,24 @@ GET /search/users
 
 #### 示例
 ```
-http://api.foodadvisor.top/search/comments?q=email:1111,mobile:1312&sort=new&order=desc
+http://api.foodadvisor.top/search/reviews?q=email:1111,mobile:1312&sort=new&order=desc
 ```
 
 #### 响应
 ```json
 Status: 200 OK
 
-[
-    {
-        "avatar_url": null,
-        "create_time": 312123123,
-        "email": "12345@qq.com",
-        "id": 1,
-        "mobile": "13685200423",
-        "nickname": "ann"
-    }
-]
+{
+    "items": [
+        {
+            "avatar_url": null,
+            "create_time": 1551870546,
+            "email": "example@gmail.com",
+            "id": 1,
+            "mobile": null,
+            "nickname": "Ann"
+        }
+    ],
+    "total_count": 1
+}
 ```

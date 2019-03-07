@@ -22,19 +22,19 @@ def __encapsulate_result(r_len, r):
 def __sort_by_grade(r, order):
     _order_by = order + 'grade'
     r = r.order_by(_order_by, '-create_time').custom_paginate(True)
-    return __encapsulate_result(r.total, r.items)
+    return r
 
 
 def __sort_by_hot(r, order):
     _order_by = order + 'review_amount'
-    r = r.order_by(_order_by, '-create_time').custom_paginate()
-    return __encapsulate_result(r.total, r.items)
+    r = r.order_by(_order_by, '-create_time').custom_paginate(True)
+    return r
 
 
 def __sort_by_new(r, order):
     _order_by = order + 'create_time'
-    r = r.order_by(_order_by).custom_paginate()
-    return __encapsulate_result(r.total, r.items)
+    r = r.order_by(_order_by).custom_paginate(True)
+    return r
 
 
 @api.route('/search/restaurants', methods=['GET'])
@@ -48,12 +48,11 @@ def search_restaurants():
         'hot': __sort_by_hot
     }
     restaurants = promise[sort](r, '+' if order == 'asc' else '-')
-    return jsonify(restaurants)
+    return jsonify(__encapsulate_result(restaurants.total, restaurants.items))
 
 
 @api.route('/search/foods', methods=['GET'])
 def search_food():
-    a = request
     form = SearchFoodForm().validate_for_api()
     q, sort, order = form.q.data, form.sort.data, form.order.data
     r = Food.query.filter(Food.name.contains(q), Food.status == 1)
@@ -62,7 +61,7 @@ def search_food():
         'hot': __sort_by_hot
     }
     foods = promise[sort](r, '+' if order == 'asc' else '-')
-    return jsonify(foods)
+    return jsonify(__encapsulate_result(foods.total, foods.items))
 
 
 @api.route('/search/reviews', methods=['GET'])
@@ -77,9 +76,9 @@ def search_reviews():
         'grade': __sort_by_grade,
         'new': __sort_by_new
     }
-    reviews = promise[sort](r, '+' if order == 'asc' else '-')
-    reviews = [review.hide('restaurant') for review in reviews]
-    return jsonify(reviews)
+    reviews_object = promise[sort](r, '+' if order == 'asc' else '-')
+    reviews = [review.hide('restaurant') for review in reviews_object.items]
+    return jsonify(__encapsulate_result(reviews_object.total, reviews))
 
 
 @api.route('/search/users', methods=['GET'])
@@ -109,6 +108,6 @@ def search_users():
     promise = {
         'new': __sort_by_new
     }
-    users = promise[sort](r, '+' if order == 'asc' else '-')
-    users = [user.hide('auth') for user in users]
-    return jsonify(users)
+    users_object = promise[sort](r, '+' if order == 'asc' else '-')
+    users = [user.hide('auth') for user in users_object.items]
+    return jsonify(__encapsulate_result(users_object.total, users))
