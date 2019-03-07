@@ -42,10 +42,11 @@ class Query(BaseQuery):
             raise NotFound()
         return rv
 
-    def custom_paginate(self):
+    def custom_paginate(self, is_object=False):
         page = request.args.get('page', 1, type=int)
         per_page = request.args.get('per_page', current_app.config['PER_PAGE'], type=int)
-        return self.paginate(page, per_page, error_out=False).items
+        r = self.paginate(page, per_page, error_out=False)
+        return r if is_object else r.items
 
 
 db = SQLAlchemy(query_class=Query)
@@ -74,6 +75,7 @@ class Base(db.Model):
 
     def set_attrs(self, attrs):
         '''set attributes of the model with Form object or dict'''
+        # TODO 传值不能为空值
         if isinstance(attrs, dict):
             for key, value in attrs.items():
                 if hasattr(self, key) and key != 'id' and value:

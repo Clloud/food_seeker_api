@@ -2,7 +2,7 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from flask import jsonify
+from flask import jsonify, request
 from app.api.v1 import api
 from app.models.user import User
 from app.models.review import Review
@@ -11,19 +11,30 @@ from app.models.restaurant import Restaurant
 from app.validators.search import SearchRestaurantForm, SearchFoodForm, SearchReviewForm, SearchUserForm
 
 
+def __encapsulate_result(r_len, r):
+    result = {
+        'total_count': r_len,
+        'items': r
+    }
+    return result
+
+
 def __sort_by_grade(r, order):
     _order_by = order + 'grade'
-    return r.order_by(_order_by, '-create_time').custom_paginate()
+    r = r.order_by(_order_by, '-create_time').custom_paginate(True)
+    return __encapsulate_result(r.total, r.items)
 
 
 def __sort_by_hot(r, order):
     _order_by = order + 'review_amount'
-    return r.order_by(_order_by).custom_paginate()
+    r = r.order_by(_order_by, '-create_time').custom_paginate()
+    return __encapsulate_result(r.total, r.items)
 
 
 def __sort_by_new(r, order):
     _order_by = order + 'create_time'
-    return r.order_by(_order_by).custom_paginate()
+    r = r.order_by(_order_by).custom_paginate()
+    return __encapsulate_result(r.total, r.items)
 
 
 @api.route('/search/restaurants', methods=['GET'])
@@ -42,6 +53,7 @@ def search_restaurants():
 
 @api.route('/search/foods', methods=['GET'])
 def search_food():
+    a = request
     form = SearchFoodForm().validate_for_api()
     q, sort, order = form.q.data, form.sort.data, form.order.data
     r = Food.query.filter(Food.name.contains(q), Food.status == 1)

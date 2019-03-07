@@ -28,7 +28,9 @@ class User(Scope):
         'create_review',
         'update_review',
         'delete_review',
-        'get_authenticated_user_collections'
+        'get_authenticated_user_collections',
+        'delete_collection',
+        'create_collection'
     ]
 
 
