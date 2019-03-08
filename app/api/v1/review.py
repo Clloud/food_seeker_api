@@ -16,20 +16,22 @@ from . import api
 
 @api.route('/review/<int:review_id>', methods=['GET'])
 def get_review(review_id):
-    review = Review.query.filter_by(id=review_id).first_or_404()
+    review = Review.query.filter_by(id=review_id).order_by('-create_time').first_or_404()
     return jsonify(review)
 
 
 @api.route('/restaurant/<int:restaurant_id>/reviews', methods=['GET'])
 def get_reviews_by_restaurant(restaurant_id):
-    reviews = Review.query.filter_by(restaurant_id=restaurant_id).custom_paginate()
+    reviews = Review.query.filter_by(restaurant_id=restaurant_id) \
+        .order_by('-create_time').custom_paginate()
     reviews = [review.hide('restaurant') for review in reviews]
     return jsonify(reviews)
 
 
 @api.route('/user/<int:user_id>/reviews', methods=['GET'])
 def get_reviews_by_user(user_id):
-    reviews = Review.query.filter_by(user_id=user_id).custom_paginate()
+    reviews = Review.query.filter_by(user_id=user_id)\
+        .order_by('-create_time').custom_paginate()
     reviews = [review.hide('restaurant') for review in reviews]
     return jsonify(reviews)
 
