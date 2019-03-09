@@ -19,13 +19,14 @@ class Food(Base):
     grade = Column(Float(5), default=0)
     restaurant_id = Column(Integer, ForeignKey("restaurant.id"))
     review_amount = Column(Integer, nullable=False, default=0)
+    restaurant = relationship('Restaurant', backref='food')
     _images = relationship('FoodImage', backref='food')
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
         self.fields = ['id', 'name', 'introduction', 'price', 'grade',
-                       'restaurant_id', 'review_amount', 'images', 'create_time']
+                       'restaurant', 'review_amount', 'images', 'create_time']
 
     @property
     def images(self):
