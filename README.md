@@ -45,6 +45,11 @@
   - [6.2 查询食品](#62查询食品)
   - [6.3 查询评论](#63查询评论)
   - [6.4 查询用户](#64查询用户)
+- [7.推送](#7推送)
+  - [7.1 推送餐厅](#71推送餐厅)
+  - [7.2 推送食品](#72推送食品)
+  - [7.3 推送评论](#73推送评论)
+
 
 ## 概述
 ### 架构
@@ -1326,4 +1331,88 @@ Status: 200 OK
     ],
     "total_count": 1
 }
+```
+## 7. 推送
+
+### 7.1推送餐厅
+```
+GET /feed/restaurants
+```
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "canteen_id": 1,
+        "create_time": 1551871049,
+        "grade": 5,
+        "id": 1,
+        "images": [],
+        "introduction": "暂无",
+        "location": null,
+        "name": "家之味",
+        "review_amount": 1
+    }
+]
+```
+### 7.2推送食品
+```
+GET /feed/foods
+```
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "create_time": 1551871255,
+        "grade": 0,
+        "id": 1,
+        "images": [],
+        "introduction": "暂无",
+        "name": "招牌原味花溪牛肉粉",
+        "price": 12,
+        "restaurant_id": 1,
+        "review_amount": 0
+    },
+    {
+        "create_time": 1551884675,
+        "grade": 0,
+        "id": 2,
+        "images": [],
+        "introduction": "暂无",
+        "name": "招牌香辣花溪牛肉粉",
+        "price": 12,
+        "restaurant_id": 1,
+        "review_amount": 0
+    }
+]
+```
+### 7.3推送评论
+```
+GET /feed/reviews
+```
+#### 响应
+```json
+Status: 200 OK
+[
+    {
+        "content": "很好吃",
+        "create_time": 1551969464,
+        "grade": 5,
+        "id": 1,
+        "images": [],
+        "restaurant_id": 1,
+        "user": {
+            "auth": 2,
+            "avatar_url": null,
+            "create_time": 1551870546,
+            "email": "example@gmail.com",
+            "id": 1,
+            "mobile": null,
+            "nickname": "Ann"
+        }
+    }
+]
 ```
