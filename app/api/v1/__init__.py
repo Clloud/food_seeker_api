@@ -16,3 +16,4 @@ from app.api.v1 import food
 from app.api.v1 import search
 from app.api.v1 import collection
 from app.api.v1 import feed
+from app.api.v1 import image

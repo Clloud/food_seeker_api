@@ -34,7 +34,7 @@ class Image(Base):
         检验图片大小、类型
         将图片压缩并保存到指定目录
         将图片相对路径保存到数据库
-        返回图片相对路径和图片的id
+        返回图片完整路径和图片的id
         '''
         cls.validate_image(image)
         directory_name, filename = cls.save_to_file(image)
@@ -52,7 +52,7 @@ class Image(Base):
     @classmethod
     def save_to_file(cls, image):
         directory_name = time.strftime('%Y%m%d', time.localtime(time.time()))
-        directory_path = current_app.config['IMAGE_URL_PREFIX'] + '/' + directory_name
+        directory_path = current_app.config['IMAGE_DIRECTORY'] + '/' + directory_name
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
         filename = cls.generate_filename(image)
@@ -62,7 +62,7 @@ class Image(Base):
 
     @staticmethod
     def validate_image(image):
-        # 校验图片大小
+        # TODO 校验图片大小
         # image_size = len(image.read()) / 1024 / 1024 # Unit: MB
         # allowed_size = current_app.config['IMAGE_SIZE']
         # if image_size > allowed_size:
