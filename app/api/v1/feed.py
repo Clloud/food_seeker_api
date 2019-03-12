@@ -12,7 +12,7 @@ from . import api
 
 @api.route('/feed/restaurants', methods=['GET'])
 def feed_restaurants():
-    restaurants = Restaurant.filter_by().query.order_by('-grade').custom_paginate()
+    restaurants = Restaurant.query.filter_by().order_by('-grade').custom_paginate()
     return jsonify(restaurants)
 
 
