@@ -2,8 +2,11 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
+import random
+
 from flask import jsonify
 
+from app.models.banner import Banner
 from app.models.food import Food
 from app.models.restaurant import Restaurant
 from app.models.review import Review
@@ -27,4 +30,11 @@ def feed_reviews():
     reviews = Review.query.filter_by().order_by('-create_time').custom_paginate()
     reviews = [review.append('restaurant_id').hide('restaurant') for review in reviews]
     return jsonify(reviews)
-#banner
+
+
+@api.route('/feed/banners', methods=['GET'])
+def feed_banners():
+    banner = Banner.query.filter_by().all()
+    banner = random.sample(banner, 3)
+    banners = [i.image for i in banner]
+    return jsonify(banners)
