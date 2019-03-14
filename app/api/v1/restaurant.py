@@ -3,6 +3,9 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 from flask import jsonify
+
+from app.models.campus import Campus
+from app.models.canteen import Canteen
 from app.models.restaurant import Restaurant
 from app.models.restaurant_image import RestaurantImage
 from app.validators.restaurant import RestaurantUpdateForm, RestaurantCreateForm
@@ -15,6 +18,11 @@ from . import api
 @api.route('/restaurant/<int:restaurant_id>', methods=['GET'])
 def get_restaurant(restaurant_id):
     restaurant = Restaurant.query.filter_by(id=restaurant_id).first_or_404()
+    canteen = Canteen.query.filter_by(id=restaurant.canteen_id).first_or_404()
+    campus = Campus.query.filter_by(id=canteen.campus_id).first_or_404()
+    restaurant.canteen_name = canteen.name
+    restaurant.campus_name = campus.name
+    restaurant.append('canteen_name', 'campus_name')
     return jsonify(restaurant)
 
 

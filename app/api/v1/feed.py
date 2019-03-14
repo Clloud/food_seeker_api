@@ -27,3 +27,4 @@ def feed_reviews():
     reviews = Review.query.filter_by().order_by('-create_time').custom_paginate()
     reviews = [review.append('restaurant_id').hide('restaurant') for review in reviews]
     return jsonify(reviews)
+#banner
