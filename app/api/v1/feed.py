@@ -3,9 +3,7 @@ Enjoy The Code!
 """
 #__Auther__:__blank__
 import random
-
-from flask import jsonify
-
+from flask import jsonify, request
 from app.models.banner import Banner
 from app.models.food import Food
 from app.models.restaurant import Restaurant
@@ -34,7 +32,10 @@ def feed_reviews():
 
 @api.route('/feed/banners', methods=['GET'])
 def feed_banners():
-    banner = Banner.query.filter_by().all()
-    banner = random.sample(banner, 3)
-    banners = [i.image for i in banner]
+    # TODO 重构
+    count = int(request.args.get('count', 3))
+    banners = Banner.query.filter_by().all()
+    if len(banners) >= count:
+        banners = random.sample(banners, count)
+    banners = [banner.image for banner in banners]
     return jsonify(banners)
