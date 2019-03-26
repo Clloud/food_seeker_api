@@ -33,22 +33,26 @@
   - [4.3 新增食品](#43新增食品)
   - [4.4 更新食品信息](#44更新食品信息)
   - [4.5 删除食品](#45删除食品)
-- [5.评论](#5评论)
-  - [5.1 列出单个餐厅的评论](#51列出单个餐厅的评论)
-  - [5.2 列出单个用户的评论](#52列出单个用户的评论)
-  - [5.3 获取评论信息](#53获取评论信息)
-  - [5.4 新增评论](#54新增评论)
-  - [5.5 更新评论](#55更新评论)
-  - [5.6 删除评论](#56删除评论)
+- [5.点评](#5点评)
+  - [5.1 列出单个餐厅的点评](#51列出单个餐厅的点评)
+  - [5.2 列出单个用户的点评](#52列出单个用户的点评)
+  - [5.3 获取点评信息](#53获取点评信息)
+  - [5.4 新增点评](#54新增点评)
+  - [5.5 更新点评](#55更新点评)
+  - [5.6 删除点评](#56删除点评)
 - [6.查询](#6查询)
   - [6.1 查询餐厅](#61查询餐厅)
   - [6.2 查询食品](#62查询食品)
-  - [6.3 查询评论](#63查询评论)
+  - [6.3 查询点评](#63查询点评)
   - [6.4 查询用户](#64查询用户)
 - [7.推送](#7推送)
   - [7.1 推送餐厅](#71推送餐厅)
   - [7.2 推送食品](#72推送食品)
-  - [7.3 推送评论](#73推送评论)
+  - [7.3 推送点评](#73推送点评)
+- [8.评论](#8评论)
+  - [8.1 列出单个点评的评论](#81列出单个点评的评论)
+  - [8.2 获取评论信息](#82获取评论信息)
+  - [8.3 新增评论](#83新增评论)
 
 
 ## 概述
@@ -899,8 +903,8 @@ Status: 202 Accepted
 }
 ```
 
-## 5. 评论
-### 5.1列出单个餐厅的评论
+## 5. 点评
+### 5.1列出单个餐厅的点评
 ```
 GET /restraunt/:restraunt_id/reviews
 ```
@@ -948,7 +952,7 @@ Status: 200 OK
 ]
 ```
 
-### 5.2列出单个用户的评论
+### 5.2列出单个用户的点评
 ```
 GET /user/:user_id/reviews
 ```
@@ -993,7 +997,7 @@ Status: 200 OK
 ]
 ```
 
-### 5.3获取评论信息
+### 5.3获取点评信息
 ```
 GET /review/:review_id
 ```
@@ -1046,7 +1050,7 @@ Status: 201 Created
 }
 ```
 
-### 5.4新增评论
+### 5.4新增点评
 **注意**：仅对通过身份认证的`用户`有效
 ```
 POST /review
@@ -1055,11 +1059,11 @@ POST /review
 
 |名称            |类型    |描述                   |
 |:-------------:|:-------|:----------------------|
-|restaurant_id  |integer | **必填。** 评论针对餐厅编号  |
-|content        |string  | **必填。** 评论内容    |
+|restaurant_id  |integer | **必填。** 点评针对餐厅编号  |
+|content        |string  | **必填。** 点评内容    |
 |grade          |float   | **必填。** 评分        |
-|image_amount   |integer | **必填。** 评论图片总数 |
-|image          |file    | **必填。** 评论图片    |
+|image_amount   |integer | **必填。** 点评图片总数 |
+|image          |file    | **必填。** 点评图片    |
 
 #### 示例
 ```http
@@ -1072,7 +1076,7 @@ cache-control: no-cache
 --7MA4YWxkTrZu0gW--
 Content-Disposition: form-data; name="content"
 
-这是一条评论
+这是一条点评
 
 --7MA4YWxkTrZu0gW--
 Content-Disposition: form-data; name="restaurant_id"
@@ -1111,7 +1115,7 @@ Status: 201 Created
 }
 ```
 
-### 5.5更新评论
+### 5.5更新点评
 
 **注意**：仅对通过身份认证的`用户`有效
 ```
@@ -1122,8 +1126,8 @@ PUT /review/:review_id
 
 |名称            |类型    |描述                   |
 |:-------------:|:-------|:----------------------|
-|restaurant_id  |integer | **选填。** 评论针对餐厅编号  |
-|content        |string  | **选填。** 评论内容    |
+|restaurant_id  |integer | **选填。** 点评针对餐厅编号  |
+|content        |string  | **选填。** 点评内容    |
 |grade          |float   | **选填。** 评分        |
 
 #### 示例
@@ -1145,7 +1149,7 @@ Status: 202 Accepted
 }
 ```
 
-### 5.6删除评论
+### 5.6删除点评
 **注意**：仅对通过身份认证的`用户`有效
 ```
 DELETE /review/:review_id
@@ -1253,7 +1257,7 @@ Status: 200 OK
 }
 ```
 
-### 6.3查询评论
+### 6.3查询点评
 ```
 GET /search/reviews
 ```
@@ -1389,7 +1393,7 @@ Status: 200 OK
     }
 ]
 ```
-### 7.3推送评论
+### 7.3推送点评
 ```
 GET /feed/reviews
 ```
@@ -1416,3 +1420,66 @@ Status: 200 OK
     }
 ]
 ```
+## 8. 评论
+
+### 8.1列出单个点评的评论
+```
+GET /review/<int:review_id>/comments
+```
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "content": "nice",
+        "create_time": 1553424459,
+        "id": 1,
+        "user": {
+            "auth": 2,
+            "avatar_url": "E:/Files/Developing/Python/food_seeker/images/20190312/b27037d044c811e9ac8f00163e048bbc.jpg",
+            "create_time": 1552394072,
+            "email": "chenshaofengsf@163.com",
+            "id": 1,
+            "mobile": null,
+            "nickname": "Cloud"
+        }
+    }
+]
+```
+### 8.2获取评论信息
+```
+GET /comment/<int:comment_id>
+```
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "content": "nice",
+    "create_time": 1553424459,
+    "id": 1,
+    "user": {
+        "auth": 2,
+        "avatar_url": "E:/Files/Developing/Python/food_seeker/images/20190312/b27037d044c811e9ac8f00163e048bbc.jpg",
+        "create_time": 1552394072,
+        "email": "chenshaofengsf@163.com",
+        "id": 1,
+        "mobile": null,
+        "nickname": "Cloud"
+    }
+}
+```
+### 8.3新增评论
+```
+POST /comment
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/comment"
+}
