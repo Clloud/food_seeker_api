@@ -29,6 +29,6 @@ class UserCollection(Base):
     @staticmethod
     def delete_collection(uid, restaurant_id):
         with db.auto_commit():
-            user_collection = UserCollection().query.filter_by(
+            user_collection = UserCollection.query.filter_by(
                 user_id=uid, restaurant_id=restaurant_id).first_or_404()
             user_collection.delete()

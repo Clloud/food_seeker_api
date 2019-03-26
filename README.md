@@ -15,6 +15,8 @@
   - [1.6 获取用户收藏餐厅](#16获取用户收藏餐厅)
   - [1.7 更新用户信息](#17更新用户信息)
   - [1.8 删除用户](#18删除用户)
+  - [1.9 关注用户](#19关注用户)
+  - [1.10 取消关注用户](#110取消关注用户)
 - [2.食堂](#2食堂)
   - [2.1 列出单个校区的食堂](#21列出单个校区的食堂)
   - [2.2 获取食堂信息](#22获取食堂信息)
@@ -319,6 +321,37 @@ Status: 202 Accepted
     "error_code": 0,
     "message": "Deleted",
     "request_url": "DELETE /v1/uesr"
+}
+```
+
+### 1.9关注用户
+**注意**：仅对通过身份认证的`用户`有效
+```
+POST /follow/:following_id
+```
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/follow/1"
+}
+```
+### 1.10取消关注用户
+**注意**：仅对通过身份认证的`用户`有效
+```
+DELETE /follow/:following_id
+```
+#### 响应
+```json
+Status: 202 Accepted
+
+{
+    "error_code": 0,
+    "message": "Deleted",
+    "request_url": "DELETE /v1/follow/1"
 }
 ```
 
