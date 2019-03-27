@@ -30,7 +30,10 @@ class User(Scope):
         'delete_review',
         'get_authenticated_user_collections',
         'delete_collection',
-        'create_collection'
+        'create_collection',
+        'create_comment',
+        'delete_follow',
+        'create_follow'
     ]
 
 
