@@ -35,7 +35,11 @@ class User(Scope):
         'delete_follow',
         'create_follow',
         'get_invitation',
-        'get_invitation_response'
+        'get_invitation_response',
+        'get_invitation_by_user',
+        'get_invitation_by_id',
+        'get_invitation_response_by_user',
+        'get_invitation_response_id'
     ]
 
 

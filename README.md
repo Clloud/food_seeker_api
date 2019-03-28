@@ -1532,7 +1532,7 @@ POST /invitation
 |:-------------:|:-------|:----------------------|
 |restaurant_id  |integer | **必填。** 约饭的地点  |
 |content        |string  | **必填。** 约饭邀请想说的话|
-|pay            |integer | **必填。** 谁掏钱，请客或AA制|
+|pay            |integer | **必填。** 约饭买单方式，有自己买单(`1`)、AA制(`2`)或者对方请客(`3`)，默认：`1`|
 |time           |integer | **必填。** 约饭的时间  |
 |contact        |string  | **必填。** 邀请者的联系方式  |
 

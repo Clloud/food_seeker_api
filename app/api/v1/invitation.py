@@ -20,7 +20,7 @@ def get_invitation():
     return CreateSuccess()
 
 
-@api.route('/invitation/<int:user_id>', methods=['GET'])
+@api.route('/user/<int:user_id>/invitations', methods=['GET'])
 @auth.login_required
 def get_invitation_by_user(user_id):
     invitation = Invitation.query.filter_by(user_id=user_id).custom_paginate()

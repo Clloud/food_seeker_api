@@ -20,7 +20,7 @@ def get_invitation_response():
     return CreateSuccess()
 
 
-@api.route('/invitation_response/<int:user_id>', methods=['GET'])
+@api.route('/user/<int:user_id>/invitation_responses', methods=['GET'])
 @auth.login_required
 def get_invitation_response_by_user(user_id):
     invitation_response = InvitationResponse.query.filter_by(user_id=user_id).custom_paginate()
@@ -29,7 +29,7 @@ def get_invitation_response_by_user(user_id):
 
 @api.route('/invitation_response/<int:invitation_response_id>', methods=['GET'])
 @auth.login_required
-def get_invitation_response_id(invitation_id):
-    invitation_response = InvitationResponse.query.filter_by(id=invitation_id).first_or_404()
+def get_invitation_response_id(invitation_response_id):
+    invitation_response = InvitationResponse.query.filter_by(id=invitation_response_id).first_or_404()
     invitation_response = invitation_response.hide('contact')
     return jsonify(invitation_response)

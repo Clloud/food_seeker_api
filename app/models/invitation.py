@@ -2,7 +2,7 @@
 Enjoy The Code!
 """
 #__Auther__:__blank__
-from sqlalchemy import Column, Integer, Text, ForeignKey, String
+from sqlalchemy import Column, Integer, Text, ForeignKey, String, orm
 from app.models.base import Base, db
 
 
@@ -23,3 +23,8 @@ class Invitation(Base):
             invitation.set_attrs(form)
             invitation.user_id = user_id
             db.session.add(invitation)
+
+    @orm.reconstructor
+    def __init__(self):
+        super().__init__()
+        self.fields = ['id', 'user_id', 'time', 'restaurant_id', 'content', 'contact', 'pay', 'companion_id']
