@@ -7,7 +7,6 @@ from wtforms.validators import DataRequired, length
 from app.validators.base import BaseForm as Form
 
 
-class InvitationResponseForm(Form):
-    invitation_id = IntegerField(validators=[DataRequired()])
+class InvitationReplyForm(Form):
     content = StringField(validators=[DataRequired(), length(min=2, max=64)])
     contact = StringField(validators=[DataRequired()])

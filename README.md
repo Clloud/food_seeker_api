@@ -57,8 +57,11 @@
   - [8.3 新增评论](#83新增评论)
 - [9.约饭](#9约饭)
   - [9.1 发布约饭请求](#91发布约饭请求)
-  - [9.2 回复约饭请求](#92回复约饭请求)
-
+  - [9.2 回应约饭请求](#92回应约饭请求)
+  - [9.3 列出单个用户的约饭请求](#93列出单个用户的约饭请求)
+  - [9.4 列出单个用户的回应约饭请求](#94列出单个用户的回应约饭请求)
+  - [9.5 获取约饭请求信息](#95获取约饭请求信息)
+  - [9.6 获取回应约饭请求信息](#96获取回应约饭请求信息)
 
 ## 概述
 ### 架构
@@ -1556,15 +1559,14 @@ Status: 201 Created
     "request_url": "POST /v1/invitation"
 }
 ```
-### 9.2回复约饭请求
+### 9.2回应约饭请求
 ```
-POST /invitation_response
+POST /invitation/<int:invitation_id>/reply
 ```
 #### 参数
 
 |名称            |类型    |描述                   |
 |:-------------:|:-------|:----------------------|
-|invitation_id  |integer | **必填。** 约饭请求的编号  |
 |content        |string  | **必填。** 应邀者想说的话|
 |contact        |string  | **必填。** 应邀者的联系方式  |
 
@@ -1572,8 +1574,7 @@ POST /invitation_response
 ```json
 {
     "contact":13685200423,
-    "content":"醒醒吧",
-    "invitation_id":2
+    "content":"醒醒吧"
 }
 ```
 #### 响应
@@ -1583,6 +1584,94 @@ Status: 201 Created
 {
     "error_code": 0,
     "message": "Created",
-    "request_url": "POST /v1/invitation_response"
+    "request_url": "POST /v1/invitation/1/reply"
+}
+```
+### 9.3列出单个用户的约饭请求
+```
+GET /user/<int:user_id>/invitations
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "companion_id": null,
+        "contact": "13685200423",
+        "content": "有小姐姐愿意和我一起吃饭吗",
+        "id": 1,
+        "pay": 1,
+        "restaurant_id": 1,
+        "time": 1553605125,
+        "user_id": 1
+    },
+    {
+        "companion_id": null,
+        "contact": "15370067397",
+        "content": "有小姐姐愿意和我一起吃饭吗",
+        "id": 2,
+        "pay": 1,
+        "restaurant_id": 1,
+        "time": 1553605125,
+        "user_id": 1
+    }
+]
+```
+### 9.4列出单个用户的回应约饭请求
+```
+GET /user/<int:user_id>/invitation/replies
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "contact": "13685200423",
+        "content": "醒醒吧",
+        "id": 1,
+        "invitation_id": 1,
+        "response_status": null,
+        "user_id": 1
+    }
+]
+```
+### 9.5获取约饭请求信息
+```
+GET /invitation/<int:invitation_id>
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "companion_id": null,
+    "content": "有小姐姐愿意和我一起吃饭吗",
+    "id": 1,
+    "pay": 1,
+    "restaurant_id": 1,
+    "time": 1553605125,
+    "user_id": 1
+}
+```
+### 9.6获取回应约饭请求信息
+```
+GET /invitation/reply/<int:reply_id>
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "content": "醒醒吧",
+    "id": 1,
+    "invitation_id": 1,
+    "response_status": null,
+    "user_id": 1
 }
 ```
