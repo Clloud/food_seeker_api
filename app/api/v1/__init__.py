@@ -19,3 +19,5 @@ from app.api.v1 import feed
 from app.api.v1 import image
 from app.api.v1 import comment
 from app.api.v1 import follow
+from app.api.v1 import invitation
+from app.api.v1 import invitation_response

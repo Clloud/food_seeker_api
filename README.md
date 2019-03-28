@@ -55,6 +55,9 @@
   - [8.1 列出单个点评的评论](#81列出单个点评的评论)
   - [8.2 获取评论信息](#82获取评论信息)
   - [8.3 新增评论](#83新增评论)
+- [9.约饭](#9约饭)
+  - [9.1 发布约饭请求](#91发布约饭请求)
+  - [9.2 回复约饭请求](#92回复约饭请求)
 
 
 ## 概述
@@ -1516,3 +1519,70 @@ Status: 201 Created
     "message": "Created",
     "request_url": "POST /v1/comment"
 }
+```
+## 9. 约饭
+
+### 9.1发布约饭请求
+```
+POST /invitation
+```
+#### 参数
+
+|名称            |类型    |描述                   |
+|:-------------:|:-------|:----------------------|
+|restaurant_id  |integer | **必填。** 约饭的地点  |
+|content        |string  | **必填。** 约饭邀请想说的话|
+|pay            |integer | **必填。** 谁掏钱，请客或AA制|
+|time           |integer | **必填。** 约饭的时间  |
+|contact        |string  | **必填。** 邀请者的联系方式  |
+
+#### 示例
+```json
+{
+    "contact":13685200423,
+    "content":"有小姐姐愿意和我一起吃饭吗",
+    "restaurant_id":1,
+    "pay":1,
+    "time":1553605125
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/invitation"
+}
+```
+### 9.2回复约饭请求
+```
+POST /invitation_response
+```
+#### 参数
+
+|名称            |类型    |描述                   |
+|:-------------:|:-------|:----------------------|
+|invitation_id  |integer | **必填。** 约饭请求的编号  |
+|content        |string  | **必填。** 应邀者想说的话|
+|contact        |string  | **必填。** 应邀者的联系方式  |
+
+#### 示例
+```json
+{
+    "contact":13685200423,
+    "content":"醒醒吧",
+    "invitation_id":2
+}
+```
+#### 响应
+```json
+Status: 201 Created
+
+{
+    "error_code": 0,
+    "message": "Created",
+    "request_url": "POST /v1/invitation_response"
+}
+```

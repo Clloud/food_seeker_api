@@ -33,7 +33,9 @@ class User(Scope):
         'create_collection',
         'create_comment',
         'delete_follow',
-        'create_follow'
+        'create_follow',
+        'get_invitation',
+        'get_invitation_response'
     ]
 
 
