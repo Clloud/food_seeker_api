@@ -62,7 +62,9 @@
   - [9.4 列出单个用户的回应约饭请求](#94列出单个用户的回应约饭请求)
   - [9.5 获取约饭请求信息](#95获取约饭请求信息)
   - [9.6 获取回应约饭请求信息](#96获取回应约饭请求信息)
-
+- [10.消息](#10消息)
+  - [10.1 列出单个用户的消息](#101列出单个用户的消息)
+  - [10.2 获取消息信息](#102获取消息信息)
 ## 概述
 ### 架构
 所有API访问均通过HTTPS进行访问。所有数据都以JSON的形式发送和接收。
@@ -1463,7 +1465,7 @@ Status: 200 OK
 
 ### 8.1列出单个点评的评论
 ```
-GET /review/<int:review_id>/comments
+GET /review/:review_id/comments
 ```
 #### 响应
 ```json
@@ -1488,7 +1490,7 @@ Status: 200 OK
 ```
 ### 8.2获取评论信息
 ```
-GET /comment/<int:comment_id>
+GET /comment/:comment_id
 ```
 #### 响应
 ```json
@@ -1561,7 +1563,7 @@ Status: 201 Created
 ```
 ### 9.2回应约饭请求
 ```
-POST /invitation/<int:invitation_id>/reply
+POST /invitation/:invitation_id/reply
 ```
 #### 参数
 
@@ -1589,7 +1591,7 @@ Status: 201 Created
 ```
 ### 9.3列出单个用户的约饭请求
 ```
-GET /user/<int:user_id>/invitations
+GET /user/:user_id/invitations
 ```
 
 #### 响应
@@ -1621,7 +1623,7 @@ Status: 200 OK
 ```
 ### 9.4列出单个用户的回应约饭请求
 ```
-GET /user/<int:user_id>/invitation/replies
+GET /user/:user_id/invitation/replies
 ```
 
 #### 响应
@@ -1641,7 +1643,7 @@ Status: 200 OK
 ```
 ### 9.5获取约饭请求信息
 ```
-GET /invitation/<int:invitation_id>
+GET /invitation/:invitation_id
 ```
 
 #### 响应
@@ -1660,7 +1662,7 @@ Status: 200 OK
 ```
 ### 9.6获取回应约饭请求信息
 ```
-GET /invitation/reply/<int:reply_id>
+GET /invitation/reply/:reply_id
 ```
 
 #### 响应
@@ -1674,4 +1676,42 @@ Status: 200 OK
     "response_status": null,
     "user_id": 1
 }
+```
+## 10. 消息
+
+### 10.1列出单个用户的消息
+```
+GET /user/messages
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "content": "醒醒吧",
+    "id": 1,
+    "invitation_id": 1,
+    "response_status": null,
+    "user_id": 1
+}
+```
+### 10.2获取消息信息
+```
+GET /message/:message_id
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+[
+    {
+        "content": "这是测试消息",
+        "id": 1,
+        "state_of_content": 0,
+        "state_of_read": 1,
+        "user_id": 1
+    }
+]
 ```

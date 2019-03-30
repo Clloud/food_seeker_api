@@ -39,7 +39,9 @@ class User(Scope):
         'get_invitation_by_user',
         'get_invitation_by_id',
         'get_invitation_reply_by_user',
-        'get_invitation_reply_id'
+        'get_invitation_reply_id',
+        'get_message_by_user',
+        'get_message_by_id'
     ]
 
 
