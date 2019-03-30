@@ -10,24 +10,24 @@ class Message(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("user.id"))
     content = Column(Text)
-    state_of_read = Column(Integer, default=0)
-    state_of_content = Column(Integer)
+    is_read = Column(Integer, default=0)
+    type = Column(Integer)
 
     @staticmethod
-    def create_message(user_id, state_of_content):
+    def create_message(user_id, type):
         with db.auto_commit():
             message = Message()
             message.user_id = user_id
-            message.state_of_content = state_of_content
+            message.type = type
             db.session.add(message)
 
     @staticmethod
     def change_state_of_message(message):
         with db.auto_commit():
-            message.state_of_read = 1
+            message.is_read = 1
             db.session.add(message)
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'user_id', 'content', 'state_of_read', 'state_of_content']
+        self.fields = ['id', 'user_id', 'content', 'is_read', 'type']
