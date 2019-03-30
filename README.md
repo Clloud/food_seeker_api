@@ -1680,25 +1680,9 @@ Status: 200 OK
 ## 10. 消息
 
 ### 10.1列出单个用户的消息
+**注意**：仅对通过身份认证的`用户`或`管理员`有效
 ```
 GET /user/messages
-```
-
-#### 响应
-```json
-Status: 200 OK
-
-{
-    "content": "醒醒吧",
-    "id": 1,
-    "invitation_id": 1,
-    "response_status": null,
-    "user_id": 1
-}
-```
-### 10.2获取消息信息
-```
-GET /message/:message_id
 ```
 
 #### 响应
@@ -1709,9 +1693,26 @@ Status: 200 OK
     {
         "content": "这是测试消息",
         "id": 1,
-        "state_of_content": 0,
-        "state_of_read": 1,
+        "type": 0,
+        "is_read": 0,
         "user_id": 1
     }
 ]
+```
+### 10.2获取消息信息
+```
+GET /message/:message_id
+```
+
+#### 响应
+```json
+Status: 200 OK
+
+{
+    "content": "这是测试消息",
+    "id": 1,
+    "type": 0,
+    "is_read": 0,
+    "user_id": 1
+}
 ```

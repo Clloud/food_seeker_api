@@ -11,7 +11,7 @@ class Message(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     content = Column(Text)
     is_read = Column(Integer, default=0)
-    type = Column(Integer)
+    type = Column(Integer, default=0)
 
     @staticmethod
     def create_message(user_id, type):
