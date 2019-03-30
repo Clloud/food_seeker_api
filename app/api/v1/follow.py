@@ -10,7 +10,7 @@ from app.models.user_follow import UserFollow
 from . import api
 
 
-@api.route('/follow/<int:following_id>', methods=['POST'])
+@api.route('/user/following/<int:following_id>', methods=['POST'])
 @auth.login_required
 def create_follow(following_id):
     uid = g.user.uid
@@ -18,7 +18,7 @@ def create_follow(following_id):
     return CreateSuccess()
 
 
-@api.route('/follow/<int:following_id>', methods=['DELETE'])
+@api.route('/user/following/<int:following_id>', methods=['DELETE'])
 @auth.login_required
 def delete_follow(following_id):
     uid = g.user.uid

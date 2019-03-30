@@ -335,7 +335,7 @@ Status: 202 Accepted
 ### 1.9关注用户
 **注意**：仅对通过身份认证的`用户`有效
 ```
-POST /follow/:following_id
+POST /user/following/:user_id
 ```
 #### 响应
 ```json
@@ -350,7 +350,7 @@ Status: 202 Accepted
 ### 1.10取消关注用户
 **注意**：仅对通过身份认证的`用户`有效
 ```
-DELETE /follow/:following_id
+DELETE /user/following/:user_id
 ```
 #### 响应
 ```json
@@ -1488,6 +1488,7 @@ Status: 200 OK
     }
 ]
 ```
+
 ### 8.2获取评论信息
 ```
 GET /comment/:comment_id
@@ -1511,6 +1512,7 @@ Status: 200 OK
     }
 }
 ```
+
 ### 8.3新增评论
 ```
 POST /comment
@@ -1525,9 +1527,10 @@ Status: 201 Created
     "request_url": "POST /v1/comment"
 }
 ```
+
 ## 9. 约饭
 
-### 9.1发布约饭请求
+### 9.1发布约饭邀请
 ```
 POST /invitation
 ```
@@ -1537,18 +1540,18 @@ POST /invitation
 |:-------------:|:-------|:----------------------|
 |restaurant_id  |integer | **必填。** 约饭的地点  |
 |content        |string  | **必填。** 约饭邀请想说的话|
-|pay            |integer | **必填。** 约饭买单方式，有自己买单(`1`)、AA制(`2`)或者对方请客(`3`)，默认：`1`|
+|pay            |integer | **必填。** 约饭买单方式，自己买单(`1`)、AA制(`2`)或者对方请客(`3`)。默认：`1`|
 |time           |integer | **必填。** 约饭的时间  |
 |contact        |string  | **必填。** 邀请者的联系方式  |
 
 #### 示例
 ```json
 {
-    "contact":13685200423,
-    "content":"有小姐姐愿意和我一起吃饭吗",
-    "restaurant_id":1,
-    "pay":1,
-    "time":1553605125
+    "contact": 13685200423,
+    "content": "有小姐姐愿意和我一起吃饭吗",
+    "restaurant_id": 1,
+    "pay": 1,
+    "time": 1553605125
 }
 ```
 #### 响应
@@ -1561,7 +1564,8 @@ Status: 201 Created
     "request_url": "POST /v1/invitation"
 }
 ```
-### 9.2回应约饭请求
+
+### 9.2回应约饭邀请
 ```
 POST /invitation/:invitation_id/reply
 ```
@@ -1589,7 +1593,8 @@ Status: 201 Created
     "request_url": "POST /v1/invitation/1/reply"
 }
 ```
-### 9.3列出单个用户的约饭请求
+
+### 9.3列出单个用户的约饭邀请
 ```
 GET /user/:user_id/invitations
 ```
@@ -1621,7 +1626,8 @@ Status: 200 OK
     }
 ]
 ```
-### 9.4列出单个用户的回应约饭请求
+
+### 9.4列出单个用户的回应约饭邀请
 ```
 GET /user/:user_id/invitation/replies
 ```
@@ -1641,7 +1647,8 @@ Status: 200 OK
     }
 ]
 ```
-### 9.5获取约饭请求信息
+
+### 9.5获取约饭邀请信息
 ```
 GET /invitation/:invitation_id
 ```
@@ -1660,7 +1667,8 @@ Status: 200 OK
     "user_id": 1
 }
 ```
-### 9.6获取回应约饭请求信息
+
+### 9.6获取回应约饭邀请信息
 ```
 GET /invitation/reply/:reply_id
 ```
@@ -1677,9 +1685,10 @@ Status: 200 OK
     "user_id": 1
 }
 ```
+
 ## 10. 消息
 
-### 10.1列出单个用户的消息
+### 10.1列出单个用户收到的消息
 **注意**：仅对通过身份认证的`用户`或`管理员`有效
 ```
 GET /user/messages
@@ -1699,7 +1708,7 @@ Status: 200 OK
     }
 ]
 ```
-### 10.2获取消息信息
+### 10.2获取消息详情
 ```
 GET /message/:message_id
 ```
